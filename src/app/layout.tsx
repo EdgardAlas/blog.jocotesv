@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Lato } from 'next/font/google';
+import { NuqsAdapter } from 'nuqs/adapters/next/app';
 import './globals.css';
 
 const fontFamily = Lato({
@@ -19,7 +20,9 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang='en'>
-			<body className={`${fontFamily.className} antialiased`}>{children}</body>
+			<body className={`${fontFamily.className} antialiased`}>
+				<NuqsAdapter>{children}</NuqsAdapter>
+			</body>
 		</html>
 	);
 }
