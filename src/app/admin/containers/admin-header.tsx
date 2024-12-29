@@ -1,33 +1,39 @@
 'use client';
 
-import { useSelectedLayoutSegments } from 'next/navigation';
+import {
+	Breadcrumb,
+	BreadcrumbItem,
+	BreadcrumbLink,
+	BreadcrumbList,
+	BreadcrumbSeparator,
+} from '@/components/ui/breadcrumb';
 import { SidebarTrigger } from '@/components/ui/sidebar';
+import { getBreadcrumbs } from '@/config/breadcrumbs';
+import { useSelectedLayoutSegments } from 'next/navigation';
+import { Fragment } from 'react';
 
-function getHeaderTitle(segments: string[]): string {
-	if (segments.length === 0) return 'Dashboard';
-
-	const titles: { [key: string]: string } = {
-		'(home)': 'Dashboard',
-		posts: 'Posts',
-		settings: 'Settings',
-		users: 'User Management',
-	};
-
-	const lastSegment = segments[segments.length - 1];
-	return titles[lastSegment] || 'Blog Admin Panel';
-}
-
-export const AdminTitle = () => {
+export const AdminHeader = () => {
 	const segments = useSelectedLayoutSegments();
-	const headerTitle = getHeaderTitle(segments);
+	const breadcrumbs = getBreadcrumbs(segments);
 
 	return (
-		<header className='bg-background'>
-			<div className='flex items-center'>
-				<div className='md:hidden'>
-					<SidebarTrigger />
-				</div>
-				<h1 className='ml-4 text-lg font-semibold md:ml-0'>{headerTitle}</h1>
+		<header className='sticky top-0 z-10 w-full bg-background p-4'>
+			<div className='flex items-center gap-2'>
+				<SidebarTrigger />
+				<Breadcrumb>
+					<BreadcrumbList>
+						{breadcrumbs.map((breadcrumb, index) => (
+							<Fragment key={index}>
+								<BreadcrumbItem>
+									<BreadcrumbLink href={breadcrumb.link}>
+										{breadcrumb.name}
+									</BreadcrumbLink>
+								</BreadcrumbItem>
+								{index < breadcrumbs.length - 1 && <BreadcrumbSeparator />}
+							</Fragment>
+						))}
+					</BreadcrumbList>
+				</Breadcrumb>
 			</div>
 		</header>
 	);

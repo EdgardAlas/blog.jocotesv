@@ -1,4 +1,4 @@
-import { AdminTitle } from '@/app/admin/containers/admin-header';
+import { AdminHeader } from '@/app/admin/containers/admin-header';
 import { AdminSidebar } from '@/app/admin/containers/admin-sidebar';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import { Role } from '@/config/roles';
@@ -15,10 +15,12 @@ export default function AdminLayout({
 		<SidebarProvider>
 			<div className='flex h-screen w-full items-start bg-background'>
 				<AdminSidebar userRole={userRole} />
-				<main className='flex flex-1 flex-col justify-start gap-4 overflow-auto p-4'>
-					<AdminTitle />
-					{children}
-				</main>
+				<div className='flex w-full flex-col items-start'>
+					<AdminHeader />
+					<main className='flex flex-1 flex-col justify-start gap-4 overflow-auto p-4 pt-0'>
+						{children}
+					</main>
+				</div>
 			</div>
 		</SidebarProvider>
 	);
