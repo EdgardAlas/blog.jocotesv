@@ -28,6 +28,19 @@ const AdminHomePage = () => {
 					<p>You can manage your application from here.</p>
 				</CardContent>
 			</Card>
+			{Array.from({ length: 10 }).map((_, index) => (
+				<Card key={index}>
+					<CardHeader>
+						<CardTitle>Welcome to Admin Panel</CardTitle>
+						<CardDescription>
+							Here you can manage your application
+						</CardDescription>
+					</CardHeader>
+					<CardContent>
+						<p>You can manage your application from here.</p>
+					</CardContent>
+				</Card>
+			))}
 		</>
 	);
 };
