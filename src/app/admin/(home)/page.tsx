@@ -1,3 +1,5 @@
+import { AdminTitle } from '@/components/ui/admin-title';
+import { Button } from '@/components/ui/button';
 import {
 	Card,
 	CardContent,
@@ -9,6 +11,12 @@ import {
 const AdminHomePage = () => {
 	return (
 		<>
+			<AdminTitle
+				title='Welcome to Admin Panel'
+				description='Here you can manage your application'
+			>
+				<Button>Button</Button>
+			</AdminTitle>
 			<Card>
 				<CardHeader>
 					<CardTitle>Welcome to Admin Panel</CardTitle>

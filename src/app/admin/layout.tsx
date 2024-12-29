@@ -17,7 +17,7 @@ export default function AdminLayout({
 				<AdminSidebar userRole={userRole} />
 				<div className='flex w-full flex-col items-start'>
 					<AdminHeader />
-					<main className='flex flex-1 flex-col justify-start gap-4 overflow-auto p-4 pt-0'>
+					<main className='flex w-full flex-1 flex-col gap-4 overflow-auto p-4 pt-0'>
 						{children}
 					</main>
 				</div>
