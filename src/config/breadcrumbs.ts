@@ -15,6 +15,16 @@ export const breadcrumbs = {
 			link: '/admin/posts',
 		},
 	],
+	authors: [
+		{
+			name: 'Dashboard',
+			link: '/admin',
+		},
+		{
+			name: 'Authors',
+			link: '/admin/authors',
+		},
+	],
 	users: [
 		{
 			name: 'Dashboard',

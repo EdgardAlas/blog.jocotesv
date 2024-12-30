@@ -17,7 +17,6 @@ import { hasPermission, Role } from '@/config/roles';
 import {
 	BarChart,
 	BookOpen,
-	Cog,
 	FileText,
 	LogOut,
 	Settings,
@@ -59,13 +58,13 @@ const navItems: NavItem[] = [
 			{
 				icon: User,
 				label: 'Authors',
-				href: '/admin/posts/authors',
+				href: '/admin/authors',
 				requiredRoles: ['admin'],
 			},
 			{
 				icon: Tag,
 				label: 'Categories',
-				href: '/admin/posts/categories',
+				href: '/admin/categories',
 				requiredRoles: ['admin'],
 			},
 		],
@@ -77,15 +76,9 @@ const navItems: NavItem[] = [
 		requiredRoles: ['admin'],
 		subItems: [
 			{
-				icon: Cog,
-				label: 'General',
-				href: '/admin/settings',
-				requiredRoles: ['admin'],
-			},
-			{
 				icon: Users,
 				label: 'Users',
-				href: '/admin/settings/users',
+				href: '/admin/users',
 				requiredRoles: [],
 			},
 		],
