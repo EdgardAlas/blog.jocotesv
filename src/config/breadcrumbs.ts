@@ -35,6 +35,16 @@ export const breadcrumbs = {
 			link: '/admin/users',
 		},
 	],
+	post: [
+		{
+			name: 'Dashboard',
+			link: '/admin',
+		},
+		{
+			name: 'Add Post',
+			link: '/admin/post',
+		},
+	],
 };
 
 export const getBreadcrumbs = (
