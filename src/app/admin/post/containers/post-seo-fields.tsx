@@ -91,11 +91,11 @@ export const PostSeoFields = () => {
 									onChange={async (e) => {
 										if (loading) return;
 
+										const formData = new FormData();
+										formData.append('file', e?.target?.files?.[0] as File);
 										startLoading(async () => {
 											await handleSafeActionResponse({
-												action: uploadPostImageAction({
-													file: e.target?.files?.[0] as File,
-												}),
+												action: uploadPostImageAction(formData),
 												successMessage: 'Image uploaded',
 												errorMessage: 'Error uploading image',
 												onSuccess(id) {
@@ -118,4 +118,3 @@ export const PostSeoFields = () => {
 		</TabsContent>
 	);
 };
-

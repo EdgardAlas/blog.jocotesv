@@ -1,34 +1,24 @@
 'use server';
 
-import { removeFile, uploadFile } from '@/lib/cloudinary';
+import {
+	removeFileSchema,
+	uploadFileSchema,
+} from '@/app/admin/post/_lib/post.schema';
 import { authActionClient } from '@/lib/safe-action';
-import { z } from 'zod';
-import { zfd } from 'zod-form-data';
+import { removeFile } from '@/use-cases/remove-file';
+import { uploadFile } from '@/use-cases/upload-file';
 
-const MAX_FILE_SIZE = 5 * 1024 * 1024;
+const POST_IMAGE_FOLDER = 'post-seo-images';
 
 export const uploadPostImageAction = authActionClient
-	.schema(
-		z
-			.object({
-				file: zfd.file(),
-			})
-			.refine(async ({ file }) => file.size <= MAX_FILE_SIZE, {
-				message: `File size must be less than ${MAX_FILE_SIZE / 1024 / 1024} MB`,
-				path: ['file'],
-			})
-	)
+	.schema(uploadFileSchema)
 	.action(async ({ parsedInput: { file } }) => {
-		const url = await uploadFile(file, 'post-seo-images');
+		const url = await uploadFile(file, POST_IMAGE_FOLDER);
 		return url;
 	});
 
 export const removePostImageAction = authActionClient
-	.schema(
-		z.object({
-			url: z.string().url('Invalid URL'),
-		})
-	)
+	.schema(removeFileSchema)
 	.action(async ({ parsedInput: { url } }) => {
-		await removeFile(url, 'post-seo-images');
+		await removeFile(url, POST_IMAGE_FOLDER);
 	});
