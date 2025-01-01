@@ -66,9 +66,17 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 				{...props}
 			>
 				{loading ? (
-					<Loader2 className='mr-2 h-4 w-4 animate-spin' />
+					<Loader2
+						className={cn('mr-2 h-4 w-4 animate-spin', {
+							'mr-0': !children,
+						})}
+					/>
 				) : Icon ? (
-					<Icon className='mr-2 h-4 w-4' />
+					<Icon
+						className={cn('mr-2 h-4 w-4', {
+							'mr-0': !children,
+						})}
+					/>
 				) : null}
 				<Slottable>{children}</Slottable>
 			</Comp>
