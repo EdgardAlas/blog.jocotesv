@@ -1,24 +1,4 @@
-'use client';
-
-import { AlignCenterToolbar } from '@/components/toolbars/align-center-toolbar';
-import { AlignJustifyToolbar } from '@/components/toolbars/align-justify-toolbar';
-import { AlignLeftToolbar } from '@/components/toolbars/align-left-toolbar';
-import { AlignRightToolbar } from '@/components/toolbars/align-right-toolbar';
-import { BlockquoteToolbar } from '@/components/toolbars/blockquote-toolbar';
-import { BoldToolbar } from '@/components/toolbars/bold-toolbar';
-import { BulletListToolbar } from '@/components/toolbars/bullet-list-toolbar';
-import { ColorHighlightToolbar } from '@/components/toolbars/color-and-highlight';
-import { HardBreakToolbar } from '@/components/toolbars/hard-break-toolbar';
-import { HeadingToolbar } from '@/components/toolbars/heading-toolbar';
-import { HorizontalRuleToolbar } from '@/components/toolbars/horizontal-rule-toolbar';
-import { ItalicToolbar } from '@/components/toolbars/italic-toolbar';
-import { OrderedListToolbar } from '@/components/toolbars/ordered-list-toolbar';
-import { RedoToolbar } from '@/components/toolbars/redo-toolbar';
-import { StrikeToolbar } from '@/components/toolbars/strike-toolbar';
 import { ToolbarProvider } from '@/components/toolbars/toolbar-provider';
-import { UnderlineToolbar } from '@/components/toolbars/underline-toolbar';
-import { UndoToolbar } from '@/components/toolbars/undo-toolbar';
-import { UploadImageToolbar } from '@/components/toolbars/upload-image-toolbar';
 import Blockquote from '@tiptap/extension-blockquote';
 import { CodeBlockLowlight } from '@tiptap/extension-code-block-lowlight';
 import { Color } from '@tiptap/extension-color';
@@ -43,9 +23,7 @@ import ImageResize from 'tiptap-extension-resize-image';
 
 const lowlight = createLowlight(all);
 
-import { CodeToolbar } from '@/components/toolbars/code-toolbar';
-import { LinkToolbar } from '@/components/toolbars/link-toolbar';
-import { Separator } from '@/components/ui/separator';
+import { ToolbarsGroup } from '@/components/toolbars';
 import { Skeleton } from '@/components/ui/skeleton';
 import { NodeViewContent, NodeViewWrapper } from '@tiptap/react';
 import { useRef } from 'react';
@@ -213,34 +191,14 @@ export const Editor = ({ onChange, value }: EditorProps) => {
 	if (!editor)
 		return (
 			<div>
-				<Skeleton className='h-96' />
+				<Skeleton className='h-[395px]' />
 			</div>
 		);
 
 	return (
 		<div className='relative'>
 			<ToolbarProvider editor={editor}>
-				<UndoToolbar />
-				<RedoToolbar />
-				<Separator orientation='vertical' className='h-9' />
-				<HeadingToolbar />
-				<BlockquoteToolbar />
-				<BoldToolbar />
-				<ColorHighlightToolbar />
-				<StrikeToolbar />
-				<ItalicToolbar />
-				<UnderlineToolbar />
-				<AlignLeftToolbar />
-				<AlignCenterToolbar />
-				<AlignRightToolbar />
-				<AlignJustifyToolbar />
-				<HorizontalRuleToolbar />
-				<LinkToolbar />
-				<UploadImageToolbar />
-				<BulletListToolbar />
-				<OrderedListToolbar />
-				<HardBreakToolbar />
-				<CodeToolbar />
+				<ToolbarsGroup />
 			</ToolbarProvider>
 			<div
 				onClick={() => {

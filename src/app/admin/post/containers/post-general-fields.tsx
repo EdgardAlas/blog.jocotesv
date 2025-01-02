@@ -121,15 +121,18 @@ export const PostGeneralFields = () => {
 				name='publishedAt'
 				render={({ field }) => (
 					<FormItem>
-						<FormLabel>Published At</FormLabel>
+						<FormLabel>Published At*</FormLabel>
 						<FormControl>
 							<DatePicker value={field.value} onChange={field.onChange} />
 						</FormControl>
 						<FormMessage />
+						<FormDescription>
+							Select the date and time when the post should be published, also
+							this will be shown in the blog.
+						</FormDescription>
 					</FormItem>
 				)}
 			/>
 		</TabsContent>
 	);
 };
-
