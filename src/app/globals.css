@@ -36,6 +36,34 @@
 		--sidebar-accent-foreground: 240 5.9% 10%;
 		--sidebar-border: 220 13% 91%;
 		--sidebar-ring: 217.2 91.2% 59.8%;
+
+		/* colors */
+
+		--text-default: #000000;
+		--text-gray: #6b7280;
+		--text-brown: #92400e;
+		--text-orange: #ea580c;
+		--text-yellow: #ca8a04;
+		--text-green: #16a34a;
+		--text-blue: #2563eb;
+		--text-purple: #9333ea;
+		--text-pink: #db2777;
+		--text-red: #dc2626;
+
+		--highlight-default: #ffffff;
+		--highlight-gray: #f3f4f6;
+		--highlight-brown: #fef3c7;
+		--highlight-orange: #ffedd5;
+		--highlight-yellow: #fef9c3;
+		--highlight-green: #dcfce7;
+		--highlight-blue: #dbeafe;
+		--highlight-purple: #f3e8ff;
+		--highlight-pink: #fce7f3;
+		--highlight-red: #fee2e2;
+
+		/* code syntax highlighting */
+		--code-background: rgb(40, 44, 52);
+		--code-text: rgb(171, 178, 191);
 	}
 }
 @layer base {
@@ -45,4 +73,231 @@
 	body {
 		@apply bg-background text-foreground;
 	}
+}
+
+.post {
+	/* headings */
+
+	h1 {
+		@apply text-4xl font-bold;
+	}
+
+	h2 {
+		@apply text-3xl font-bold;
+	}
+
+	h3 {
+		@apply text-2xl font-bold;
+	}
+
+	h4 {
+		@apply text-xl font-bold;
+	}
+
+	h5 {
+		@apply text-lg font-bold;
+	}
+
+	h6 {
+		@apply text-base font-bold;
+	}
+
+	/* blockquote */
+
+	blockquote {
+		@apply border-l-4 border-primary bg-gray-50 py-4 pl-4 italic text-gray-700;
+	}
+
+	blockquote footer {
+		@apply mt-2 text-sm text-gray-500;
+	}
+
+	/* paragraphs */
+
+	p {
+		@apply my-4;
+	}
+
+	p:first-child {
+		@apply mt-0;
+	}
+
+	p:empty::after {
+		content: '\00A0';
+	}
+
+	p:last-child {
+		@apply mb-0;
+	}
+
+	/* horizontal rule */
+
+	hr {
+		@apply my-4 border-t border-gray-300;
+	}
+
+	/* Lists */
+
+	ul {
+		@apply list-disc pl-8;
+	}
+
+	ol {
+		@apply list-decimal pl-8;
+	}
+
+	/* code block */
+
+	pre {
+		background-color: var(--code-background);
+		border-radius: 0.5rem;
+		padding: 0.75rem 1rem !important;
+	}
+
+	code {
+		color: var(--code-text);
+	}
+
+	/* links */
+
+	a {
+		@apply text-blue-500 underline;
+	}
+}
+
+.resize-cursor {
+	cursor: ew-resize;
+	cursor: col-resize;
+}
+
+.tiptap {
+	.code-block,
+	code {
+		position: relative;
+	}
+
+	code {
+		color: var(--code-text);
+	}
+
+	select {
+		position: absolute;
+		top: 0.75rem;
+		right: 1rem;
+		z-index: 1;
+	}
+}
+
+/* 
+code syntax highlighting 
+*/
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	padding: 0.5em;
+	background: #282828;
+	color: #ebdbb2;
+}
+
+.hljs-subst {
+	color: #ebdbb2;
+}
+
+.hljs-deletion,
+.hljs-formula,
+.hljs-keyword,
+.hljs-link,
+.hljs-selector-tag {
+	color: #fb4934;
+}
+
+.hljs-built_in,
+.hljs-emphasis,
+.hljs-name,
+.hljs-quote,
+.hljs-strong,
+.hljs-title,
+.hljs-variable {
+	color: #83a598;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+
+.hljs-attr,
+.hljs-params,
+.hljs-template-tag,
+.hljs-type {
+	color: #fabd2f;
+}
+
+.hljs-builtin-name,
+.hljs-doctag {
+	color: #8f3f71;
+}
+
+.hljs-literal,
+.hljs-number,
+.hljs-link_label {
+	color: #d3869b;
+}
+
+.hljs-code,
+.hljs-meta,
+.hljs-regexp,
+.hljs-selector-id,
+.hljs-template-variable {
+	color: #fe8019;
+}
+
+.hljs-addition,
+.hljs-meta-string,
+.hljs-section,
+.hljs-selector-attr,
+.hljs-selector-class,
+.hljs-string,
+.hljs-symbol {
+	color: #b8bb26;
+}
+
+.hljs-section {
+	font-weight: bold;
+}
+
+.hljs-attribute,
+.hljs-bullet,
+.hljs-class,
+.hljs-function,
+.hljs-function .hljs-keyword,
+.hljs-meta-keyword,
+.hljs-selector-pseudo {
+	color: #8ec07c;
+}
+
+.hljs-tag {
+	color: #8ec07c;
+	font-weight: bold;
+}
+
+.hljs-comment {
+	color: #928374;
+	font-style: italic;
+}
+
+.ProseMirror p.is-editor-empty:first-child::before {
+	content: attr(data-placeholder);
+	float: left;
+	color: #adb5bd;
+	pointer-events: none;
+	height: 0;
+}
+
+.toggle-button {
+	@apply inline-flex h-9 min-w-9 items-center justify-center gap-2 rounded-md border border-input bg-transparent px-2 text-sm font-medium shadow-sm transition-colors hover:bg-primary/80 hover:text-accent focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 data-[state=on]:bg-primary data-[state=on]:text-accent [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0;
 }

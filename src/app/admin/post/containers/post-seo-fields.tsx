@@ -2,8 +2,8 @@
 'use client';
 
 import {
-	removePostImageAction,
-	uploadPostImageAction,
+	removePostSeoImageAction,
+	uploadPostSeoImageAction,
 } from '@/app/admin/post/_lib/post.actions';
 import { Button } from '@/components/ui/button';
 import {
@@ -68,7 +68,7 @@ export const PostSeoFields = () => {
 									onClick={() => {
 										startLoading(async () => {
 											await handleSafeActionResponse({
-												action: removePostImageAction({
+												action: removePostSeoImageAction({
 													url: field.value,
 												}),
 												successMessage: 'Image removed',
@@ -95,7 +95,7 @@ export const PostSeoFields = () => {
 										formData.append('file', e?.target?.files?.[0] as File);
 										startLoading(async () => {
 											await handleSafeActionResponse({
-												action: uploadPostImageAction(formData),
+												action: uploadPostSeoImageAction(formData),
 												successMessage: 'Image uploaded',
 												errorMessage: 'Error uploading image',
 												onSuccess(id) {

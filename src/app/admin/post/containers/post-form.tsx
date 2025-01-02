@@ -6,7 +6,15 @@ import { PostSeoFields } from '@/app/admin/post/containers/post-seo-fields';
 import { FormProvider } from '@/components/form-provider';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { ScrollArea } from '@/components/ui/scroll-area';
+import { Editor } from '@/components/ui/editor';
+import {
+	FormControl,
+	FormDescription,
+	FormField,
+	FormItem,
+	FormLabel,
+	FormMessage,
+} from '@/components/ui/form';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Save } from 'lucide-react';
 import { useState } from 'react';
@@ -52,14 +60,33 @@ export const PostForm = ({ initialValues }: PostFormProps) => {
 			>
 				<div className='flex flex-col gap-4 xl:flex-row xl:items-start'>
 					<Card className='order-2 flex-1 xl:order-1'>
-						<ScrollArea className='xl:h-[calc(100vh-4rem-3.3125rem-3rem-0.875rem-0.25rem-0.125rem)]'>
+						<div className='overflow-auto xl:max-h-[calc(100vh-4rem-3.3125rem-3rem-0.875rem-0.25rem-0.125rem)]'>
 							<CardHeader className='pb-0' />
-							<CardContent></CardContent>
-						</ScrollArea>
+							<CardContent>
+								<FormField
+									control={form.control}
+									name='content'
+									render={({ field }) => (
+										<FormItem className='mx-auto max-w-[80ch]'>
+											<FormLabel className='sr-only'>Content*</FormLabel>
+											<FormControl>
+												<Editor onChange={field.onChange} value={field.value} />
+											</FormControl>
+											<FormMessage />
+											<FormDescription>
+												The editor has a width of 80 inches, as this is the
+												recommended width for optimal reading, matching how it
+												will appear on the website.
+											</FormDescription>
+										</FormItem>
+									)}
+								/>
+							</CardContent>
+						</div>
 					</Card>
 
 					<Card className='order-1 flex-1 xl:order-2 xl:max-w-sm'>
-						<ScrollArea className='xl:h-[calc(100vh-4rem-3.3125rem-3rem-0.875rem-0.25rem-0.125rem)]'>
+						<div className='overflow-auto xl:h-[calc(100vh-4rem-3.3125rem-3rem-0.875rem-0.25rem-0.125rem)]'>
 							<CardHeader className='pb-0' />
 							<CardContent className='grid gap-2'>
 								<Button className='w-full' icon={Save}>
@@ -74,9 +101,7 @@ export const PostForm = ({ initialValues }: PostFormProps) => {
 									<TabsList className='flex space-x-4 border-b'>
 										<TabsTrigger value='general'>General</TabsTrigger>
 										<TabsTrigger value='seo'>SEO</TabsTrigger>
-										<TabsTrigger value='classification'>
-											Classification
-										</TabsTrigger>
+										<TabsTrigger value='classification'>Info</TabsTrigger>
 									</TabsList>
 
 									<PostGeneralFields />
@@ -84,7 +109,7 @@ export const PostForm = ({ initialValues }: PostFormProps) => {
 									<PostClasificationFields />
 								</Tabs>
 							</CardContent>
-						</ScrollArea>
+						</div>
 					</Card>
 				</div>
 			</FormProvider>
