@@ -45,6 +45,16 @@ export const breadcrumbs = {
 			link: '/admin/post',
 		},
 	],
+	media: [
+		{
+			name: 'Dashboard',
+			link: '/admin',
+		},
+		{
+			name: 'Media',
+			link: '/admin/media',
+		},
+	],
 };
 
 export const getBreadcrumbs = (

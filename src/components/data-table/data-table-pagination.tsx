@@ -22,11 +22,13 @@ import { Skeleton } from '@/components/ui/skeleton';
 export interface DataTablePaginationProps {
 	totalPages: number;
 	pageSizeOptions?: number[];
+	defaultPageSize?: number;
 }
 
 export function DataTablePagination({
 	totalPages = 0,
 	pageSizeOptions = [10, 20, 50, 100],
+	defaultPageSize = 10,
 }: DataTablePaginationProps) {
 	const [isLoading, startTransition] = useTransition();
 
@@ -41,7 +43,7 @@ export function DataTablePagination({
 	const [size, setSize] = useQueryState(
 		'size',
 		parseAsInteger
-			.withDefault(10)
+			.withDefault(defaultPageSize)
 			.withOptions({ shallow: false, startTransition })
 	);
 
