@@ -1,5 +1,5 @@
-import { categoriesColumns } from '@/app/admin/categories/containers/categories.columns';
-import { CategoryModal } from '@/app/admin/categories/containers/categories.modal';
+import { categoriesColumns } from '@/app/admin/categories/_containers/categories.columns';
+import { CategoryModal } from '@/app/admin/categories/_containers/categories.modal';
 import { DataTableLoader } from '@/components/data-table/data-table-loader';
 import { SearchInputSuspense } from '@/components/search-input/search-input-suspense';
 import { AddItemCrudButton } from '@/components/ui/add-item-crud-button';

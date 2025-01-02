@@ -1,5 +1,5 @@
-import { AdminHeader } from '@/app/admin/containers/admin-header';
-import { AdminSidebar } from '@/app/admin/containers/admin-sidebar';
+import { AdminHeader } from '@/app/admin/_containers/admin-header';
+import { AdminSidebar } from '@/app/admin/_containers/admin-sidebar';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import { Role } from '@/config/roles';
 import React from 'react';

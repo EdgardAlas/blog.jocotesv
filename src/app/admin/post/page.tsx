@@ -1,6 +1,6 @@
 'use client';
 
-import { PostForm } from '@/app/admin/post/containers/post-form';
+import { PostForm } from '@/app/admin/post/_containers/post-form';
 import { AdminTitle } from '@/components/ui/admin-title';
 
 const AddPostPage = () => {

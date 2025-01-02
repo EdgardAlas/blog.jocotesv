@@ -1,8 +1,8 @@
 'use client';
 
-import { PostClasificationFields } from '@/app/admin/post/containers/post-clasification-fields';
-import { PostGeneralFields } from '@/app/admin/post/containers/post-general-fields';
-import { PostSeoFields } from '@/app/admin/post/containers/post-seo-fields';
+import { PostClasificationFields } from '@/app/admin/post/_containers/post-clasification-fields';
+import { PostGeneralFields } from '@/app/admin/post/_containers/post-general-fields';
+import { PostSeoFields } from '@/app/admin/post/_containers/post-seo-fields';
 import { FormProvider } from '@/components/form-provider';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';

@@ -1,5 +1,5 @@
-import { authorsColumns } from '@/app/admin/authors/containers/authors.columns';
-import { AuthorsModal } from '@/app/admin/authors/containers/authors.modal';
+import { authorsColumns } from '@/app/admin/authors/_containers/authors.columns';
+import { AuthorsModal } from '@/app/admin/authors/_containers/authors.modal';
 import { DataTableLoader } from '@/components/data-table/data-table-loader';
 import { SearchInputSuspense } from '@/components/search-input/search-input-suspense';
 import { AddItemCrudButton } from '@/components/ui/add-item-crud-button';

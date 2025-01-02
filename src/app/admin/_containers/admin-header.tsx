@@ -1,6 +1,6 @@
 'use client';
 
-import { UserDropdown } from '@/app/admin/containers/admin-user-dropdown';
+import { UserDropdown } from '@/app/admin/_containers/admin-user-dropdown';
 import {
 	Breadcrumb,
 	BreadcrumbItem,
