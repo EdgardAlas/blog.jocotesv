@@ -8,7 +8,7 @@ import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Eye, Trash, Upload } from 'lucide-react';
 import { Suspense } from 'react';
 
-const MediaPage = () => {
+const MediaPage = async () => {
 	return (
 		<>
 			<AdminTitle

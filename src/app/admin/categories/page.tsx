@@ -1,13 +1,13 @@
-import { authorsColumns } from '@/app/admin/authors/containers/authors.columns';
-import { AuthorsModal } from '@/app/admin/authors/containers/authors.modal';
+import { categoriesColumns } from '@/app/admin/categories/containers/categories.columns';
+import { CategoryModal } from '@/app/admin/categories/containers/categories.modal';
 import { DataTableLoader } from '@/components/data-table/data-table-loader';
 import { SearchInputSuspense } from '@/components/search-input/search-input-suspense';
 import { AddItemCrudButton } from '@/components/ui/add-item-crud-button';
 import { AdminTitle } from '@/components/ui/admin-title';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { AuthorsRow } from '@/types/authors';
+import { CategoryRow } from '@/types/categories';
 
-const getAuthors = async (): Promise<WithPagination<AuthorsRow[]>> => {
+const getCategories = async (): Promise<WithPagination<CategoryRow[]>> => {
 	await new Promise((resolve) => setTimeout(resolve, 1000));
 	return {
 		data: [],
@@ -15,18 +15,18 @@ const getAuthors = async (): Promise<WithPagination<AuthorsRow[]>> => {
 	};
 };
 
-type AuthorsPageProps = NextPageWithPagination;
+type CategoriesPageProps = NextPageWithPagination;
 
-const AuthorsPage = async ({ searchParams }: AuthorsPageProps) => {
+const CategoriesPage = async ({ searchParams }: CategoriesPageProps) => {
 	const { search, page, size } = await searchParams;
 
 	return (
 		<>
 			<AdminTitle
-				title='Authors'
-				description='Here you can manage authors for every post.'
+				title='Categories'
+				description='Here you can manage the categories of the blog.'
 			>
-				<AddItemCrudButton autoFocus>Add Author</AddItemCrudButton>
+				<AddItemCrudButton autoFocus>Add Category</AddItemCrudButton>
 			</AdminTitle>
 
 			<Card>
@@ -35,15 +35,15 @@ const AuthorsPage = async ({ searchParams }: AuthorsPageProps) => {
 					<SearchInputSuspense />
 					<DataTableLoader
 						key={`${page}-${size}-${search}`}
-						columns={authorsColumns}
-						promise={getAuthors}
+						columns={categoriesColumns}
+						promise={getCategories}
 					/>
 				</CardContent>
 			</Card>
 
-			<AuthorsModal />
+			<CategoryModal />
 		</>
 	);
 };
 
-export default AuthorsPage;
+export default CategoriesPage;
