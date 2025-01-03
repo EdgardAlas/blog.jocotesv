@@ -10,13 +10,14 @@ import {
 	getAuthorByIdUseCase,
 	insertAuthorUseCase,
 } from '@/use-cases/authors';
+import { updateCategoryUseCase } from '@/use-cases/categories';
 import { revalidatePath } from 'next/cache';
 
 export const saveAuthorAction = authActionClient
 	.schema(SaveAuthorSchema)
 	.action(async ({ parsedInput }) => {
 		if (parsedInput.id) {
-			await getAuthorByIdUseCase(parsedInput.id);
+			await updateCategoryUseCase(parsedInput.id, parsedInput);
 		} else {
 			await insertAuthorUseCase(parsedInput);
 		}

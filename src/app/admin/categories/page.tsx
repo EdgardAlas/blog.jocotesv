@@ -5,15 +5,7 @@ import { SearchInputSuspense } from '@/components/search-input/search-input-susp
 import { AddItemCrudButton } from '@/components/ui/add-item-crud-button';
 import { AdminTitle } from '@/components/ui/admin-title';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { CategoryRow } from '@/types/categories';
-
-const getCategories = async (): Promise<WithPagination<CategoryRow>> => {
-	await new Promise((resolve) => setTimeout(resolve, 1000));
-	return {
-		data: [],
-		totalPages: 10,
-	};
-};
+import { getPaginatedCategoriesUseCase } from '@/use-cases/categories';
 
 type CategoriesPageProps = NextPageWithPagination;
 
@@ -36,7 +28,13 @@ const CategoriesPage = async ({ searchParams }: CategoriesPageProps) => {
 					<DataTableLoader
 						key={`${page}-${size}-${search}`}
 						columns={categoriesColumns}
-						promise={getCategories}
+						promise={() =>
+							getPaginatedCategoriesUseCase(
+								Number(page) || 1,
+								Number(size) || 10,
+								search
+							)
+						}
 					/>
 				</CardContent>
 			</Card>

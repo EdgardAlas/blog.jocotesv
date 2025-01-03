@@ -61,7 +61,7 @@ export const getPaginatedAuthorsUseCase = async (
 		countAuthors(search),
 	]);
 
-	const mappedAuthors = authors.map((author) => ({
+	const mappedAuthors: AuthorsRow[] = authors.map((author) => ({
 		createdAt: formatDate(author.createdAt).format('LLL'),
 		id: author.id,
 		name: author.name,
