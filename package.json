@@ -57,6 +57,7 @@
 		"clsx": "^2.1.1",
 		"cmdk": "1.0.0",
 		"date-fns": "^4.1.0",
+		"dayjs": "^1.11.13",
 		"drizzle-orm": "^0.38.3",
 		"lowlight": "^3.3.0",
 		"lucide-react": "^0.469.0",

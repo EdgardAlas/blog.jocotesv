@@ -9,7 +9,7 @@ import {
 	UseFormReturn,
 } from 'react-hook-form';
 
-interface FormProviderProps<T extends FieldValues>
+export interface FormProviderProps<T extends FieldValues>
 	extends Omit<ComponentProps<'form'>, 'onSubmit'> {
 	form: UseFormReturn<T>;
 	onSubmit: SubmitHandler<T>;

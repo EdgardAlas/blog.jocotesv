@@ -1,5 +1,9 @@
 'use client';
 
+import {
+	deleteAuthorAction,
+	getAuthorByIdAction,
+} from '@/app/admin/authors/_lib/author.actions';
 import { CrudTableOptions } from '@/components/ui/crud-table-options';
 import { AuthorsRow } from '@/types/authors';
 import { ColumnDef } from '@tanstack/react-table';
@@ -9,10 +13,10 @@ export const authorsColumns: ColumnDef<AuthorsRow>[] = [
 		header: 'Name',
 		accessorKey: 'name',
 	},
-	{
+	/* {
 		header: 'Image',
 		accessorKey: 'image',
-	},
+	}, */
 	{
 		header: 'Created At',
 		accessorKey: 'createdAt',
@@ -28,15 +32,11 @@ export const authorsColumns: ColumnDef<AuthorsRow>[] = [
 			return (
 				<CrudTableOptions
 					getEditData={() =>
-						new Promise((resolve) =>
-							setTimeout(() => {
-								resolve(original);
-							}, 1000)
-						)
+						getAuthorByIdAction({
+							id: original.id,
+						})
 					}
-					deleteData={() => {
-						return new Promise((resolve) => setTimeout(resolve, 1000));
-					}}
+					deleteData={() => deleteAuthorAction({ id: original.id })}
 				/>
 			);
 		},

@@ -28,16 +28,16 @@ export const usersColumns: ColumnDef<UserRow>[] = [
 	{
 		accessorKey: 'id',
 		header: '',
-		cell({ row: { original } }) {
+		cell({}) {
 			return (
 				<CrudTableOptions
-					getEditData={() =>
+					/* 	getEditData={() =>
 						new Promise((resolve) =>
 							setTimeout(() => {
 								resolve(original);
 							}, 1000)
 						)
-					}
+					} */
 					deleteData={() => {
 						return new Promise((resolve) => setTimeout(resolve, 1000));
 					}}

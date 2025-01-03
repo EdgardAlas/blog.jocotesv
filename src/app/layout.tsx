@@ -3,6 +3,7 @@ import { Lato } from 'next/font/google';
 import { NuqsAdapter } from 'nuqs/adapters/next/app';
 import './globals.css';
 import { ConfirmDialogProvider } from '@/components/ui/confirm-dialog-provider';
+import { Toaster } from '@/components/ui/sonner';
 
 const fontFamily = Lato({
 	weight: ['100', '300', '400', '700', '900'],
@@ -23,7 +24,10 @@ export default function RootLayout({
 		<html lang='en'>
 			<body className={`${fontFamily.className} antialiased`}>
 				<NuqsAdapter>
-					<ConfirmDialogProvider>{children}</ConfirmDialogProvider>
+					<ConfirmDialogProvider>
+						{children}
+						<Toaster richColors theme='dark' />
+					</ConfirmDialogProvider>
 				</NuqsAdapter>
 			</body>
 		</html>

@@ -7,12 +7,15 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { useCrudModalStore } from '@/context/crud-modal.context';
 import { EllipsisVertical } from 'lucide-react';
+import { SafeActionResult } from 'next-safe-action';
 import React from 'react';
 import { toast } from 'sonner';
 
 interface CrudTableOptionsProps {
 	children?: React.ReactNode;
-	getEditData?: () => Promise<unknown>;
+	getEditData?: () => Promise<
+		SafeActionResult<TODO, TODO, TODO, TODO> | undefined
+	>;
 	deleteData?: () => Promise<unknown>;
 }
 
@@ -35,7 +38,7 @@ export const CrudTableOptions = ({
 
 						if (getEditData) {
 							const data = await getEditData();
-							setData(data);
+							setData(data?.data);
 							setOpen(true);
 
 							toast.success('Data loaded', { id: loadingId });

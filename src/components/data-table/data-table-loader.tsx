@@ -8,7 +8,7 @@ import { ColumnDef } from '@tanstack/react-table';
 import { Suspense } from 'react';
 
 interface DataTableLoader<TData, TValue> {
-	promise: () => Promise<WithPagination<TData[]>>;
+	promise: () => Promise<WithPagination<TData>>;
 	columns: ColumnDef<TData, TValue>[];
 }
 

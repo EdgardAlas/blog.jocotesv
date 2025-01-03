@@ -7,7 +7,7 @@ import { AdminTitle } from '@/components/ui/admin-title';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { CategoryRow } from '@/types/categories';
 
-const getCategories = async (): Promise<WithPagination<CategoryRow[]>> => {
+const getCategories = async (): Promise<WithPagination<CategoryRow>> => {
 	await new Promise((resolve) => setTimeout(resolve, 1000));
 	return {
 		data: [],

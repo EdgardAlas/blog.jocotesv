@@ -5,15 +5,7 @@ import { SearchInputSuspense } from '@/components/search-input/search-input-susp
 import { AddItemCrudButton } from '@/components/ui/add-item-crud-button';
 import { AdminTitle } from '@/components/ui/admin-title';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { AuthorsRow } from '@/types/authors';
-
-const getAuthors = async (): Promise<WithPagination<AuthorsRow[]>> => {
-	await new Promise((resolve) => setTimeout(resolve, 1000));
-	return {
-		data: [],
-		totalPages: 10,
-	};
-};
+import { getPaginatedAuthorsUseCase } from '@/use-cases/authors';
 
 type AuthorsPageProps = NextPageWithPagination;
 
@@ -36,7 +28,13 @@ const AuthorsPage = async ({ searchParams }: AuthorsPageProps) => {
 					<DataTableLoader
 						key={`${page}-${size}-${search}`}
 						columns={authorsColumns}
-						promise={getAuthors}
+						promise={() =>
+							getPaginatedAuthorsUseCase(
+								Number(page) || 1,
+								Number(size) || 10,
+								search
+							)
+						}
 					/>
 				</CardContent>
 			</Card>

@@ -1,5 +1,5 @@
 interface WithPagination<T> {
-	data: T;
+	data: T[];
 	totalPages: number;
 }
 

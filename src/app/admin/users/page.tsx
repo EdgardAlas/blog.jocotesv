@@ -6,7 +6,7 @@ import { AdminTitle } from '@/components/ui/admin-title';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { UserRow } from '@/types/users';
 
-const getUsers = async (): Promise<WithPagination<UserRow[]>> => {
+const getUsers = async (): Promise<WithPagination<UserRow>> => {
 	await new Promise((resolve) => setTimeout(resolve, 1000));
 	return {
 		data: [],
