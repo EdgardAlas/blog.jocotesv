@@ -5,9 +5,9 @@ import {
 	uploadFileSchema,
 } from '@/app/admin/post/_lib/post.schema';
 import { authActionClient } from '@/lib/safe-action';
+import { insertMediaUseCase } from '@/use-cases/media.use-case';
 import { removeFile } from '@/use-cases/remove-file.use-case';
 import { uploadFile } from '@/use-cases/upload-file';
-import { randomUUID } from 'crypto';
 
 const POST_IMAGE_FOLDER = 'post-seo-images';
 const POST_CONTENT_IMAGE_FOLDER = 'post-content-images';
@@ -29,7 +29,12 @@ export const uploadPostContentImageAction = authActionClient
 	.schema(uploadFileSchema)
 	.action(async ({ parsedInput: { file } }) => {
 		const url = await uploadFile(file, POST_CONTENT_IMAGE_FOLDER);
-		const id = randomUUID();
+		let id = '';
+
+		if (url) {
+			id = await insertMediaUseCase(url);
+		}
+
 		return {
 			id,
 			url,

@@ -239,6 +239,8 @@ export type NewAuthor = InferInsertModel<typeof authors>;
 export type NewPost = InferInsertModel<typeof posts>;
 export type NewPostCategory = InferInsertModel<typeof postCategories>;
 export type NewPageView = InferInsertModel<typeof pageViews>;
+export type NewMedia = InferInsertModel<typeof media>;
+export type NewPostMedia = InferInsertModel<typeof postMedia>;
 
 export type SelectUser = InferSelectModel<typeof users>;
 export type SelectCategory = InferSelectModel<typeof categories>;
@@ -246,3 +248,5 @@ export type SelectAuthor = InferSelectModel<typeof authors>;
 export type SelectPost = InferSelectModel<typeof posts>;
 export type SelectPostCategory = InferSelectModel<typeof postCategories>;
 export type SelectPageView = InferSelectModel<typeof pageViews>;
+export type SelectPostMedia = InferSelectModel<typeof postMedia>;
+export type SelectMedia = InferSelectModel<typeof media>;
