@@ -10,7 +10,7 @@ import {
 	getCategoryByIdUseCase,
 	insertCategoryUseCase,
 	updateCategoryUseCase,
-} from '@/use-cases/categories';
+} from '@/use-cases/categories.use-case';
 import { revalidatePath } from 'next/cache';
 
 export const saveCategoryAction = authActionClient

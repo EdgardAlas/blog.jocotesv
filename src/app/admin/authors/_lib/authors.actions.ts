@@ -9,8 +9,8 @@ import {
 	deleteAuthorUseCase,
 	getAuthorByIdUseCase,
 	insertAuthorUseCase,
-} from '@/use-cases/authors';
-import { updateCategoryUseCase } from '@/use-cases/categories';
+} from '@/use-cases/authors.use-case';
+import { updateCategoryUseCase } from '@/use-cases/categories.use-case';
 import { revalidatePath } from 'next/cache';
 
 export const saveAuthorAction = authActionClient

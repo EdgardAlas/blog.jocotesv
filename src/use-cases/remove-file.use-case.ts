@@ -1,5 +1,5 @@
 import cloudinary from '@/lib/cloudinary';
-import { extractPublicIdFromUrl } from '@/use-cases/extract-public-id';
+import { extractPublicIdFromUrl } from '@/use-cases/extract-public-id.use-case';
 
 export const removeFile = (url: string, folder: string) => {
 	return new Promise((resolve, reject) => {
@@ -18,4 +18,3 @@ export const removeFile = (url: string, folder: string) => {
 		});
 	});
 };
-

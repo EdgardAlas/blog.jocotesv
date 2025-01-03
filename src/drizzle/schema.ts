@@ -62,6 +62,17 @@ export const users = pgTable(
 	]
 );
 
+export const media = pgTable('media', {
+	id: uuid().defaultRandom().primaryKey().notNull(),
+	url: text().notNull(),
+	createdAt: timestamp('created_at', { mode: 'string' }).default(
+		sql`CURRENT_TIMESTAMP`
+	),
+	updatedAt: timestamp('updated_at', { mode: 'string' }).default(
+		sql`CURRENT_TIMESTAMP`
+	),
+});
+
 export const categories = pgTable(
 	'categories',
 	{
@@ -147,6 +158,30 @@ export const postCategories = pgTable(
 	]
 );
 
+export const postMedia = pgTable(
+	'post_media',
+	{
+		postId: uuid('post_id').notNull(),
+		mediaId: uuid('media_id').notNull(),
+	},
+	(table) => [
+		foreignKey({
+			columns: [table.postId],
+			foreignColumns: [posts.id],
+			name: 'post_media_post_id_fkey',
+		}).onDelete('cascade'),
+		foreignKey({
+			columns: [table.mediaId],
+			foreignColumns: [media.id],
+			name: 'post_media_media_id_fkey',
+		}).onDelete('cascade'),
+		primaryKey({
+			columns: [table.postId, table.mediaId],
+			name: 'post_media_pkey',
+		}),
+	]
+);
+
 export const pageViewsRelations = relations(pageViews, ({ one }) => ({
 	post: one(posts, {
 		fields: [pageViews.postId],
@@ -161,6 +196,7 @@ export const postsRelations = relations(posts, ({ one, many }) => ({
 		references: [authors.id],
 	}),
 	postCategories: many(postCategories),
+	postMedias: many(postMedia),
 }));
 
 export const authorsRelations = relations(authors, ({ many }) => ({
@@ -182,7 +218,20 @@ export const categoriesRelations = relations(categories, ({ many }) => ({
 	postCategories: many(postCategories),
 }));
 
-// types
+export const postMediaRelations = relations(postMedia, ({ one }) => ({
+	post: one(posts, {
+		fields: [postMedia.postId],
+		references: [posts.id],
+	}),
+	media: one(media, {
+		fields: [postMedia.mediaId],
+		references: [media.id],
+	}),
+}));
+
+export const mediaRelations = relations(media, ({ many }) => ({
+	postMedias: many(postMedia),
+}));
 
 export type NewUser = InferInsertModel<typeof users>;
 export type NewCategory = InferInsertModel<typeof categories>;

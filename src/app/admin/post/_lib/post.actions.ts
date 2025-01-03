@@ -5,7 +5,7 @@ import {
 	uploadFileSchema,
 } from '@/app/admin/post/_lib/post.schema';
 import { authActionClient } from '@/lib/safe-action';
-import { removeFile } from '@/use-cases/remove-file';
+import { removeFile } from '@/use-cases/remove-file.use-case';
 import { uploadFile } from '@/use-cases/upload-file';
 import { randomUUID } from 'crypto';
 

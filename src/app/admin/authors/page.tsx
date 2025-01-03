@@ -5,7 +5,7 @@ import { SearchInputSuspense } from '@/components/search-input/search-input-susp
 import { AddItemCrudButton } from '@/components/ui/add-item-crud-button';
 import { AdminTitle } from '@/components/ui/admin-title';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { getPaginatedAuthorsUseCase } from '@/use-cases/authors';
+import { getPaginatedAuthorsUseCase } from '@/use-cases/authors.use-case';
 
 type AuthorsPageProps = NextPageWithPagination;
 
