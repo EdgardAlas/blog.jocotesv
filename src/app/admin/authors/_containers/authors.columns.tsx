@@ -3,7 +3,7 @@
 import {
 	deleteAuthorAction,
 	getAuthorByIdAction,
-} from '@/app/admin/authors/_lib/author.actions';
+} from '@/app/admin/authors/_lib/authors.actions';
 import { CrudTableOptions } from '@/components/ui/crud-table-options';
 import { AuthorsRow } from '@/types/authors';
 import { ColumnDef } from '@tanstack/react-table';

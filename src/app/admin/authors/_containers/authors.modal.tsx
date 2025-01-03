@@ -1,10 +1,10 @@
 'use client';
 
-import { saveAuthorAction } from '@/app/admin/authors/_lib/author.actions';
+import { saveAuthorAction } from '@/app/admin/authors/_lib/authors.actions';
 import {
 	SaveAuthorResolver,
 	SaveAuthorSchema,
-} from '@/app/admin/authors/_lib/author.schema';
+} from '@/app/admin/authors/_lib/authors.schema';
 import { Button } from '@/components/ui/button';
 import { CrudModal } from '@/components/ui/crud-modal';
 import {

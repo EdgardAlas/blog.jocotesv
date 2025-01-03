@@ -3,7 +3,7 @@
 import {
 	GetAuthorByIdSchema,
 	SaveAuthorSchema,
-} from '@/app/admin/authors/_lib/author.schema';
+} from '@/app/admin/authors/_lib/authors.schema';
 import { authActionClient } from '@/lib/safe-action';
 import {
 	deleteAuthorUseCase,

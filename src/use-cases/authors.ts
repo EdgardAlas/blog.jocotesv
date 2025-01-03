@@ -1,4 +1,4 @@
-import { SaveAuthorSchema } from '@/app/admin/authors/_lib/author.schema';
+import { SaveAuthorSchema } from '@/app/admin/authors/_lib/authors.schema';
 import {
 	countAuthors,
 	deleteAuthor,
