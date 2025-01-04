@@ -30,9 +30,7 @@ export const getPaginatedCategories = async (
 	return tx.query.categories.findMany({
 		limit: pageSize,
 		offset: (page - 1) * pageSize,
-		where: search
-			? ilike(sql`lower(categories.name)`, `%${search}%`.toLocaleLowerCase())
-			: undefined,
+		where: search ? ilike(categories.name, `%${search}%`) : undefined,
 	});
 };
 
@@ -77,11 +75,7 @@ export const countCategories = async (
 			count: sql`count(*)`.mapWith(Number),
 		})
 		.from(categories)
-		.where(
-			search
-				? ilike(sql`lower(categories.name)`, `%${search}%`.toLocaleLowerCase())
-				: undefined
-		);
+		.where(search ? ilike(categories.name, `%${search}%`) : undefined);
 
 	return result[0].count;
 };

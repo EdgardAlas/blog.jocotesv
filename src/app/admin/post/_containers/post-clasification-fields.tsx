@@ -1,5 +1,7 @@
 'use client';
 
+import { autoCompleteAuthorsByNameAction } from '@/app/admin/authors/_lib/authors.actions';
+import { autoCompleteCategoriesByNameAction } from '@/app/admin/categories/_lib/categories.actions';
 import {
 	FormControl,
 	FormField,
@@ -10,6 +12,7 @@ import {
 import SelectBox from '@/components/ui/select-box';
 import { TabsContent } from '@/components/ui/tabs';
 import { useFormContext } from 'react-hook-form';
+import { toast } from 'sonner';
 
 export const PostClasificationFields = () => {
 	const form = useFormContext();
@@ -24,16 +27,23 @@ export const PostClasificationFields = () => {
 						<FormLabel>Categories</FormLabel>
 						<FormControl>
 							<SelectBox
+								multiple
 								placeholder='Select Categories'
 								value={field.value}
 								onSearch={async (searchTerm) => {
-									const filteredOptions = options.filter((option) =>
-										option.label
-											.toLowerCase()
-											.includes(searchTerm.toLowerCase())
-									);
-									await new Promise((resolve) => setTimeout(resolve, 500));
-									return Promise.resolve(filteredOptions);
+									const filteredOptions =
+										await autoCompleteCategoriesByNameAction(searchTerm);
+
+									if (filteredOptions?.serverError) {
+										toast.error("Couldn't fetch categories");
+										return [];
+									}
+
+									if (!filteredOptions?.data) {
+										return [];
+									}
+
+									return filteredOptions?.data;
 								}}
 								onChange={field.onChange}
 							/>
@@ -54,13 +64,19 @@ export const PostClasificationFields = () => {
 								placeholder='Select Author'
 								value={field.value}
 								onSearch={async (searchTerm) => {
-									const filteredOptions = options.filter((option) =>
-										option.label
-											.toLowerCase()
-											.includes(searchTerm.toLowerCase())
-									);
-									await new Promise((resolve) => setTimeout(resolve, 500));
-									return Promise.resolve(filteredOptions);
+									const filteredOptions =
+										await autoCompleteAuthorsByNameAction(searchTerm);
+
+									if (filteredOptions?.serverError) {
+										toast.error("Couldn't fetch authors");
+										return [];
+									}
+
+									if (!filteredOptions?.data) {
+										return [];
+									}
+
+									return filteredOptions?.data;
 								}}
 								onChange={field.onChange}
 							/>
@@ -72,20 +88,3 @@ export const PostClasificationFields = () => {
 		</TabsContent>
 	);
 };
-
-const options = [
-	{ value: 'One', label: 'One' },
-	{ value: 'Two', label: 'Two' },
-	{ value: 'Three', label: 'Three' },
-	{ value: 'Four', label: 'Four' },
-	{ value: 'Five', label: 'Five' },
-	{ value: 'Six', label: 'Six' },
-	{ value: 'Seven', label: 'Seven' },
-	{ value: 'Eight', label: 'Eight' },
-	{ value: 'Nine', label: 'Nine' },
-	{ value: 'Ten', label: 'Ten' },
-	{ value: 'Eleven', label: 'Eleven' },
-	{ value: 'Twelve', label: 'Twelve' },
-	{ value: 'Thirteen', label: 'Thirteen' },
-	{ value: 'Fifteen', label: 'Fifteen' },
-];

@@ -29,9 +29,7 @@ export const getPaginatedAuthors = async (
 	return tx.query.authors.findMany({
 		limit: pageSize,
 		offset: (page - 1) * pageSize,
-		where: search
-			? ilike(sql`lower(${authors.name})`, `%${search}%`.toLowerCase())
-			: undefined,
+		where: search ? ilike(authors.name, `%${search}%`) : undefined,
 	});
 };
 
@@ -67,11 +65,7 @@ export const countAuthors = async (
 			count: sql`count(*)`.mapWith(Number),
 		})
 		.from(authors)
-		.where(
-			search
-				? ilike(sql`lower(${authors.name})`, `%${search}%`.toLowerCase())
-				: undefined
-		);
+		.where(search ? ilike(authors.name, `%${search}%`) : undefined);
 
 	return result[0].count;
 };
@@ -85,7 +79,7 @@ export const findAuthorsByName = async (
 	}
 
 	return tx.query.authors.findMany({
-		where: ilike(sql`lower(${authors.name})`, `%${search}%`.toLowerCase()),
+		where: ilike(authors.name, `%${search}%`),
 	});
 };
 
@@ -94,7 +88,7 @@ export const findAuthorByName = async (
 	tx: Transaction | typeof db = db
 ): Promise<SelectAuthor | null> => {
 	const result = await tx.query.authors.findFirst({
-		where: ilike(sql`lower(${authors.name})`, name.toLowerCase()),
+		where: ilike(authors.name, name.toLowerCase()),
 	});
 	return result ?? null;
 };

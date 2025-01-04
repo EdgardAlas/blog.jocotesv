@@ -5,11 +5,11 @@ import {
 	SaveAuthorSchema,
 	SearchAuthorsByNameSchema,
 } from '@/app/admin/authors/_lib/authors.schema';
-import { findAuthorsByName } from '@/data-acces/authors.data-acces';
 import { authActionClient } from '@/lib/safe-action';
 import {
 	deleteAuthorUseCase,
 	findAuthorByIdUseCase,
+	findAuthorsByNameUseCase,
 	insertAuthorUseCase,
 	updateAuthorUseCase,
 } from '@/use-cases/authors.use-case';
@@ -44,6 +44,6 @@ export const deleteAuthorAction = authActionClient
 export const autoCompleteAuthorsByNameAction = authActionClient
 	.schema(SearchAuthorsByNameSchema)
 	.action(async ({ parsedInput }) => {
-		const authors = await findAuthorsByName(parsedInput);
+		const authors = await findAuthorsByNameUseCase(parsedInput);
 		return authors;
 	});
