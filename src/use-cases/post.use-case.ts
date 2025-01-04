@@ -8,6 +8,7 @@ import {
 	insertPost,
 	updatePost,
 } from '@/data-acces/posts-data-acces';
+import { CustomError } from '@/helpers/custom-error';
 import { db } from '@/lib/db';
 import { z } from 'zod';
 
@@ -17,7 +18,7 @@ export const insertPostUseCase = async (
 	const findPost = await findPostBySlug(post.slug);
 
 	if (findPost) {
-		throw new Error('Post already exists');
+		throw new CustomError('Post slug already exists');
 	}
 
 	await db.transaction(async (tx) => {

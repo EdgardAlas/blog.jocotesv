@@ -14,7 +14,6 @@ import {
 import { removeFile } from '@/use-cases/remove-file.use-case';
 import { uploadFile } from '@/use-cases/upload-file';
 import { revalidatePath } from 'next/cache';
-import { redirect } from 'next/navigation';
 
 const POST_IMAGE_FOLDER = 'post-seo-images';
 const POST_CONTENT_IMAGE_FOLDER = 'post-content-images';
@@ -63,5 +62,4 @@ export const savePostAction = authActionClient
 			await insertPostUseCase(parsedInput);
 		}
 		revalidatePath('/admin/posts');
-		redirect('/admin/posts');
 	});

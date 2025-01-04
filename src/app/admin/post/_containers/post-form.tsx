@@ -23,6 +23,7 @@ import {
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { handleSafeActionResponse } from '@/lib/handle-safe-action-response';
 import { Save } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { useState, useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
@@ -51,6 +52,8 @@ export const PostForm = ({ initialValues }: PostFormProps) => {
 
 	const [activeTab, setActiveTab] = useState('general');
 
+	const router = useRouter();
+
 	return (
 		<>
 			<FormProvider
@@ -63,6 +66,9 @@ export const PostForm = ({ initialValues }: PostFormProps) => {
 							action: savePostAction(values),
 							loadingMessage: 'Saving post...',
 							successMessage: 'Post saved',
+							onSuccess() {
+								router.push(`/admin/posts`);
+							},
 						});
 					});
 				}}
