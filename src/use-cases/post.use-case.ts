@@ -44,6 +44,8 @@ export const insertPostUseCase = async (
 			);
 		}
 	});
+
+	// TODO: extract images from content and save them in the media table
 };
 
 export const updatePostUseCase = async (
@@ -77,4 +79,6 @@ export const updatePostUseCase = async (
 			);
 		}
 	});
+
+	// TODO: extract images from content and save them in the media table
 };
