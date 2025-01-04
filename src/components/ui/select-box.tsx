@@ -99,7 +99,15 @@ const SelectBox = React.forwardRef<HTMLInputElement, SelectBoxProps>(
 						if (!state) {
 							if (clearLastSearchOnClose) {
 								setSearchTerm('');
-								setOptions(Array.isArray(value) ? value : value ? [value] : []);
+
+								if (
+									(Array.isArray(value) && value.length > 0) ||
+									(!Array.isArray(value) && value?.label)
+								)
+									setOptions(
+										Array.isArray(value) ? value : value ? [value] : []
+									);
+								else setOptions([]);
 							}
 							setLoading(false);
 						}

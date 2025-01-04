@@ -1,21 +1,10 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 
-export const SaveCategorySchema = z
-	.object({
-		id: z.string(),
-		name: z.string().nonempty("Category name can't be empty"),
-	})
-	.refine(
-		(data) => {
-			if (!data.id) {
-				return true;
-			}
-
-			return data.id;
-		},
-		{ params: ['id'], message: 'Id is required' }
-	);
+export const SaveCategorySchema = z.object({
+	id: z.string(),
+	name: z.string().nonempty("Category name can't be empty"),
+});
 
 export const GetCategoryByIdSchema = z.string().nonempty('Id is required');
 

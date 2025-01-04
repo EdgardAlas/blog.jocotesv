@@ -17,7 +17,7 @@ export const findPostById = async (
 	id: string,
 	tx: Transaction | typeof db = db
 ) => {
-	tx.query.posts.findFirst({
+	return tx.query.posts.findFirst({
 		where: eq(posts.id, id),
 		with: {
 			author: true,
@@ -55,7 +55,7 @@ export const updatePost = async (
 	id: string,
 	post: Partial<NewPost>,
 	tx: Transaction | typeof db = db
-): Promise<void> => {
+): Promise<string> => {
 	const response = await tx
 		.update(posts)
 		.set(post)
@@ -65,6 +65,8 @@ export const updatePost = async (
 	if (!response.length) {
 		throw new Error('Post not found');
 	}
+
+	return response[0].id;
 };
 
 export const deletePost = async (
@@ -88,16 +90,12 @@ export const countPosts = async (
 	return result[0].count;
 };
 
-export const findPostsBySlug = async (
+export const findPostBySlug = async (
 	slug: string,
 	tx: Transaction | typeof db = db
-): Promise<SelectPost[]> => {
-	if (!slug) {
-		return [];
-	}
-
-	return tx.query.posts.findMany({
-		where: ilike(posts.slug, `%${slug}%`),
+) => {
+	return tx.query.posts.findFirst({
+		where: eq(posts.slug, slug),
 		with: {
 			author: true,
 			postCategories: {

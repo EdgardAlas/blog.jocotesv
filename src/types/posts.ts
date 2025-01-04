@@ -11,7 +11,7 @@ export type Post = {
 		value: string;
 		label: string;
 	};
-	publishedAt: string;
+	publicationDate: string;
 	categories: {
 		value: string;
 		label: string;

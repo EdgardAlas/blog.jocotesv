@@ -118,7 +118,7 @@ export const PostGeneralFields = () => {
 			/>
 			<FormField
 				control={form.control}
-				name='publishedAt'
+				name='publicationDate'
 				render={({ field }) => (
 					<FormItem>
 						<FormLabel>Published At*</FormLabel>

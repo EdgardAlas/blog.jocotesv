@@ -22,7 +22,7 @@ const AddPostPage = () => {
 						value: '',
 						label: '',
 					},
-					publishedAt: '',
+					publicationDate: '',
 					categories: [],
 				}}
 			/>
