@@ -2,6 +2,7 @@
 
 import { PostForm } from '@/app/admin/post/_containers/post-form';
 import { AdminTitle } from '@/components/ui/admin-title';
+import { formatDate } from '@/lib/format-dates';
 
 const EditPostPage = () => {
 	return (
@@ -22,7 +23,7 @@ const EditPostPage = () => {
 						value: '',
 						label: '',
 					},
-					publicationDate: '',
+					publicationDate: formatDate(new Date()).toDate(),
 					categories: [],
 				}}
 			/>
