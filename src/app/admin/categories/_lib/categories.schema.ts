@@ -17,8 +17,10 @@ export const SaveCategorySchema = z
 		{ params: ['id'], message: 'Id is required' }
 	);
 
-export const GetCategoryByIdSchema = z.object({
-	id: z.string().nonempty('Id is required'),
-});
+export const GetCategoryByIdSchema = z.string().nonempty('Id is required');
+
+export const SearchCategoriesByNameSchema = z
+	.string()
+	.nonempty("Category name can't be empty");
 
 export const SaveCategoryResolver = zodResolver(SaveCategorySchema);

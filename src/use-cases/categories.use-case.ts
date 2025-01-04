@@ -2,28 +2,36 @@ import { SaveCategorySchema } from '@/app/admin/categories/_lib/categories.schem
 import {
 	countCategories,
 	deleteCategory,
-	getCategoryById,
+	findCategoryByName,
+	findCategoryById,
 	getPaginatedCategories,
 	insertCategory,
 	updateCategory,
+	findCategoriesByName,
 } from '@/data-acces/categories.data-acces';
 import { CustomError } from '@/helpers/custom-error';
 import { formatDate } from '@/lib/format-dates';
 import { CategoryRow } from '@/types/categories';
 import { z } from 'zod';
 
-export const insertCategoryUseCase = (
+export const insertCategoryUseCase = async (
 	category: Omit<z.infer<typeof SaveCategorySchema>, 'id'>
 ) => {
+	const findCategory = await findCategoryByName(category.name);
+
+	if (findCategory) {
+		throw new CustomError('Category already exists');
+	}
+
 	return insertCategory({
 		name: category.name,
 	});
 };
 
-export const getCategoryByIdUseCase = async (
+export const findCategoryByIdUseCase = async (
 	id: string
 ): Promise<CategoryRow> => {
-	const category = await getCategoryById(id);
+	const category = await findCategoryById(id);
 
 	if (!category) {
 		throw new CustomError('Category not found');
@@ -41,10 +49,10 @@ export const updateCategoryUseCase = async (
 	id: string,
 	data: z.infer<typeof SaveCategorySchema>
 ) => {
-	const category = await getCategoryById(id);
+	const category = await findCategoryByName(data.name);
 
-	if (!category) {
-		throw new CustomError('Category not found');
+	if (category && category.id !== id) {
+		throw new CustomError('Category already exists');
 	}
 
 	await updateCategory(id, {
@@ -76,11 +84,20 @@ export const getPaginatedCategoriesUseCase = async (
 };
 
 export const deleteCategoryUseCase = async (id: string) => {
-	const category = await getCategoryById(id);
+	const category = await findCategoryById(id);
 
 	if (!category) {
 		throw new CustomError('Category not found');
 	}
 
 	await deleteCategory(id);
+};
+
+export const findCategoriesByNameUseCase = async (name: string) => {
+	const categories = await findCategoriesByName(name);
+
+	return categories.map((category) => ({
+		label: category.name,
+		value: category.id,
+	}));
 };

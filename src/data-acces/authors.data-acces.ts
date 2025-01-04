@@ -12,7 +12,7 @@ export const insertAuthor = async (
 	return result?.[0].id;
 };
 
-export const getAuthorById = async (
+export const findAuthorById = async (
 	id: string,
 	tx: Transaction | typeof db = db
 ): Promise<SelectAuthor | null> => {
@@ -40,7 +40,15 @@ export const updateAuthor = async (
 	author: Partial<NewAuthor>,
 	tx: Transaction | typeof db = db
 ): Promise<void> => {
-	await tx.update(authors).set(author).where(eq(authors.id, id));
+	const response = await tx
+		.update(authors)
+		.set(author)
+		.where(eq(authors.id, id))
+		.returning({ id: authors.id });
+
+	if (!response.length) {
+		throw new Error('Author not found');
+	}
 };
 
 export const deleteAuthor = async (
@@ -68,7 +76,7 @@ export const countAuthors = async (
 	return result[0].count;
 };
 
-export const getAuthorsByName = async (
+export const findAuthorsByName = async (
 	search: string,
 	tx: Transaction | typeof db = db
 ): Promise<SelectAuthor[]> => {
@@ -79,4 +87,14 @@ export const getAuthorsByName = async (
 	return tx.query.authors.findMany({
 		where: ilike(sql`lower(${authors.name})`, `%${search}%`.toLowerCase()),
 	});
+};
+
+export const findAuthorByName = async (
+	name: string,
+	tx: Transaction | typeof db = db
+): Promise<SelectAuthor | null> => {
+	const result = await tx.query.authors.findFirst({
+		where: ilike(sql`lower(${authors.name})`, name.toLowerCase()),
+	});
+	return result ?? null;
 };

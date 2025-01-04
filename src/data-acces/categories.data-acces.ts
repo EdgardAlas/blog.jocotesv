@@ -9,7 +9,7 @@ export const insertCategory = async (
 	await tx.insert(categories).values(category);
 };
 
-export const getCategoryById = async (
+export const findCategoryById = async (
 	id: string,
 	tx: Transaction | typeof db = db
 ): Promise<NewCategory | null> => {
@@ -41,14 +41,31 @@ export const updateCategory = async (
 	category: Partial<NewCategory>,
 	tx: Transaction | typeof db = db
 ): Promise<void> => {
-	await tx.update(categories).set(category).where(eq(categories.id, id));
+	const update = await tx
+		.update(categories)
+		.set(category)
+		.where(eq(categories.id, id))
+		.returning({ id: categories.id });
+
+	if (!update.length) {
+		throw new Error('Category not found');
+	}
 };
 
 export const deleteCategory = async (
 	id: string,
 	tx: Transaction | typeof db = db
 ): Promise<void> => {
-	await tx.delete(categories).where(eq(categories.id, id));
+	const response = await tx
+		.delete(categories)
+		.where(eq(categories.id, id))
+		.returning({
+			id: categories.id,
+		});
+
+	if (!response.length) {
+		throw new Error('Category not found');
+	}
 };
 
 export const countCategories = async (
@@ -69,7 +86,7 @@ export const countCategories = async (
 	return result[0].count;
 };
 
-export const getCategoriesByName = async (
+export const findCategoriesByName = async (
 	search: string,
 	tx: Transaction | typeof db = db
 ): Promise<SelectCategory[]> => {
@@ -83,4 +100,15 @@ export const getCategoriesByName = async (
 			`%${search}%`.toLocaleLowerCase()
 		),
 	});
+};
+
+export const findCategoryByName = async (
+	search: string,
+	tx: Transaction | typeof db = db
+): Promise<SelectCategory | null> => {
+	const result = await tx.query.categories.findFirst({
+		where: ilike(sql`lower(categories.name)`, search.toLocaleLowerCase()),
+	});
+
+	return result ?? null;
 };

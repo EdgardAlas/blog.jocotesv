@@ -3,21 +3,23 @@
 import {
 	GetAuthorByIdSchema,
 	SaveAuthorSchema,
+	SearchAuthorsByNameSchema,
 } from '@/app/admin/authors/_lib/authors.schema';
+import { findAuthorsByName } from '@/data-acces/authors.data-acces';
 import { authActionClient } from '@/lib/safe-action';
 import {
 	deleteAuthorUseCase,
-	getAuthorByIdUseCase,
+	findAuthorByIdUseCase,
 	insertAuthorUseCase,
+	updateAuthorUseCase,
 } from '@/use-cases/authors.use-case';
-import { updateCategoryUseCase } from '@/use-cases/categories.use-case';
 import { revalidatePath } from 'next/cache';
 
 export const saveAuthorAction = authActionClient
 	.schema(SaveAuthorSchema)
 	.action(async ({ parsedInput }) => {
 		if (parsedInput.id) {
-			await updateCategoryUseCase(parsedInput.id, parsedInput);
+			await updateAuthorUseCase(parsedInput.id, parsedInput);
 		} else {
 			await insertAuthorUseCase(parsedInput);
 		}
@@ -28,13 +30,20 @@ export const saveAuthorAction = authActionClient
 export const getAuthorByIdAction = authActionClient
 	.schema(GetAuthorByIdSchema)
 	.action(async ({ parsedInput }) => {
-		const author = await getAuthorByIdUseCase(parsedInput.id);
+		const author = await findAuthorByIdUseCase(parsedInput);
 		return author;
 	});
 
 export const deleteAuthorAction = authActionClient
 	.schema(GetAuthorByIdSchema)
 	.action(async ({ parsedInput }) => {
-		await deleteAuthorUseCase(parsedInput.id);
+		await deleteAuthorUseCase(parsedInput);
 		revalidatePath('/admin/authors');
+	});
+
+export const autoCompleteAuthorsByNameAction = authActionClient
+	.schema(SearchAuthorsByNameSchema)
+	.action(async ({ parsedInput }) => {
+		const authors = await findAuthorsByName(parsedInput);
+		return authors;
 	});

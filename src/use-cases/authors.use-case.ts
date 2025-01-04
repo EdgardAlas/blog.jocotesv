@@ -2,7 +2,8 @@ import { SaveAuthorSchema } from '@/app/admin/authors/_lib/authors.schema';
 import {
 	countAuthors,
 	deleteAuthor,
-	getAuthorById,
+	findAuthorByName,
+	findAuthorById,
 	getPaginatedAuthors,
 	insertAuthor,
 	updateAuthor,
@@ -12,16 +13,24 @@ import { formatDate } from '@/lib/format-dates';
 import { AuthorsRow } from '@/types/authors';
 import { z } from 'zod';
 
-export const insertAuthorUseCase = (
+export const insertAuthorUseCase = async (
 	author: Omit<z.infer<typeof SaveAuthorSchema>, 'id'>
 ) => {
+	const findAuthor = await findAuthorByName(author.name);
+
+	if (findAuthor) {
+		throw new CustomError('Author already exists');
+	}
+
 	return insertAuthor({
 		name: author.name,
 	});
 };
 
-export const getAuthorByIdUseCase = async (id: string): Promise<AuthorsRow> => {
-	const author = await getAuthorById(id);
+export const findAuthorByIdUseCase = async (
+	id: string
+): Promise<AuthorsRow> => {
+	const author = await findAuthorById(id);
 
 	if (!author) {
 		throw new CustomError('Author not found');
@@ -40,10 +49,10 @@ export const updateAuthorUseCase = async (
 	id: string,
 	data: z.infer<typeof SaveAuthorSchema>
 ) => {
-	const author = await getAuthorById(id);
+	const author = await findAuthorByName(data.name);
 
-	if (!author) {
-		throw new CustomError('Author not found');
+	if (author && author.id !== id) {
+		throw new CustomError('Author already exists');
 	}
 
 	await updateAuthor(id, {
@@ -76,7 +85,7 @@ export const getPaginatedAuthorsUseCase = async (
 };
 
 export const deleteAuthorUseCase = async (id: string) => {
-	const author = await getAuthorById(id);
+	const author = await findAuthorById(id);
 
 	if (!author) {
 		throw new CustomError('Author not found');

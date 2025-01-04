@@ -3,11 +3,13 @@
 import {
 	GetCategoryByIdSchema,
 	SaveCategorySchema,
+	SearchCategoriesByNameSchema,
 } from '@/app/admin/categories/_lib/categories.schema';
 import { authActionClient } from '@/lib/safe-action';
 import {
 	deleteCategoryUseCase,
-	getCategoryByIdUseCase,
+	findCategoriesByNameUseCase,
+	findCategoryByIdUseCase,
 	insertCategoryUseCase,
 	updateCategoryUseCase,
 } from '@/use-cases/categories.use-case';
@@ -28,13 +30,20 @@ export const saveCategoryAction = authActionClient
 export const getCategoryByIdAction = authActionClient
 	.schema(GetCategoryByIdSchema)
 	.action(async ({ parsedInput }) => {
-		const category = await getCategoryByIdUseCase(parsedInput.id);
+		const category = await findCategoryByIdUseCase(parsedInput);
 		return category;
 	});
 
 export const deleteCategoryAction = authActionClient
 	.schema(GetCategoryByIdSchema)
 	.action(async ({ parsedInput }) => {
-		await deleteCategoryUseCase(parsedInput.id);
+		await deleteCategoryUseCase(parsedInput);
 		revalidatePath('/admin/categories');
+	});
+
+export const autoCompleteCategoriesByNameAction = authActionClient
+	.schema(SearchCategoriesByNameSchema)
+	.action(async ({ parsedInput }) => {
+		const categories = await findCategoriesByNameUseCase(parsedInput);
+		return categories;
 	});

@@ -78,8 +78,8 @@ export function LinkToolbar() {
 					return true;
 				})
 				.run();
+			// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		} catch (error) {
-			console.error(error);
 		} finally {
 			setOpen(false);
 		}

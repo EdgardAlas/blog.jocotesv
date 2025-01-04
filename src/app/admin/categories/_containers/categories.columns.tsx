@@ -27,12 +27,8 @@ export const categoriesColumns: ColumnDef<CategoryRow>[] = [
 		cell({ row: { original } }) {
 			return (
 				<CrudTableOptions
-					getEditData={() =>
-						getCategoryByIdAction({
-							id: original.id,
-						})
-					}
-					deleteData={() => deleteCategoryAction({ id: original.id })}
+					getEditData={() => getCategoryByIdAction(original.id)}
+					deleteData={() => deleteCategoryAction(original.id)}
 				/>
 			);
 		},

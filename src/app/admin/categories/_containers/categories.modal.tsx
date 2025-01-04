@@ -40,6 +40,7 @@ export const CategoryModal = () => {
 		<CrudModal
 			title='Category'
 			form={form}
+			resetValues={RESET_VALUES}
 			onSubmit={async (values) => {
 				if (loading) return;
 

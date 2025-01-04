@@ -8,7 +8,6 @@ export const SaveAuthorSchema = z
 	})
 	.refine(
 		(data) => {
-			// if id is empty the id is not required
 			if (!data.id) {
 				return true;
 			}
@@ -21,8 +20,9 @@ export const SaveAuthorSchema = z
 		}
 	);
 
-export const GetAuthorByIdSchema = z.object({
-	id: z.string().nonempty('Id is required'),
-});
+export const GetAuthorByIdSchema = z.string().nonempty('Id is required');
+export const SearchAuthorsByNameSchema = z
+	.string()
+	.nonempty('Name is required');
 
 export const SaveAuthorResolver = zodResolver(SaveAuthorSchema);

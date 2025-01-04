@@ -31,6 +31,8 @@ export const CrudModal = <T extends FieldValues>({
 }: CrudModalProps<T>) => {
 	const { open, data, setOpen, setData } = useCrudModalStore();
 
+	// TODO: improve this code to avoid using useEffect to reset the form values
+
 	useEffect(() => {
 		if (data) {
 			form.reset(data);
@@ -38,21 +40,19 @@ export const CrudModal = <T extends FieldValues>({
 			form.reset(resetValues);
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [data]);
+	}, [data, open]);
+
+	useEffect(() => {
+		if (!open) {
+			setTimeout(() => {
+				setData(null);
+			}, RESET_TIMEOUT);
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [open]);
 
 	return (
-		<Dialog
-			modal
-			defaultOpen={open}
-			open={open}
-			onOpenChange={(open) => {
-				setTimeout(() => {
-					setData(null);
-				}, RESET_TIMEOUT);
-
-				setOpen(open);
-			}}
-		>
+		<Dialog modal defaultOpen={open} open={open} onOpenChange={setOpen}>
 			<DialogContent>
 				<DialogDescription />
 				<DialogHeader>
