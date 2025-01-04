@@ -18,6 +18,7 @@ import { Fragment, useEffect, useState } from 'react';
 export const AdminHeader = () => {
 	const segments = useSelectedLayoutSegments();
 	const breadcrumbs = getBreadcrumbs(segments);
+	console.log(segments);
 	const hasShadow = useHeaderShadow();
 
 	return (

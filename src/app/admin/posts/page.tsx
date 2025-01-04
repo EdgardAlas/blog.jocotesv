@@ -1,7 +1,7 @@
 import {
-	DataTablePagination,
-	DataTablePaginationSkeleton,
-} from '@/components/data-table/data-table-pagination';
+	Pagination,
+	PaginationSkeleton,
+} from '@/components/pagination/pagination';
 import { SearchInputSuspense } from '@/components/search-input/search-input-suspense';
 import { AddItemCrudButton } from '@/components/ui/add-item-crud-button';
 import { AdminTitle } from '@/components/ui/admin-title';
@@ -85,12 +85,8 @@ const PostsPage = () => {
 						))}
 					</div>
 
-					<Suspense fallback={<DataTablePaginationSkeleton />}>
-						<DataTablePagination
-							totalPages={1}
-							pageSizeOptions={[8, 16, 32, 64]}
-							defaultPageSize={8}
-						/>
+					<Suspense fallback={<PaginationSkeleton />}>
+						<Pagination pageSizeOptions={[8, 16, 32, 64]} defaultPageSize={8} />
 					</Suspense>
 				</CardContent>
 			</Card>

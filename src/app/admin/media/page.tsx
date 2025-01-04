@@ -1,7 +1,7 @@
 import {
-	DataTablePagination,
-	DataTablePaginationSkeleton,
-} from '@/components/data-table/data-table-pagination';
+	Pagination,
+	PaginationSkeleton,
+} from '@/components/pagination/pagination';
 import { AdminTitle } from '@/components/ui/admin-title';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
@@ -46,8 +46,8 @@ const MediaPage = async () => {
 						))}
 					</div>
 
-					<Suspense fallback={<DataTablePaginationSkeleton />}>
-						<DataTablePagination
+					<Suspense fallback={<PaginationSkeleton />}>
+						<Pagination
 							totalPages={1}
 							pageSizeOptions={[8, 16, 32, 64]}
 							defaultPageSize={8}

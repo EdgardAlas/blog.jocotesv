@@ -1,11 +1,14 @@
 import { authorsColumns } from '@/app/admin/authors/_containers/authors.columns';
 import { AuthorsModal } from '@/app/admin/authors/_containers/authors.modal';
-import { DataTableLoader } from '@/components/data-table/data-table-loader';
+import { TableLoader } from '@/components/data-table/data-table-loader';
+import { TableSekeleton } from '@/components/data-table/data-table-skeleton';
+import { PaginationSuspense } from '@/components/pagination/pagination-suspense';
 import { SearchInputSuspense } from '@/components/search-input/search-input-suspense';
 import { AddItemCrudButton } from '@/components/ui/add-item-crud-button';
 import { AdminTitle } from '@/components/ui/admin-title';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { getPaginatedAuthorsUseCase } from '@/use-cases/authors.use-case';
+import { Suspense } from 'react';
 
 type AuthorsPageProps = NextPageWithPagination;
 
@@ -22,20 +25,27 @@ const AuthorsPage = async ({ searchParams }: AuthorsPageProps) => {
 			</AdminTitle>
 
 			<Card>
-				<CardHeader className='pb-0' />
+				<CardHeader />
 				<CardContent>
 					<SearchInputSuspense />
-					<DataTableLoader
+
+					<Suspense
 						key={`${page}-${size}-${search}`}
-						columns={authorsColumns}
-						promise={() =>
-							getPaginatedAuthorsUseCase(
-								Number(page) || 1,
-								Number(size) || 10,
-								search
-							)
-						}
-					/>
+						fallback={<TableSekeleton />}
+					>
+						<TableLoader
+							columns={authorsColumns}
+							asyncData={() =>
+								getPaginatedAuthorsUseCase(
+									Number(page) || 1,
+									Number(size) || 10,
+									search
+								)
+							}
+						/>
+					</Suspense>
+
+					<PaginationSuspense />
 				</CardContent>
 			</Card>
 

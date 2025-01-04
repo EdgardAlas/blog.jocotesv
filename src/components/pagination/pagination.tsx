@@ -1,11 +1,6 @@
 'use client';
 
-import {
-	ChevronLeft,
-	ChevronRight,
-	ChevronsLeft,
-	ChevronsRight,
-} from 'lucide-react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -15,18 +10,16 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from '@/components/ui/select';
+import { Skeleton } from '@/components/ui/skeleton';
 import { parseAsInteger, useQueryState } from 'nuqs';
 import { useTransition } from 'react';
-import { Skeleton } from '@/components/ui/skeleton';
 
 export interface DataTablePaginationProps {
-	totalPages: number;
 	pageSizeOptions?: number[];
 	defaultPageSize?: number;
 }
 
-export function DataTablePagination({
-	totalPages = 0,
+export function Pagination({
 	pageSizeOptions = [10, 20, 50, 100],
 	defaultPageSize = 10,
 }: DataTablePaginationProps) {
@@ -48,10 +41,7 @@ export function DataTablePagination({
 	);
 
 	return (
-		<div className='mt-3 flex w-full flex-col-reverse items-center justify-between gap-4 overflow-auto p-1 sm:flex-row sm:gap-8 md:min-h-10'>
-			<div className='flex-1 whitespace-nowrap text-sm text-muted-foreground'>
-				{page} of {totalPages} pages
-			</div>
+		<div className='mt-3 flex w-full flex-col-reverse items-center justify-end gap-4 overflow-auto p-1 sm:flex-row sm:gap-8 md:min-h-10'>
 			<div className='flex flex-col-reverse items-center gap-4 sm:flex-row sm:gap-6 lg:gap-8'>
 				<div className='flex items-center space-x-2'>
 					<p className='whitespace-nowrap text-sm font-medium'>Rows per page</p>
@@ -74,21 +64,8 @@ export function DataTablePagination({
 						</SelectContent>
 					</Select>
 				</div>
-				<div className='flex items-center justify-center text-sm font-medium'>
-					Page {page} of {totalPages}
-				</div>
+
 				<div className='flex items-center space-x-2'>
-					<Button
-						aria-label='Go to first page'
-						variant='outline'
-						className='hidden size-8 p-0 lg:flex'
-						onClick={() => {
-							setPage(1);
-						}}
-						disabled={page === 1 || isLoading}
-					>
-						<ChevronsLeft className='size-4' aria-hidden='true' />
-					</Button>
 					<Button
 						aria-label='Go to previous page'
 						variant='outline'
@@ -109,25 +86,8 @@ export function DataTablePagination({
 						onClick={() => {
 							setPage(page + 1);
 						}}
-						disabled={page === totalPages || isLoading}
 					>
 						<ChevronRight className='size-4' aria-hidden='true' />
-					</Button>
-					<Button
-						aria-label='Go to last page'
-						variant='outline'
-						size='icon'
-						className='hidden size-8 lg:flex'
-						onClick={() => {
-							if (page === totalPages) {
-								return;
-							}
-
-							setPage(totalPages);
-						}}
-						disabled={page === totalPages || isLoading}
-					>
-						<ChevronsRight className='size-4' aria-hidden='true' />
 					</Button>
 				</div>
 			</div>
@@ -135,6 +95,8 @@ export function DataTablePagination({
 	);
 }
 
-export const DataTablePaginationSkeleton = () => (
-	<Skeleton className='mt-3 h-10 w-full' />
+export const PaginationSkeleton = () => (
+	<div className='flex justify-center gap-4 sm:justify-end'>
+		<Skeleton className='mt-3 h-10 w-[280px]' />
+	</div>
 );

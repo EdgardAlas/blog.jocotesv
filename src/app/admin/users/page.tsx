@@ -30,7 +30,7 @@ const UsersPage = async ({ searchParams }: UsersPageProps) => {
 					<DataTableLoader
 						key={`${page}-${size}-${search}`}
 						columns={usersColumns}
-						promise={getUsers}
+						asyncData={getUsers}
 					/>
 				</CardContent>
 			</Card>

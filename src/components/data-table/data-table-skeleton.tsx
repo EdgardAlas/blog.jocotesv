@@ -1,14 +1,13 @@
 'use client';
 
 import { DataTable } from '@/components/data-table/data-table';
-import { DataTablePaginationSkeleton } from '@/components/data-table/data-table-pagination';
 import { Skeleton } from '@/components/ui/skeleton';
 
 interface TableLoadingProps {
 	size?: number;
 }
 
-export const DataTableSkeleton = ({ size }: TableLoadingProps) => {
+export const TableSekeleton = ({ size }: TableLoadingProps) => {
 	return (
 		<>
 			<DataTable
@@ -19,12 +18,11 @@ export const DataTableSkeleton = ({ size }: TableLoadingProps) => {
 						cell: () => <Skeleton className='h-4 w-full' />,
 					},
 				]}
-				data={Array.from({ length: size ?? 5 }).map((_, index) => ({
+				data={Array.from({ length: size ?? 4 }).map((_, index) => ({
 					id: index,
 					loading: '',
 				}))}
 			/>
-			<DataTablePaginationSkeleton />
 		</>
 	);
 };
