@@ -1,15 +1,25 @@
 import { SavePostSchema } from '@/app/admin/post/_lib/post.schema';
+import { JSDOM } from 'jsdom';
+import { nanoid } from 'nanoid';
+
 import {
 	deletePostCategories,
 	insertPostCategories,
 } from '@/data-acces/post-categories.data-access';
 import {
+	deletePostMedia,
+	insertPostMediaArray,
+} from '@/data-acces/post-media.data-acces';
+import {
+	deletePost,
+	existsSlug,
 	findPostBySlug,
 	insertPost,
 	updatePost,
 } from '@/data-acces/posts-data-acces';
 import { CustomError } from '@/helpers/custom-error';
 import { db } from '@/lib/db';
+import slugify from 'slugify';
 import { z } from 'zod';
 
 export const insertPostUseCase = async (
@@ -44,9 +54,10 @@ export const insertPostUseCase = async (
 				tx
 			);
 		}
-	});
 
-	// TODO: extract images from content and save them in the media table
+		const imagesId = extractImagesIdFromContent(post.content);
+		await insertPostMediaArray(imagesId, postId, tx);
+	});
 };
 
 export const updatePostUseCase = async (
@@ -54,7 +65,10 @@ export const updatePostUseCase = async (
 	post: z.infer<typeof SavePostSchema>
 ) => {
 	await db.transaction(async (tx) => {
-		await deletePostCategories(postId, tx);
+		await Promise.all([
+			await deletePostCategories(postId, tx),
+			await deletePostMedia(postId, tx),
+		]);
 
 		const id = await updatePost(
 			postId,
@@ -79,7 +93,46 @@ export const updatePostUseCase = async (
 				tx
 			);
 		}
-	});
 
-	// TODO: extract images from content and save them in the media table
+		const imagesId = extractImagesIdFromContent(post.content);
+		await insertPostMediaArray(imagesId, postId, tx);
+	});
+};
+
+export const extractImagesIdFromContent = (content: string) => {
+	const dom = new JSDOM(content);
+	const images = dom.window.document.querySelectorAll('img');
+
+	return [
+		...new Set(
+			Array.from(images)
+				.map((img) => img.dataset.id ?? '')
+				.filter(Boolean)
+		),
+	];
+};
+
+export const deletePostUseCase = (postId: string) => {
+	return db.transaction(async (tx) => {
+		await Promise.all([
+			await deletePostCategories(postId, tx),
+			await deletePostMedia(postId, tx),
+		]);
+		await deletePost(postId, tx);
+	});
+};
+
+export const isSlugAvailableUseCase = async (slug: string, id: string = '') => {
+	const postFound = await existsSlug(slug);
+
+	if (!postFound) {
+		return true;
+	}
+
+	return postFound.id === id;
+};
+
+export const generateSlugUseCase = async (slug: string) => {
+	const newSlug = `${slug}-${nanoid(4)}`;
+	return slugify(newSlug, { lower: true });
 };

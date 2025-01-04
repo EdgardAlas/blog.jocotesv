@@ -1,6 +1,8 @@
 'use server';
 
 import {
+	GenerateSlugSchema,
+	GetPostByIdSchema,
 	removeFileSchema,
 	SavePostSchema,
 	uploadFileSchema,
@@ -8,12 +10,16 @@ import {
 import { authActionClient } from '@/lib/safe-action';
 import { insertMediaUseCase } from '@/use-cases/media.use-case';
 import {
+	deletePostUseCase,
+	generateSlugUseCase,
 	insertPostUseCase,
+	isSlugAvailableUseCase,
 	updatePostUseCase,
 } from '@/use-cases/post.use-case';
 import { removeFile } from '@/use-cases/remove-file.use-case';
 import { uploadFile } from '@/use-cases/upload-file';
 import { revalidatePath } from 'next/cache';
+import slugify from 'slugify';
 
 const POST_IMAGE_FOLDER = 'post-seo-images';
 const POST_CONTENT_IMAGE_FOLDER = 'post-content-images';
@@ -62,4 +68,26 @@ export const savePostAction = authActionClient
 			await insertPostUseCase(parsedInput);
 		}
 		revalidatePath('/admin/posts');
+	});
+
+export const deletePostAction = authActionClient
+	.schema(GetPostByIdSchema)
+	.action(async ({ parsedInput }) => {
+		await deletePostUseCase(parsedInput);
+		revalidatePath('/admin/posts');
+	});
+
+export const generateSlugAction = authActionClient
+
+	.schema(GenerateSlugSchema)
+	.action(async ({ parsedInput: { title, id } }) => {
+		const slug = slugify(title, { lower: true });
+
+		const isValidSlug = await isSlugAvailableUseCase(slug, id);
+
+		if (isValidSlug) {
+			return slug;
+		}
+
+		return generateSlugUseCase(slug);
 	});

@@ -1,6 +1,6 @@
-/* eslint-disable @next/next/no-img-element */
 'use client';
 
+import { generateSlugAction } from '@/app/admin/post/_lib/post.actions';
 import { Button } from '@/components/ui/button';
 import DatePicker from '@/components/ui/date-picker';
 import {
@@ -21,8 +21,11 @@ import {
 } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
 import { TabsContent } from '@/components/ui/tabs';
+import { handleSafeActionResponse } from '@/lib/handle-safe-action-response';
 import { RefreshCw } from 'lucide-react';
+import { useTransition } from 'react';
 import { useFormContext } from 'react-hook-form';
+import { toast } from 'sonner';
 
 const STATUS = [
 	{ label: 'Draft', value: 'draft' },
@@ -31,6 +34,35 @@ const STATUS = [
 
 export const PostGeneralFields = () => {
 	const form = useFormContext();
+
+	const [generatingSlug, startGeneratingSlug] = useTransition();
+
+	const handleGenerateSlug = async () => {
+		if (generatingSlug) {
+			return;
+		}
+
+		const title = form.getValues('title');
+
+		if (!title) {
+			return toast.error('Please enter a title first.');
+		}
+
+		startGeneratingSlug(async () => {
+			await handleSafeActionResponse({
+				action: generateSlugAction({
+					id: form.getValues('id'),
+					title: title,
+				}),
+				loadingMessage: 'Generating slug...',
+				successMessage: 'Slug generated successfully.',
+				onSuccess: (data) => {
+					form.setValue('slug', data);
+					form.trigger('slug');
+				},
+			});
+		});
+	};
 
 	return (
 		<TabsContent value='general' className='space-y-3'>
@@ -84,10 +116,17 @@ export const PostGeneralFields = () => {
 									type='text'
 									className='w-full flex-1'
 									placeholder='Post Slug'
+									disabled={generatingSlug}
 									{...field}
 								/>
 							</FormControl>
-							<Button type='button' size={'sm'} icon={RefreshCw}>
+							<Button
+								type='button'
+								size={'sm'}
+								icon={RefreshCw}
+								loading={generatingSlug}
+								onClick={handleGenerateSlug}
+							>
 								Generate
 							</Button>
 						</div>

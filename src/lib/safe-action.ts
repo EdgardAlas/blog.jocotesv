@@ -1,14 +1,15 @@
 import { CustomError } from '@/helpers/custom-error';
-import { createSafeActionClient } from 'next-safe-action';
+import {
+	createSafeActionClient,
+	DEFAULT_SERVER_ERROR_MESSAGE,
+} from 'next-safe-action';
 
 const handleServerError = (e: Error) => {
 	if (e instanceof CustomError) {
 		return e.message;
 	}
 
-	console.log(e.message);
-
-	return 'An error occurred. Please try again later.';
+	return DEFAULT_SERVER_ERROR_MESSAGE;
 };
 
 export const actionClient = createSafeActionClient({

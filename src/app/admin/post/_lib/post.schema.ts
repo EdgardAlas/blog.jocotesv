@@ -40,4 +40,11 @@ export const SavePostSchema = z.object({
 	),
 });
 
+export const GenerateSlugSchema = z.object({
+	title: z.string().nonempty("Title can't be empty"),
+	id: z.string(),
+});
+
+export const GetPostByIdSchema = z.string().nonempty('Invalid post id');
+
 export const PostFormSchemaResolver = zodResolver(SavePostSchema);
