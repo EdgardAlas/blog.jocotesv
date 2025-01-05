@@ -35,11 +35,7 @@ const UsersPage = async ({ searchParams }: UsersPageProps) => {
 						key={`${page}-${size}-${search}`}
 						fallback={<TableSekeleton />}
 					>
-						<TableLoader
-							key={`${page}-${size}-${search}`}
-							columns={usersColumns}
-							asyncData={getUsers}
-						/>
+						<TableLoader columns={usersColumns} asyncData={getUsers} />
 					</Suspense>
 
 					<PaginationSuspense />
