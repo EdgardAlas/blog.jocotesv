@@ -13,84 +13,11 @@ import {
 	SidebarMenuItem,
 	useSidebar,
 } from '@/components/ui/sidebar';
+import { navItems } from '@/config/nav-items';
 import { hasPermission, Role } from '@/config/roles';
-import {
-	BarChart,
-	BookOpen,
-	FileText,
-	Image,
-	LogOut,
-	Settings,
-	Tag,
-	User,
-	Users,
-} from 'lucide-react';
+import { LogOut } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import React from 'react';
-
-type NavItem = {
-	icon: React.ElementType;
-	label: string;
-	href: string;
-	requiredRoles: Role[];
-	subItems?: Omit<NavItem, 'subItems'>[];
-};
-
-const navItems: NavItem[] = [
-	{
-		icon: BarChart,
-		label: 'Dashboard',
-		href: '/admin',
-		requiredRoles: ['editor', 'admin', 'superadmin'],
-	},
-	{
-		icon: FileText,
-		label: 'Posts',
-		href: '/admin/posts',
-		requiredRoles: ['editor', 'admin'],
-		subItems: [
-			{
-				icon: BookOpen,
-				label: 'Posts',
-				href: '/admin/posts',
-				requiredRoles: ['editor', 'admin'],
-			},
-			{
-				icon: User,
-				label: 'Authors',
-				href: '/admin/authors',
-				requiredRoles: ['admin'],
-			},
-			{
-				icon: Tag,
-				label: 'Categories',
-				href: '/admin/categories',
-				requiredRoles: ['admin'],
-			},
-			{
-				icon: Image,
-				label: 'Media',
-				href: '/admin/media',
-				requiredRoles: ['editor', 'admin'],
-			},
-		],
-	},
-	{
-		icon: Settings,
-		label: 'Settings',
-		href: '/admin/settings',
-		requiredRoles: ['admin'],
-		subItems: [
-			{
-				icon: Users,
-				label: 'Users',
-				href: '/admin/users',
-				requiredRoles: [],
-			},
-		],
-	},
-];
 
 type AdminSidebarProps = {
 	userRole: Role;

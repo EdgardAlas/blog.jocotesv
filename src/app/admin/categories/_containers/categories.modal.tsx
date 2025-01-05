@@ -1,10 +1,6 @@
 'use client';
 
-import { saveCategoryAction } from '@/app/admin/categories/_lib/categories.actions';
-import {
-	SaveCategoryResolver,
-	SaveCategorySchema,
-} from '@/app/admin/categories/_lib/categories.schema';
+import { useCategoriesModal } from '@/app/admin/categories/_hooks/use-categories-moda';
 import { Button } from '@/components/ui/button';
 import { CrudModal } from '@/components/ui/crud-modal';
 import {
@@ -15,46 +11,17 @@ import {
 	FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { useCrudModalStore } from '@/context/crud-modal.context';
-import { handleSafeActionResponse } from '@/lib/handle-safe-action-response';
 import { Save } from 'lucide-react';
-import { useTransition } from 'react';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
-
-const RESET_VALUES: z.infer<typeof SaveCategorySchema> = {
-	name: '',
-	id: '',
-};
 
 export const CategoryModal = () => {
-	const { setOpen } = useCrudModalStore();
-	const [loading, startTransition] = useTransition();
-
-	const form = useForm<z.infer<typeof SaveCategorySchema>>({
-		defaultValues: RESET_VALUES,
-		resolver: SaveCategoryResolver,
-	});
+	const { form, loading, onSubmit, RESET_VALUES } = useCategoriesModal();
 
 	return (
 		<CrudModal
 			title='Category'
 			form={form}
 			resetValues={RESET_VALUES}
-			onSubmit={async (values) => {
-				if (loading) return;
-
-				startTransition(async () => {
-					await handleSafeActionResponse({
-						action: saveCategoryAction(values),
-						loadingMessage: 'Saving category...',
-						successMessage: 'Category saved',
-						onSuccess() {
-							setOpen(false);
-						},
-					});
-				});
-			}}
+			onSubmit={onSubmit}
 		>
 			<FormField
 				name='name'

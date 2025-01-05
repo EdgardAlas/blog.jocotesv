@@ -1,6 +1,7 @@
 'use client';
 
 import { UserDropdown } from '@/app/admin/_containers/admin-user-dropdown';
+import { useHeaderShadow } from '@/app/admin/_hooks/use-header-shadow';
 import {
 	Breadcrumb,
 	BreadcrumbItem,
@@ -9,17 +10,15 @@ import {
 	BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
 import { SidebarTrigger } from '@/components/ui/sidebar';
-import { getBreadcrumbs } from '@/config/breadcrumbs';
-import { useScrollY } from '@/hooks/use-scroll-y';
+import { capitalize } from '@/helpers/capitalize';
 import { cn } from '@/lib/utils';
-import { useSelectedLayoutSegments } from 'next/navigation';
-import { Fragment, useEffect, useState } from 'react';
+import { usePathname } from 'next/navigation';
+import { Fragment } from 'react';
 
 export const AdminHeader = () => {
-	const segments = useSelectedLayoutSegments();
-	const breadcrumbs = getBreadcrumbs(segments);
-	console.log(segments);
 	const hasShadow = useHeaderShadow();
+	const paths = usePathname();
+	const pathNames = paths.split('/').filter(Boolean);
 
 	return (
 		<header
@@ -32,36 +31,23 @@ export const AdminHeader = () => {
 				<SidebarTrigger />
 				<Breadcrumb>
 					<BreadcrumbList>
-						{breadcrumbs.map((breadcrumb, index) => (
-							<Fragment key={index}>
-								<BreadcrumbItem>
-									<BreadcrumbLink href={breadcrumb.link}>
-										{breadcrumb.name}
-									</BreadcrumbLink>
-								</BreadcrumbItem>
-								{index < breadcrumbs.length - 1 && <BreadcrumbSeparator />}
-							</Fragment>
-						))}
+						{pathNames.map((path, index) => {
+							const route = `/${pathNames.slice(0, index + 1).join('/')}`;
+							return (
+								<Fragment key={index}>
+									<BreadcrumbItem>
+										<BreadcrumbLink href={route}>
+											{capitalize(path)}
+										</BreadcrumbLink>
+									</BreadcrumbItem>
+									{index < pathNames.length - 1 && <BreadcrumbSeparator />}
+								</Fragment>
+							);
+						})}
 					</BreadcrumbList>
 				</Breadcrumb>
 			</div>
 			<UserDropdown />
 		</header>
 	);
-};
-
-const useHeaderShadow = () => {
-	const [hasShadow, setHasShadow] = useState(false);
-
-	const scrollY = useScrollY();
-
-	useEffect(() => {
-		const newHasShadow = scrollY > 0;
-
-		if (hasShadow !== newHasShadow) {
-			setHasShadow(newHasShadow);
-		}
-	}, [scrollY, hasShadow]);
-
-	return hasShadow;
 };

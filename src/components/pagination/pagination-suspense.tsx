@@ -1,13 +1,14 @@
 import {
 	Pagination,
+	PaginationProps,
 	PaginationSkeleton,
 } from '@/components/pagination/pagination';
 import React, { Suspense } from 'react';
 
-export const PaginationSuspense = () => {
+export const PaginationSuspense = (props: PaginationProps) => {
 	return (
 		<Suspense fallback={<PaginationSkeleton />}>
-			<Pagination />
+			<Pagination {...props} />
 		</Suspense>
 	);
 };

@@ -1,12 +1,8 @@
-import {
-	Pagination,
-	PaginationSkeleton,
-} from '@/components/pagination/pagination';
+import { PaginationSuspense } from '@/components/pagination/pagination-suspense';
 import { AdminTitle } from '@/components/ui/admin-title';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Eye, Trash, Upload } from 'lucide-react';
-import { Suspense } from 'react';
 
 const MediaPage = async () => {
 	return (
@@ -46,13 +42,10 @@ const MediaPage = async () => {
 						))}
 					</div>
 
-					<Suspense fallback={<PaginationSkeleton />}>
-						<Pagination
-							totalPages={1}
-							pageSizeOptions={[8, 16, 32, 64]}
-							defaultPageSize={8}
-						/>
-					</Suspense>
+					<PaginationSuspense
+						pageSizeOptions={[8, 16, 32, 64]}
+						defaultPageSize={8}
+					/>
 				</CardContent>
 			</Card>
 		</>

@@ -1,10 +1,13 @@
 import { usersColumns } from '@/app/admin/users/_containers/users.columns';
 import { UserModal } from '@/app/admin/users/_containers/users.modal';
-import { DataTableLoader } from '@/components/data-table/data-table-loader';
+import { TableLoader } from '@/components/data-table/data-table-loader';
+import { TableSekeleton } from '@/components/data-table/data-table-skeleton';
+import { PaginationSuspense } from '@/components/pagination/pagination-suspense';
 import { SearchInputSuspense } from '@/components/search-input/search-input-suspense';
 import { AdminTitle } from '@/components/ui/admin-title';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { UserRow } from '@/types/users';
+import { Suspense } from 'react';
 
 const getUsers = async (): Promise<WithPagination<UserRow>> => {
 	await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -27,11 +30,19 @@ const UsersPage = async ({ searchParams }: UsersPageProps) => {
 				<CardHeader className='pb-0' />
 				<CardContent>
 					<SearchInputSuspense />
-					<DataTableLoader
+
+					<Suspense
 						key={`${page}-${size}-${search}`}
-						columns={usersColumns}
-						asyncData={getUsers}
-					/>
+						fallback={<TableSekeleton />}
+					>
+						<TableLoader
+							key={`${page}-${size}-${search}`}
+							columns={usersColumns}
+							asyncData={getUsers}
+						/>
+					</Suspense>
+
+					<PaginationSuspense />
 				</CardContent>
 			</Card>
 

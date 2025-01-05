@@ -14,7 +14,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { parseAsInteger, useQueryState } from 'nuqs';
 import { useTransition } from 'react';
 
-export interface DataTablePaginationProps {
+export interface PaginationProps {
 	pageSizeOptions?: number[];
 	defaultPageSize?: number;
 }
@@ -22,7 +22,7 @@ export interface DataTablePaginationProps {
 export function Pagination({
 	pageSizeOptions = [10, 20, 50, 100],
 	defaultPageSize = 10,
-}: DataTablePaginationProps) {
+}: PaginationProps) {
 	const [isLoading, startTransition] = useTransition();
 
 	const [page, setPage] = useQueryState(
