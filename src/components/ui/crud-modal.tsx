@@ -53,20 +53,20 @@ export const CrudModal = <T extends FieldValues>({
 
 	return (
 		<Dialog modal defaultOpen={open} open={open} onOpenChange={setOpen}>
-			<DialogContent>
+			<DialogContent className='text-left'>
 				<DialogDescription />
 				<DialogHeader>
 					<DialogTitle className='text-left'>
 						{data ? 'Edit' : 'Add'} {title}
 					</DialogTitle>
-					<FormProvider
-						form={form}
-						className={cn('space-y-4', className)}
-						{...props}
-					>
-						{children}
-					</FormProvider>
 				</DialogHeader>
+				<FormProvider
+					form={form}
+					className={cn('space-y-4', className)}
+					{...props}
+				>
+					{children}
+				</FormProvider>
 			</DialogContent>
 		</Dialog>
 	);

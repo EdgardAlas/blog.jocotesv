@@ -1,7 +1,11 @@
 import cloudinary from '@/lib/cloudinary';
+import {
+	extractPublicIdFromUrl,
+	extractPublicIdFromUrlWithNoFolder,
+} from '@/use-cases/extract-public-id.use-case';
 import { v4 } from 'uuid';
 
-export const uploadFile = async (
+export const uploadToCloudinaryUseCase = async (
 	file: File,
 	folder: string
 ): Promise<string | undefined> => {
@@ -31,4 +35,14 @@ export const uploadFile = async (
 	} catch (error) {
 		return Promise.reject(error);
 	}
+};
+
+export const deleteFromCloudinaryUseCase = async (url: string) => {
+	const publicId = extractPublicIdFromUrlWithNoFolder(url);
+
+	if (!publicId) {
+		return;
+	}
+
+	return cloudinary.uploader.destroy(publicId);
 };

@@ -1,17 +1,27 @@
+import { ImageCard } from '@/app/admin/media/_containers/image-card';
+import { UploadImageForm } from '@/app/admin/media/_containers/upload-image-form';
+import { UploadMediaButton } from '@/app/admin/media/_containers/upload-media-button';
 import { PaginationSuspense } from '@/components/pagination/pagination-suspense';
 import { AdminTitle } from '@/components/ui/admin-title';
-import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { Eye, Trash, Upload } from 'lucide-react';
+import { findPaginatedMediaUseCase } from '@/use-cases/media.use-case';
 
-const MediaPage = async () => {
+type MediaPageProps = NextPageWithPagination;
+
+const MediaPage = async ({ searchParams }: MediaPageProps) => {
+	const { page, size } = await searchParams;
+	const data = await findPaginatedMediaUseCase(
+		Number(size) || 8,
+		Number(page) || 1
+	);
+
 	return (
 		<>
 			<AdminTitle
 				title='Media'
 				description='Here you can manage all the media files that you have uploaded to every post.'
 			>
-				<Button icon={Upload}>Upload</Button>
+				<UploadMediaButton />
 			</AdminTitle>
 
 			<Card>
@@ -19,26 +29,13 @@ const MediaPage = async () => {
 
 				<CardContent>
 					<div className='grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
-						{Array.from({ length: 8 }).map((_, index) => (
-							<div key={index} className='grid gap-2 rounded border shadow-sm'>
-								<div
-									className='w-fullb flex h-60 items-center space-x-4 bg-cover bg-center bg-no-repeat'
-									style={{
-										backgroundImage: 'url(/placeholder.webp)',
-									}}
-								/>
-								<div className='flex items-center justify-between gap-2 p-4'>
-									<p className='text-sm font-semibold'>Posts: 0</p>
-									<div className='flex gap-2'>
-										<Button variant='destructive' size='sm'>
-											<Trash size={16} />
-										</Button>
-										<Button size='sm'>
-											<Eye size={16} />
-										</Button>
-									</div>
-								</div>
-							</div>
+						{data.data.map((image, index) => (
+							<ImageCard
+								id={image.id}
+								url={image.url}
+								postCount={image.postCount}
+								key={index}
+							/>
 						))}
 					</div>
 
@@ -48,6 +45,8 @@ const MediaPage = async () => {
 					/>
 				</CardContent>
 			</Card>
+
+			<UploadImageForm />
 		</>
 	);
 };

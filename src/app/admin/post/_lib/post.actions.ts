@@ -17,7 +17,7 @@ import {
 	updatePostUseCase,
 } from '@/use-cases/post.use-case';
 import { removeFile } from '@/use-cases/remove-file.use-case';
-import { uploadFile } from '@/use-cases/upload-file';
+import { uploadToCloudinaryUseCase } from '@/use-cases/cloudinary.use-case';
 import { revalidatePath } from 'next/cache';
 import slugify from 'slugify';
 
@@ -27,7 +27,7 @@ const POST_CONTENT_IMAGE_FOLDER = 'post-content-images';
 export const uploadPostSeoImageAction = authActionClient
 	.schema(uploadFileSchema)
 	.action(async ({ parsedInput: { file } }) => {
-		const url = await uploadFile(file, POST_IMAGE_FOLDER);
+		const url = await uploadToCloudinaryUseCase(file, POST_IMAGE_FOLDER);
 		return url;
 	});
 
@@ -40,7 +40,10 @@ export const removePostSeoImageAction = authActionClient
 export const uploadPostContentImageAction = authActionClient
 	.schema(uploadFileSchema)
 	.action(async ({ parsedInput: { file } }) => {
-		const url = await uploadFile(file, POST_CONTENT_IMAGE_FOLDER);
+		const url = await uploadToCloudinaryUseCase(
+			file,
+			POST_CONTENT_IMAGE_FOLDER
+		);
 		let id = '';
 
 		if (url) {
