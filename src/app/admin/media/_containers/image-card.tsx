@@ -76,3 +76,32 @@ export const ImageCard = ({ url, postCount, id }: ImageCardProps) => {
 		</div>
 	);
 };
+
+export const ImageCardSkeleton = () => {
+	return (
+		<div className='grid gap-2 rounded border shadow-sm'>
+			<div className='w-fullb flex h-60 animate-pulse items-center space-x-4 bg-gray-200' />
+			<div className='flex items-center justify-between gap-2 p-4'>
+				<p className='animate-pulse text-sm font-semibold'>Posts: 0</p>
+				<div className='flex gap-2'>
+					<Button variant='destructive' size='sm' disabled>
+						<Trash size={16} />
+					</Button>
+					<Button size='sm' disabled>
+						<Eye size={16} />
+					</Button>
+				</div>
+			</div>
+		</div>
+	);
+};
+
+export const ImageCardSkeletonList = () => {
+	return (
+		<div className='grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
+			{Array.from({ length: 4 }).map((_, index) => (
+				<ImageCardSkeleton key={index} />
+			))}
+		</div>
+	);
+};

@@ -1,19 +1,16 @@
-import { ImageCard } from '@/app/admin/media/_containers/image-card';
+import { ImageCardSkeletonList } from '@/app/admin/media/_containers/image-card';
+import { ImageCardList } from '@/app/admin/media/_containers/image-card-list';
 import { UploadImageForm } from '@/app/admin/media/_containers/upload-image-form';
 import { UploadMediaButton } from '@/app/admin/media/_containers/upload-media-button';
 import { PaginationSuspense } from '@/components/pagination/pagination-suspense';
 import { AdminTitle } from '@/components/ui/admin-title';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { findPaginatedMediaUseCase } from '@/use-cases/media.use-case';
+import { Suspense } from 'react';
 
 type MediaPageProps = NextPageWithPagination;
 
 const MediaPage = async ({ searchParams }: MediaPageProps) => {
 	const { page, size } = await searchParams;
-	const data = await findPaginatedMediaUseCase(
-		Number(size) || 8,
-		Number(page) || 1
-	);
 
 	return (
 		<>
@@ -27,18 +24,11 @@ const MediaPage = async ({ searchParams }: MediaPageProps) => {
 			<Card>
 				<CardHeader />
 
-				<CardContent>
-					<div className='grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
-						{data.data.map((image, index) => (
-							<ImageCard
-								id={image.id}
-								url={image.url}
-								postCount={image.postCount}
-								key={index}
-							/>
-						))}
-					</div>
+				<Suspense fallback={<ImageCardSkeletonList />}>
+					<ImageCardList size={Number(size) || 8} page={Number(page) || 1} />
+				</Suspense>
 
+				<CardContent>
 					<PaginationSuspense
 						pageSizeOptions={[8, 16, 32, 64]}
 						defaultPageSize={8}
