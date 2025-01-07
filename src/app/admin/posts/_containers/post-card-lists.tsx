@@ -24,6 +24,12 @@ export const PostCardLists = async ({ searchParams }: PostCardListsProps) => {
 		}
 	);
 
+	if (posts.data.length === 0) {
+		return (
+			<p className='mt-8 text-center text-lg text-gray-500'>No posts found</p>
+		);
+	}
+
 	return (
 		<div className='grid gap-4 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4'>
 			{posts.data.map((post) => (
