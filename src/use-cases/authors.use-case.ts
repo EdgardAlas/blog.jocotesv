@@ -1,17 +1,18 @@
 import { SaveAuthorSchema } from '@/app/admin/authors/_lib/authors.schema';
+import { AuthorsRow } from '@/app/admin/authors/_types/authors';
 import {
 	countAuthors,
 	deleteAuthor,
-	findAuthorByName,
 	findAuthorById,
+	findAuthorByName,
+	findAuthorsByName,
 	getPaginatedAuthors,
 	insertAuthor,
 	updateAuthor,
-	findAuthorsByName,
 } from '@/data-acces/authors.data-acces';
+import { calculateTotalPages } from '@/helpers/calculate-total-pages';
 import { CustomError } from '@/helpers/custom-error';
 import { formatDate } from '@/lib/format-dates';
-import { AuthorsRow } from '@/app/admin/authors/_types/authors';
 import { z } from 'zod';
 
 export const insertAuthorUseCase = async (
@@ -81,7 +82,7 @@ export const getPaginatedAuthorsUseCase = async (
 
 	return {
 		data: mappedAuthors,
-		totalPages: Math.ceil(count / pageSize),
+		totalPages: calculateTotalPages(count, pageSize),
 	};
 };
 

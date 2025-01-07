@@ -13,6 +13,7 @@ import { CustomError } from '@/helpers/custom-error';
 import { formatDate } from '@/lib/format-dates';
 import { CategoryRow } from '@/app/admin/categories/_types/categories';
 import { z } from 'zod';
+import { calculateTotalPages } from '@/helpers/calculate-total-pages';
 
 export const insertCategoryUseCase = async (
 	category: Omit<z.infer<typeof SaveCategorySchema>, 'id'>
@@ -79,7 +80,7 @@ export const getPaginatedCategoriesUseCase = async (
 
 	return {
 		data: mappedCategories,
-		totalPages: Math.ceil(count / pageSize),
+		totalPages: calculateTotalPages(count, pageSize),
 	};
 };
 

@@ -6,6 +6,7 @@ import {
 	findPaginatedMedia,
 	insertMedia,
 } from '@/data-acces/media.data-access';
+import { calculateTotalPages } from '@/helpers/calculate-total-pages';
 import { CustomError } from '@/helpers/custom-error';
 import { formatDate } from '@/lib/format-dates';
 import {
@@ -63,7 +64,7 @@ export const findPaginatedMediaUseCase = async (
 
 	return {
 		data: mappedMedia,
-		totalPages: Math.ceil(count / pageSize),
+		totalPages: calculateTotalPages(count, pageSize),
 	};
 };
 
