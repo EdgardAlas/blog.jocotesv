@@ -30,7 +30,9 @@ export const AdminSidebar = ({ userRole }: AdminSidebarProps) => {
 		<Sidebar>
 			<SidebarHeader>
 				<div className='p-4'>
-					<h2 className='text-lg font-semibold'>Blog Admin</h2>
+					<Link href='/admin'>
+						<h2 className='text-lg font-semibold'>Blog Admin</h2>
+					</Link>
 				</div>
 			</SidebarHeader>
 			<SidebarContent>
