@@ -3,6 +3,7 @@
 import { deleteMediaAction } from '@/app/admin/media/_lib/media.actions';
 import { Button } from '@/components/ui/button';
 import { useConfirm } from '@/components/ui/confirm-dialog';
+import { Skeleton } from '@/components/ui/skeleton';
 import { handleSafeActionResponse } from '@/lib/handle-safe-action-response';
 import { Eye, Trash } from 'lucide-react';
 import { useTransition } from 'react';
@@ -80,16 +81,12 @@ export const ImageCard = ({ url, postCount, publicId }: ImageCardProps) => {
 export const ImageCardSkeleton = () => {
 	return (
 		<div className='grid gap-2 rounded border shadow-sm'>
-			<div className='w-fullb flex h-60 animate-pulse items-center space-x-4 bg-gray-200' />
+			<Skeleton className='w-fullb h-60' />
 			<div className='flex items-center justify-between gap-2 p-4'>
-				<p className='animate-pulse text-sm font-semibold'>Posts: 0</p>
+				<Skeleton className='h-4 w-1/2' />
 				<div className='flex gap-2'>
-					<Button variant='destructive' size='sm' disabled>
-						<Trash size={16} />
-					</Button>
-					<Button size='sm' disabled>
-						<Eye size={16} />
-					</Button>
+					<Skeleton className='size-9' />
+					<Skeleton className='size-9' />
 				</div>
 			</div>
 		</div>
