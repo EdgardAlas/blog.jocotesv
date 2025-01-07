@@ -11,17 +11,21 @@ import {
 	insertPostMediaArray,
 } from '@/data-acces/post-media.data-acces';
 import {
+	countPosts,
 	deletePost,
 	existsSlug,
 	findPostBySlug,
+	getPaginatedPosts,
 	insertPost,
 	updatePost,
-} from '@/data-acces/posts-data-acces';
+} from '@/data-acces/posts.data-acces';
 import { CustomError } from '@/helpers/custom-error';
 import { db } from '@/lib/db';
 import { formatDate } from '@/lib/format-dates';
 import slugify from 'slugify';
 import { z } from 'zod';
+import { Post } from '@/app/admin/post/_types/posts';
+import { calculateTotalPages } from '@/helpers/calculate-total-pages';
 
 export const insertPostUseCase = async (
 	post: z.infer<typeof SavePostSchema>
@@ -183,5 +187,35 @@ export const getInitialValuesUseCase = async (
 		image: post.image ?? '',
 		status: post.status,
 		publicationDate: formatDate(post.publicationDate).toDate(),
+	};
+};
+
+export const findPaginatedPostsUseCase = async (
+	page: number,
+	limit: number,
+	filters: { search: string; status: string }
+): Promise<WithPagination<Post>> => {
+	const [posts, total] = await Promise.all([
+		getPaginatedPosts(page, limit, filters),
+		countPosts(filters),
+	]);
+
+	const mappedPosts: Post[] = posts.map((post) => ({
+		id: post.id,
+		title: post.title,
+		slug: post.slug ?? '',
+		image: post.image ?? '',
+		categories: post.postCategories.map((c) => c.category.name),
+		author: post?.author?.name ?? '',
+		status: post.status,
+		publicationDate: formatDate(post.publicationDate).format('MMMM DD, YYYY'),
+		description: post.shortDescription ?? '',
+		featured: post.featured ?? false,
+		updatedAt: formatDate(post.updatedAt).format('LLLL'),
+	}));
+
+	return {
+		data: mappedPosts,
+		totalPages: calculateTotalPages(total, limit),
 	};
 };

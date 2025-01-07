@@ -15,11 +15,32 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from '@/components/ui/select';
+import { findPaginatedPostsUseCase } from '@/use-cases/post.use-case';
 import { Trash } from 'lucide-react';
 import Link from 'next/link';
 import { Suspense } from 'react';
 
-const PostsPage = () => {
+type PostsPageProps = {
+	searchParams: Promise<{
+		search: string;
+		page: string;
+		size: string;
+		status: string;
+	}>;
+};
+
+const PostsPage = async ({ searchParams }: PostsPageProps) => {
+	const { search, page, size, status = 'all' } = await searchParams;
+
+	const posts = await findPaginatedPostsUseCase(
+		Number(page) || 1,
+		Number(size) || 8,
+		{
+			search: search,
+			status: status === 'all' ? '' : status,
+		}
+	);
+
 	return (
 		<>
 			<AdminTitle
@@ -37,11 +58,12 @@ const PostsPage = () => {
 				<CardContent>
 					<div className='mb-4 flex flex-col gap-x-2 min-[415px]:flex-row'>
 						<SearchInputSuspense />
-						<Select>
+						<Select defaultValue={status}>
 							<SelectTrigger className='min-[415px]:max-w-36'>
 								<SelectValue placeholder='Filter by status' />
 							</SelectTrigger>
 							<SelectContent>
+								<SelectItem value='all'>All</SelectItem>
 								<SelectItem value='draft'>Draft</SelectItem>
 								<SelectItem value='published'>Published</SelectItem>
 							</SelectContent>
@@ -49,36 +71,69 @@ const PostsPage = () => {
 					</div>
 
 					<div className='grid gap-4 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4'>
-						{Array.from({ length: 3 }).map((_, index) => (
-							<Link href='/admin/post/1' key={index}>
-								<div key={index} className='grid rounded border shadow-sm'>
+						{posts.data.map((post) => (
+							<Link href={`/admin/post/${post.slug}`} key={post.id}>
+								<div className='grid h-full cursor-pointer overflow-hidden rounded border shadow-sm transition-transform duration-300 hover:scale-105'>
 									<div
-										className='w-fullb flex h-60 items-center space-x-4 bg-cover bg-center bg-no-repeat'
+										className='w-fullb o flex h-60 items-center space-x-4 bg-cover bg-center bg-no-repeat'
 										style={{
-											backgroundImage: 'url(/placeholder.webp)',
+											backgroundImage: post.image
+												? `url(${post.image})`
+												: 'url(/placeholder.webp)',
 										}}
 									/>
 									<div className='grid gap-2 p-4'>
-										<div className='flex flex-wrap gap-2'>
-											{Array.from({ length: 2 }).map((_, index) => (
-												<Badge key={index}>Tag {index + 1}</Badge>
-											))}
-										</div>
+										{post.categories.length ? (
+											<div className='flex flex-wrap gap-2'>
+												{post.categories.map((category, index) => (
+													<Badge key={index}>{category}</Badge>
+												))}
+											</div>
+										) : (
+											<div>
+												<Badge>No category</Badge>
+											</div>
+										)}
 										<div className='gap- flex items-center justify-between'>
 											<div>
-												<p className='text-sm font-semibold'>
-													Post title {index + 1}
-												</p>
-												<p className='text-xs text-gray-500'>
-													Post description
-												</p>
+												{post.title && (
+													<p className='text-sm font-semibold'>{post.title}</p>
+												)}
+												{post.description && (
+													<p className='text-xs text-gray-500'>
+														{post.description}
+													</p>
+												)}
+												{post.author && (
+													<div>
+														<p className='text-xs text-gray-600'>
+															By {post.author}
+														</p>
+													</div>
+												)}
+												{post.publicationDate && (
+													<p className='text-xs text-gray-600'>
+														{post.publicationDate}
+													</p>
+												)}
 											</div>
 											<div className='flex gap-2'>
-												<Button variant='destructive' size='sm'>
+												<Button
+													variant='destructive'
+													size='sm'
+													/* onClick={async (e) => {
+														e.preventDefault();
+														await deletePostAction(post.id);
+													}} */
+												>
 													<Trash size={16} />
 												</Button>
 											</div>
 										</div>
+										<p className='text-xs text-gray-600'>
+											The post was last updated on{' '}
+											<span className='font-semibold'>{post.updatedAt}</span>
+										</p>
 									</div>
 								</div>
 							</Link>

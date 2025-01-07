@@ -28,7 +28,7 @@ export const uploadPostSeoImageAction = authActionClient
 	.schema(uploadFileSchema)
 	.action(async ({ parsedInput: { file } }) => {
 		const url = await uploadToCloudinaryUseCase(file, POST_IMAGE_FOLDER);
-		return url;
+		return url.secureUrl;
 	});
 
 export const removePostSeoImageAction = authActionClient

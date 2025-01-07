@@ -1,6 +1,6 @@
-import { NewPost, posts, SelectPost } from '@/drizzle/schema';
+import { NewPost, posts } from '@/drizzle/schema';
 import { db, Transaction } from '@/lib/db';
-import { eq, ilike, sql } from 'drizzle-orm';
+import { and, desc, eq, ilike, sql } from 'drizzle-orm';
 
 export const insertPost = async (
 	post: NewPost,
@@ -33,13 +33,41 @@ export const findPostById = async (
 export const getPaginatedPosts = async (
 	page: number,
 	pageSize: number,
-	search: string,
+	{ search, status }: { search: string; status: string } = {
+		search: '',
+		status: '',
+	},
 	tx: Transaction | typeof db = db
-): Promise<SelectPost[]> => {
+) => {
 	return tx.query.posts.findMany({
 		limit: pageSize,
 		offset: (page - 1) * pageSize,
-		where: search ? ilike(posts.title, `%${search}%`) : undefined,
+		columns: {
+			id: true,
+			title: true,
+			slug: true,
+			status: true,
+			image: true,
+			publicationDate: true,
+			featured: true,
+			updatedAt: true,
+		},
+		extras(fields, { sql }) {
+			return {
+				shortDescription: sql<string>`
+							CASE 
+								WHEN LENGTH(${fields.description}) > 30 
+								THEN CONCAT(SUBSTRING(${fields.description} FROM 1 FOR 30), '...')
+								ELSE ${fields.description}
+							END
+				`.as('shortDescription'),
+			};
+		},
+		where: and(
+			search ? ilike(posts.title, `%${search}%`) : undefined,
+			status ? eq(posts.status, status) : undefined
+		),
+		orderBy: desc(posts.updatedAt),
 		with: {
 			author: true,
 			postCategories: {
@@ -77,7 +105,10 @@ export const deletePost = async (
 };
 
 export const countPosts = async (
-	search: string,
+	{ search, status }: { search: string; status: string } = {
+		search: '',
+		status: '',
+	},
 	tx: Transaction | typeof db = db
 ): Promise<number> => {
 	const result = await tx
@@ -85,7 +116,12 @@ export const countPosts = async (
 			count: sql`count(*)`.mapWith(Number),
 		})
 		.from(posts)
-		.where(search ? ilike(posts.title, `%${search}%`) : undefined);
+		.where(
+			and(
+				search ? ilike(posts.title, `%${search}%`) : undefined,
+				status ? eq(posts.status, status) : undefined
+			)
+		);
 
 	return result[0].count;
 };
