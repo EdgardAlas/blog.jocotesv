@@ -1,3 +1,5 @@
+import 'server-only';
+
 import cloudinary from '@/lib/cloudinary';
 import { v4 } from 'uuid';
 

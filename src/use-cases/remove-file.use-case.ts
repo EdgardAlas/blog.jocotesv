@@ -1,3 +1,5 @@
+import 'server-only';
+
 import cloudinary from '@/lib/cloudinary';
 import { extractPublicIdFromUrl } from '@/use-cases/extract-public-id.use-case';
 

@@ -1,3 +1,5 @@
+import 'server-only';
+
 import { NewPost, posts } from '@/drizzle/schema';
 import { db, Transaction } from '@/lib/db';
 import { and, desc, eq, ilike, sql } from 'drizzle-orm';

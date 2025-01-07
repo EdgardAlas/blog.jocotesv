@@ -1,3 +1,5 @@
+import 'server-only';
+
 import { SavePostSchema } from '@/app/admin/post/_lib/post.schema';
 import { JSDOM } from 'jsdom';
 import { nanoid } from 'nanoid';

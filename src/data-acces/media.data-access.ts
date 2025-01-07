@@ -1,3 +1,5 @@
+import 'server-only';
+
 import { media, postMedia } from '@/drizzle/schema';
 import { CustomError } from '@/helpers/custom-error';
 import { db, Transaction } from '@/lib/db';

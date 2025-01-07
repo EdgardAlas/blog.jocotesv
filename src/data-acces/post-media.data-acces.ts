@@ -1,3 +1,5 @@
+import 'server-only';
+
 import { postMedia } from '@/drizzle/schema';
 import { db, Transaction } from '@/lib/db';
 import { eq } from 'drizzle-orm';

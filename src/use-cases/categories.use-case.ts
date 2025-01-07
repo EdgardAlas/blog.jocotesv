@@ -1,3 +1,5 @@
+import 'server-only';
+
 import { SaveCategorySchema } from '@/app/admin/categories/_lib/categories.schema';
 import {
 	countCategories,

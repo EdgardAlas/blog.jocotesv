@@ -1,3 +1,5 @@
+import 'server-only';
+
 import { categories, NewCategory, SelectCategory } from '@/drizzle/schema';
 import { db, Transaction } from '@/lib/db';
 import { eq, ilike, sql } from 'drizzle-orm';

@@ -1,3 +1,5 @@
+import 'server-only';
+
 import { MediaItem } from '@/app/admin/media/_types/media.types';
 import {
 	countMedia,
