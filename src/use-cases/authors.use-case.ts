@@ -11,7 +11,7 @@ import {
 } from '@/data-acces/authors.data-acces';
 import { CustomError } from '@/helpers/custom-error';
 import { formatDate } from '@/lib/format-dates';
-import { AuthorsRow } from '@/types/authors';
+import { AuthorsRow } from '@/app/admin/authors/_types/authors';
 import { z } from 'zod';
 
 export const insertAuthorUseCase = async (

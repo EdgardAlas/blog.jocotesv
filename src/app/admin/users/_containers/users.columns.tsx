@@ -1,7 +1,7 @@
 'use client';
 
 import { CrudTableOptions } from '@/components/ui/crud-table-options';
-import { UserRow } from '@/types/users';
+import { UserRow } from '@/app/admin/users/_types/users';
 import { ColumnDef } from '@tanstack/react-table';
 
 export const usersColumns: ColumnDef<UserRow>[] = [

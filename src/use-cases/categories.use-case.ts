@@ -11,7 +11,7 @@ import {
 } from '@/data-acces/categories.data-acces';
 import { CustomError } from '@/helpers/custom-error';
 import { formatDate } from '@/lib/format-dates';
-import { CategoryRow } from '@/types/categories';
+import { CategoryRow } from '@/app/admin/categories/_types/categories';
 import { z } from 'zod';
 
 export const insertCategoryUseCase = async (

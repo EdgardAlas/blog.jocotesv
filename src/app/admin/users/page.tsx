@@ -6,7 +6,7 @@ import { PaginationSuspense } from '@/components/pagination/pagination-suspense'
 import { SearchInputSuspense } from '@/components/search-input/search-input-suspense';
 import { AdminTitle } from '@/components/ui/admin-title';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { UserRow } from '@/types/users';
+import { UserRow } from '@/app/admin/users/_types/users';
 import { Suspense } from 'react';
 
 const getUsers = async (): Promise<WithPagination<UserRow>> => {

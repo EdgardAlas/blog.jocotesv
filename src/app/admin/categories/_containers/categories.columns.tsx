@@ -5,7 +5,7 @@ import {
 	getCategoryByIdAction,
 } from '@/app/admin/categories/_lib/categories.actions';
 import { CrudTableOptions } from '@/components/ui/crud-table-options';
-import { CategoryRow } from '@/types/categories';
+import { CategoryRow } from '@/app/admin/categories/_types/categories';
 import { ColumnDef } from '@tanstack/react-table';
 
 export const categoriesColumns: ColumnDef<CategoryRow>[] = [

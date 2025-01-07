@@ -1,11 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 'use client';
 
-import { uploadMediaAction } from '@/app/admin/media/_lib/media.actions';
-import {
-	UploadMediaSchema,
-	UploadMediaSchemaResolver,
-} from '@/app/admin/media/_lib/media.schema';
+import { useUploadImageForm } from '@/app/admin/media/_hooks/use-upload-form';
 import { Button } from '@/components/ui/button';
 import { CrudModal } from '@/components/ui/crud-modal';
 import {
@@ -23,52 +19,13 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from '@/components/ui/select';
-import { handleSafeActionResponse } from '@/lib/handle-safe-action-response';
 import { Upload, X } from 'lucide-react';
-import { useMemo, useTransition } from 'react';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
-
-const FOLDERS = [
-	{ value: 'post-content-images', label: 'Post Content Images' },
-	{ value: 'post-seo-images', label: 'Post SEO Images' },
-];
 
 export const UploadImageForm = () => {
-	const form = useForm<z.infer<typeof UploadMediaSchema>>({
-		defaultValues: {
-			folder: 'post-content-images',
-			image: undefined,
-		},
-		resolver: UploadMediaSchemaResolver,
-	});
-	const [uploading, startUploading] = useTransition();
-
-	const image = form.watch('image');
-	const localUrl = useMemo(() => {
-		if (image) {
-			return URL.createObjectURL(image);
-		}
-
-		return '';
-	}, [image]);
+	const { form, uploading, localUrl, onSubmit, FOLDERS } = useUploadImageForm();
 
 	return (
-		<CrudModal
-			form={form}
-			onSubmit={(e) => {
-				if (uploading) return;
-
-				startUploading(async () => {
-					await handleSafeActionResponse({
-						action: uploadMediaAction(e),
-						successMessage: 'Image uploaded successfully',
-						loadingMessage: 'Uploading image...',
-					});
-				});
-			}}
-			title='Media'
-		>
+		<CrudModal form={form} onSubmit={onSubmit} title='Media'>
 			<FormField
 				control={form.control}
 				name='folder'
