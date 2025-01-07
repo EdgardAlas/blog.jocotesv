@@ -19,6 +19,7 @@ import {
 } from '@/data-acces/posts-data-acces';
 import { CustomError } from '@/helpers/custom-error';
 import { db } from '@/lib/db';
+import { formatDate } from '@/lib/format-dates';
 import slugify from 'slugify';
 import { z } from 'zod';
 
@@ -56,7 +57,9 @@ export const insertPostUseCase = async (
 		}
 
 		const imagesId = extractImagesIdFromContent(post.content);
-		await insertPostMediaArray(imagesId, postId, tx);
+		if (imagesId.length) {
+			await insertPostMediaArray(imagesId, postId, tx);
+		}
 	});
 };
 
@@ -95,7 +98,10 @@ export const updatePostUseCase = async (
 		}
 
 		const imagesId = extractImagesIdFromContent(post.content);
-		await insertPostMediaArray(imagesId, postId, tx);
+
+		if (imagesId.length) {
+			await insertPostMediaArray(imagesId, id, tx);
+		}
 	});
 };
 
@@ -135,4 +141,47 @@ export const isSlugAvailableUseCase = async (slug: string, id: string = '') => {
 export const generateSlugUseCase = async (slug: string) => {
 	const newSlug = `${slug}-${nanoid(4)}`;
 	return slugify(newSlug, { lower: true });
+};
+
+export const getInitialValuesUseCase = async (
+	id: string = ''
+): Promise<z.infer<typeof SavePostSchema> | null> => {
+	if (!id) {
+		return {
+			id: '',
+			title: '',
+			slug: '',
+			description: '',
+			content: '',
+			author: { label: '', value: '' },
+			categories: [],
+			featured: false,
+			image: '',
+			status: 'draft',
+			publicationDate: new Date(),
+		};
+	}
+
+	const post = await findPostBySlug(id);
+
+	if (!post) {
+		return null;
+	}
+
+	return {
+		id: post.id,
+		title: post.title,
+		slug: post.slug,
+		description: post.description ?? '',
+		content: post.content,
+		author: { label: post.author?.name ?? '', value: post.author?.id ?? '' },
+		categories: post.postCategories.map((c) => ({
+			label: c.category.name,
+			value: c.category.id,
+		})),
+		featured: post.featured ?? false,
+		image: post.image ?? '',
+		status: post.status,
+		publicationDate: formatDate(post.publicationDate).toDate(),
+	};
 };

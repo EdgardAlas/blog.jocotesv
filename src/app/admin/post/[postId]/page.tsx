@@ -1,32 +1,27 @@
-'use client';
-
 import { PostForm } from '@/app/admin/post/_containers/post-form';
 import { AdminTitle } from '@/components/ui/admin-title';
-import { formatDate } from '@/lib/format-dates';
+import { getInitialValuesUseCase } from '@/use-cases/post.use-case';
+import { notFound } from 'next/navigation';
 
-const EditPostPage = () => {
+interface EditPostPageProps {
+	params: Promise<{
+		postId: string;
+	}>;
+}
+
+const EditPostPage = async ({ params }: EditPostPageProps) => {
+	const { postId } = await params;
+	const data = await getInitialValuesUseCase(postId);
+
+	if (!data) {
+		notFound();
+	}
+
 	return (
 		<>
 			<AdminTitle title='Edit Post' description='Edit an existing post' />
 
-			<PostForm
-				initialValues={{
-					id: '',
-					title: '',
-					content: '',
-					featured: false,
-					image: '',
-					description: '',
-					slug: '',
-					status: 'draft',
-					author: {
-						value: '',
-						label: '',
-					},
-					publicationDate: formatDate(new Date()).toDate(),
-					categories: [],
-				}}
-			/>
+			<PostForm initialValues={data} />
 		</>
 	);
 };
