@@ -187,7 +187,7 @@ export const getInitialValuesUseCase = async (
 		image: post.image ?? '',
 		status: post.status,
 		publicationDate: formatDate(post.publicationDate).toDate(),
-	};
+	} satisfies z.infer<typeof SavePostSchema>;
 };
 
 export const findPaginatedPostsUseCase = async (

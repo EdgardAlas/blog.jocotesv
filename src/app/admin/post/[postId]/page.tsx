@@ -14,7 +14,7 @@ const EditPostPage = async ({ params }: EditPostPageProps) => {
 	const data = await getInitialValuesUseCase(postId);
 
 	if (!data) {
-		notFound();
+		return notFound();
 	}
 
 	return (
