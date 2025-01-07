@@ -40,19 +40,22 @@ export const removePostSeoImageAction = authActionClient
 export const uploadPostContentImageAction = authActionClient
 	.schema(uploadFileSchema)
 	.action(async ({ parsedInput: { file } }) => {
-		const url = await uploadToCloudinaryUseCase(
+		const uploadedMedia = await uploadToCloudinaryUseCase(
 			file,
 			POST_CONTENT_IMAGE_FOLDER
 		);
 		let id = '';
 
-		if (url) {
-			id = await insertMediaUseCase(url);
+		if (uploadedMedia) {
+			id = await insertMediaUseCase(
+				uploadedMedia.secureUrl as string,
+				uploadedMedia.publicId as string
+			);
 		}
 
 		return {
 			id,
-			url,
+			url: uploadedMedia,
 		};
 	});
 

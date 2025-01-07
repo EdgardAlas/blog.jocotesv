@@ -1,7 +1,7 @@
 import { MediaItem } from '@/app/admin/media/_types/media.types';
 import {
 	countMedia,
-	deleteMedia,
+	deleteMediaByPublicId,
 	findMediaByUrl,
 	findPaginatedMedia,
 	insertMedia,
@@ -13,28 +13,34 @@ import {
 	uploadToCloudinaryUseCase,
 } from '@/use-cases/cloudinary.use-case';
 
-export const insertMediaUseCase = async (url: string) => {
+export const insertMediaUseCase = async (url: string, publicId: string) => {
 	const findMedia = await findMediaByUrl(url);
 
 	if (findMedia) {
 		return findMedia.id;
 	}
 
-	return await insertMedia(url);
+	return await insertMedia({
+		url,
+		publicId,
+	});
 };
 
 export const uploadMediaUseCase = async (file: File, folder: string) => {
-	const url = await uploadToCloudinaryUseCase(file, folder);
+	const uploadedMedia = await uploadToCloudinaryUseCase(file, folder);
 
-	if (!url) {
+	if (!uploadedMedia) {
 		throw new CustomError('Failed to upload file');
 	}
 
-	const id = await insertMediaUseCase(url);
+	const id = await insertMediaUseCase(
+		uploadedMedia.secureUrl as string,
+		uploadedMedia.publicId as string
+	);
 
 	return {
 		id,
-		url,
+		url: uploadedMedia,
 	};
 };
 
@@ -51,6 +57,7 @@ export const findPaginatedMediaUseCase = async (
 		id: m.id,
 		postCount: m.postCount,
 		updatedAt: formatDate(m.updatedAt).format('LLL'),
+		publicId: m.publicId as string,
 		url: m.url,
 	}));
 
@@ -61,7 +68,7 @@ export const findPaginatedMediaUseCase = async (
 };
 
 export const deleteMediaUseCase = async (id: string) => {
-	const url = await deleteMedia(id);
+	const url = await deleteMediaByPublicId(id);
 
 	await deleteFromCloudinaryUseCase(url);
 };

@@ -3,4 +3,5 @@ export type MediaItem = {
 	url: string;
 	postCount: number;
 	updatedAt: string;
+	publicId: string;
 };

@@ -1,5 +1,7 @@
-import { ImageCardSkeletonList } from '@/app/admin/media/_containers/image-card';
-import { ImageCardList } from '@/app/admin/media/_containers/image-card-list';
+import {
+	ImageCardList,
+	ImageCardSkeletonList,
+} from '@/app/admin/media/_containers/image-card-list';
 import { UploadImageForm } from '@/app/admin/media/_containers/upload-image-form';
 import { UploadMediaButton } from '@/app/admin/media/_containers/upload-media-button';
 import { PaginationSuspense } from '@/components/pagination/pagination-suspense';
@@ -24,11 +26,11 @@ const MediaPage = async ({ searchParams }: MediaPageProps) => {
 			<Card>
 				<CardHeader />
 
-				<Suspense fallback={<ImageCardSkeletonList />}>
-					<ImageCardList size={Number(size) || 8} page={Number(page) || 1} />
-				</Suspense>
-
 				<CardContent>
+					<Suspense fallback={<ImageCardSkeletonList />}>
+						<ImageCardList size={Number(size) || 8} page={Number(page) || 1} />
+					</Suspense>
+
 					<PaginationSuspense
 						pageSizeOptions={[8, 16, 32, 64]}
 						defaultPageSize={8}

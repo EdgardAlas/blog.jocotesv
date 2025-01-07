@@ -65,6 +65,7 @@ export const users = pgTable(
 export const media = pgTable('media', {
 	id: uuid().defaultRandom().primaryKey().notNull(),
 	url: text().notNull(),
+	publicId: text('public_id'),
 	createdAt: timestamp('created_at', { mode: 'string' }).default(
 		sql`CURRENT_TIMESTAMP`
 	),

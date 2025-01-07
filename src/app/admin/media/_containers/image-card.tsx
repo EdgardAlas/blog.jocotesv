@@ -10,11 +10,11 @@ import { toast } from 'sonner';
 
 interface ImageCardProps {
 	url: string;
-	id: string;
 	postCount: number;
+	publicId: string;
 }
 
-export const ImageCard = ({ url, postCount, id }: ImageCardProps) => {
+export const ImageCard = ({ url, postCount, publicId }: ImageCardProps) => {
 	const [deleting, startDeleting] = useTransition();
 	const confirm = useConfirm();
 
@@ -54,7 +54,7 @@ export const ImageCard = ({ url, postCount, id }: ImageCardProps) => {
 
 							startDeleting(async () => {
 								await handleSafeActionResponse({
-									action: deleteMediaAction(id),
+									action: deleteMediaAction(publicId),
 									successMessage: 'Image deleted successfully',
 									loadingMessage: 'Deleting image...',
 								});
@@ -92,16 +92,6 @@ export const ImageCardSkeleton = () => {
 					</Button>
 				</div>
 			</div>
-		</div>
-	);
-};
-
-export const ImageCardSkeletonList = () => {
-	return (
-		<div className='grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
-			{Array.from({ length: 4 }).map((_, index) => (
-				<ImageCardSkeleton key={index} />
-			))}
 		</div>
 	);
 };

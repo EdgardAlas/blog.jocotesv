@@ -4,13 +4,17 @@ import { db, Transaction } from '@/lib/db';
 import { asc, eq, sql } from 'drizzle-orm';
 
 export const insertMedia = async (
-	data: string,
+	data: {
+		url: string;
+		publicId: string;
+	},
 	tx: Transaction | typeof db = db
 ) => {
 	const response = await tx
 		.insert(media)
 		.values({
-			url: data,
+			url: data.url,
+			publicId: data.publicId,
 		})
 		.returning({
 			id: media.id,
@@ -57,6 +61,7 @@ export const findPaginatedMedia = (
 			updatedAt: media.updatedAt,
 			url: media.url,
 			postCount: sql`COUNT(${postMedia.postId})`.mapWith(Number),
+			publicId: media.publicId,
 		})
 		.from(media)
 		.leftJoin(postMedia, eq(media.id, postMedia.mediaId))
@@ -83,6 +88,22 @@ export const deleteMedia = async (
 	const response = await tx
 		.delete(media)
 		.where(eq(media.id, id))
+		.returning({ url: media.url });
+
+	if (response.length === 0) {
+		throw new CustomError('Media not found');
+	}
+
+	return response[0].url;
+};
+
+export const deleteMediaByPublicId = async (
+	publicId: string,
+	tx: Transaction | typeof db = db
+) => {
+	const response = await tx
+		.delete(media)
+		.where(eq(media.publicId, publicId))
 		.returning({ url: media.url });
 
 	if (response.length === 0) {
