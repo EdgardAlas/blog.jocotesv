@@ -1,6 +1,6 @@
 'use client';
 
-import { deletePostAction } from '@/app/admin/post/_lib/post.actions';
+import { deletePostAction } from '@/app/admin/posts/_lib/posts.actions';
 import { Button } from '@/components/ui/button';
 import { useConfirm } from '@/components/ui/confirm-dialog';
 import { handleSafeActionResponse } from '@/lib/handle-safe-action-response';

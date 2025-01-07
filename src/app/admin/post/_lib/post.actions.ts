@@ -2,22 +2,20 @@
 
 import {
 	GenerateSlugSchema,
-	GetPostByIdSchema,
 	removeFileSchema,
 	SavePostSchema,
 	uploadFileSchema,
 } from '@/app/admin/post/_lib/post.schema';
 import { authActionClient } from '@/lib/safe-action';
+import { uploadToCloudinaryUseCase } from '@/use-cases/cloudinary.use-case';
 import { insertMediaUseCase } from '@/use-cases/media.use-case';
 import {
-	deletePostUseCase,
 	generateSlugUseCase,
 	insertPostUseCase,
 	isSlugAvailableUseCase,
 	updatePostUseCase,
 } from '@/use-cases/post.use-case';
 import { removeFile } from '@/use-cases/remove-file.use-case';
-import { uploadToCloudinaryUseCase } from '@/use-cases/cloudinary.use-case';
 import { revalidatePath } from 'next/cache';
 import slugify from 'slugify';
 
@@ -73,13 +71,6 @@ export const savePostAction = authActionClient
 		} else {
 			await insertPostUseCase(parsedInput);
 		}
-		revalidatePath('/admin/posts');
-	});
-
-export const deletePostAction = authActionClient
-	.schema(GetPostByIdSchema)
-	.action(async ({ parsedInput }) => {
-		await deletePostUseCase(parsedInput);
 		revalidatePath('/admin/posts');
 	});
 
