@@ -62,7 +62,8 @@ export const insertPostUseCase = async (
 			);
 		}
 
-		const imagesId = extractImagesIdFromContent(post.content);
+		const imagesId = extractImagesIdFromContent(post.content, post.image);
+
 		if (imagesId.length) {
 			await insertPostMediaArray(imagesId, postId, tx);
 		}
@@ -103,7 +104,7 @@ export const updatePostUseCase = async (
 			);
 		}
 
-		const imagesId = extractImagesIdFromContent(post.content);
+		const imagesId = extractImagesIdFromContent(post.content, post.image);
 
 		if (imagesId.length) {
 			await insertPostMediaArray(imagesId, id, tx);
@@ -111,7 +112,10 @@ export const updatePostUseCase = async (
 	});
 };
 
-export const extractImagesIdFromContent = (content: string) => {
+export const extractImagesIdFromContent = (
+	content: string,
+	...extraImages: string[]
+) => {
 	const dom = new JSDOM(content);
 	const images = dom.window.document.querySelectorAll('img');
 
@@ -121,6 +125,7 @@ export const extractImagesIdFromContent = (content: string) => {
 				.map((img) => img.dataset.id ?? '')
 				.filter(Boolean)
 		),
+		...extraImages,
 	];
 };
 
