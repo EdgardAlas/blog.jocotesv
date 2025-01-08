@@ -3,7 +3,16 @@ import { findUserById } from '@/use-cases/users.use-case';
 import { redirect } from 'next/navigation';
 import { cache } from 'react';
 
-type Role = 'superadmin' | 'admin' | 'editor' | 'user';
+type Role = 'owner' | 'admin' | 'editor' | 'user';
+
+export const rolesEnum = ['owner', 'admin', 'editor', 'user'] as const;
+
+export const roles: { [key in Role]: Role } = {
+	owner: 'owner',
+	admin: 'admin',
+	editor: 'editor',
+	user: 'user',
+};
 
 interface User {
 	id: string;
@@ -25,7 +34,7 @@ export const currentUser = cache(async (): Promise<User | undefined> => {
 	const user = await findUserById(session.user.id as string);
 
 	if (!user) {
-		return redirect('/logout');
+		return redirect('/admin/logout');
 	}
 
 	return {

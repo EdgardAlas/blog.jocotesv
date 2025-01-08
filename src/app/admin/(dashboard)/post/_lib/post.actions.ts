@@ -6,6 +6,7 @@ import {
 	SavePostSchema,
 	uploadFileSchema,
 } from '@/app/admin/(dashboard)/post/_lib/post.schema';
+import { roles } from '@/lib/current-user';
 import { authActionClient } from '@/lib/safe-action';
 import { uploadToCloudinaryUseCase } from '@/use-cases/cloudinary.use-case';
 import { insertMediaUseCase } from '@/use-cases/media.use-case';
@@ -23,6 +24,7 @@ const POST_IMAGE_FOLDER = 'post-seo-images';
 const POST_CONTENT_IMAGE_FOLDER = 'post-content-images';
 
 export const uploadPostSeoImageAction = authActionClient
+	.metadata([roles.admin, roles.editor])
 	.schema(uploadFileSchema)
 	.action(async ({ parsedInput: { file } }) => {
 		const url = await uploadToCloudinaryUseCase(file, POST_IMAGE_FOLDER);
@@ -30,12 +32,14 @@ export const uploadPostSeoImageAction = authActionClient
 	});
 
 export const removePostSeoImageAction = authActionClient
+	.metadata([roles.admin, roles.editor])
 	.schema(removeFileSchema)
 	.action(async ({ parsedInput: { url } }) => {
 		await removeFile(url, POST_IMAGE_FOLDER);
 	});
 
 export const uploadPostContentImageAction = authActionClient
+	.metadata([roles.admin, roles.editor])
 	.schema(uploadFileSchema)
 	.action(async ({ parsedInput: { file } }) => {
 		const uploadedMedia = await uploadToCloudinaryUseCase(
@@ -58,12 +62,14 @@ export const uploadPostContentImageAction = authActionClient
 	});
 
 export const removePostContentImageAction = authActionClient
+	.metadata([roles.admin, roles.editor])
 	.schema(removeFileSchema)
 	.action(async ({ parsedInput: { url } }) => {
 		await removeFile(url, POST_CONTENT_IMAGE_FOLDER);
 	});
 
 export const savePostAction = authActionClient
+	.metadata([roles.admin, roles.editor])
 	.schema(SavePostSchema)
 	.action(async ({ parsedInput }) => {
 		if (parsedInput.id) {
@@ -75,7 +81,7 @@ export const savePostAction = authActionClient
 	});
 
 export const generateSlugAction = authActionClient
-
+	.metadata([roles.admin, roles.editor])
 	.schema(GenerateSlugSchema)
 	.action(async ({ parsedInput: { title, id } }) => {
 		const slug = slugify(title, { lower: true });

@@ -41,6 +41,8 @@ export const usersColumns: ColumnDef<UserRow>[] = [
 					deleteData={() => {
 						return new Promise((resolve) => setTimeout(resolve, 1000));
 					}}
+					successDeleteMessage='User deleted successfully'
+					successLoadMessage='User loaded successfully'
 				/>
 			);
 		},

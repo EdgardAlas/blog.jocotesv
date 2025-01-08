@@ -9,7 +9,7 @@ export default function AdminLayout({
 }: {
 	children: React.ReactNode;
 }) {
-	const userRole: Role = 'superadmin';
+	const userRole: Role = 'owner';
 
 	return (
 		<SidebarProvider>

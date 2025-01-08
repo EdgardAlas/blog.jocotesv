@@ -57,7 +57,7 @@ export const users = pgTable(
 		unique('users_email_key').on(table.email),
 		check(
 			'users_role_check',
-			sql`(role)::text = ANY ((ARRAY['superadmin'::character varying, 'admin'::character varying, 'editor'::character varying, 'user'::character varying])::text[])`
+			sql`(role)::text = ANY ((ARRAY['owner'::character varying, 'admin'::character varying, 'editor'::character varying, 'user'::character varying])::text[])`
 		),
 	]
 );

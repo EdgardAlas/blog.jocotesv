@@ -1,7 +1,7 @@
-export type Role = 'superadmin' | 'admin' | 'editor';
+export type Role = 'owner' | 'admin' | 'editor';
 
 export const hasPermission = (role: Role, requiredRoles: Role[]): boolean => {
-	if (role === 'superadmin') {
+	if (role === 'owner') {
 		return true;
 	}
 

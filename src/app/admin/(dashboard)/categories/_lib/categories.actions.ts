@@ -5,6 +5,7 @@ import {
 	SaveCategorySchema,
 	SearchCategoriesByNameSchema,
 } from '@/app/admin/(dashboard)/categories/_lib/categories.schema';
+import { roles } from '@/lib/current-user';
 import { authActionClient } from '@/lib/safe-action';
 import {
 	deleteCategoryUseCase,
@@ -16,6 +17,7 @@ import {
 import { revalidatePath } from 'next/cache';
 
 export const saveCategoryAction = authActionClient
+	.metadata([roles.admin, roles.editor])
 	.schema(SaveCategorySchema)
 	.action(async ({ parsedInput }) => {
 		if (parsedInput.id) {
@@ -28,6 +30,7 @@ export const saveCategoryAction = authActionClient
 	});
 
 export const getCategoryByIdAction = authActionClient
+	.metadata([roles.admin, roles.editor])
 	.schema(GetCategoryByIdSchema)
 	.action(async ({ parsedInput }) => {
 		const category = await findCategoryByIdUseCase(parsedInput);
@@ -35,6 +38,7 @@ export const getCategoryByIdAction = authActionClient
 	});
 
 export const deleteCategoryAction = authActionClient
+	.metadata([roles.admin, roles.editor])
 	.schema(GetCategoryByIdSchema)
 	.action(async ({ parsedInput }) => {
 		await deleteCategoryUseCase(parsedInput);
@@ -42,6 +46,7 @@ export const deleteCategoryAction = authActionClient
 	});
 
 export const autoCompleteCategoriesByNameAction = authActionClient
+	.metadata([roles.admin, roles.editor])
 	.schema(SearchCategoriesByNameSchema)
 	.action(async ({ parsedInput }) => {
 		const categories = await findCategoriesByNameUseCase(parsedInput);

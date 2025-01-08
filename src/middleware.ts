@@ -21,7 +21,9 @@ export const middleware = auth(async (request) => {
 	const isUnauthenticatedAccessToProtectedRoute =
 		isProtectedRoute && method === 'GET' && !auth;
 
-	if (isAuthenticatedAccessToPublicRoute) {
+	const isLogout = pathname === '/admin/logout';
+
+	if (isAuthenticatedAccessToPublicRoute && !isLogout) {
 		return NextResponse.redirect(
 			new URL(AUTHENTICATED_REDIRECT_PATH, request.url),
 			{
@@ -30,9 +32,7 @@ export const middleware = auth(async (request) => {
 		);
 	}
 
-	if (isUnauthenticatedAccessToProtectedRoute) {
-		// TODO: make a api request to /api/user to check the user's role and redirect to the correct page based on the role (user to /, admin to /admin)
-		//! The role is not included in the token because we want to keep the token as small as possible, and we don't want to expose the role to the client, so we need to make a request to the server to get the role, and the edge functions cannot acces to the database because there are some nodejs apis that are not available in the edge functions
+	if (isUnauthenticatedAccessToProtectedRoute && !isLogout) {
 		return NextResponse.redirect(
 			new URL(UNAUTHENTICATED_REDIRECT_PATH, request.url),
 			{

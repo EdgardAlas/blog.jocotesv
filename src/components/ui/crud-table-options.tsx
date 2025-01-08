@@ -6,6 +6,7 @@ import {
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { useCrudModalStore } from '@/context/crud-modal.context';
+import { handleSafeActionResponse } from '@/lib/handle-safe-action-response';
 import { EllipsisVertical } from 'lucide-react';
 import { SafeActionResult } from 'next-safe-action';
 import React from 'react';
@@ -16,13 +17,20 @@ interface CrudTableOptionsProps {
 	getEditData?: () => Promise<
 		SafeActionResult<TODO, TODO, TODO, TODO> | undefined
 	>;
-	deleteData?: () => Promise<unknown>;
+	deleteData?: () => Promise<
+		SafeActionResult<TODO, TODO, TODO, TODO> | undefined
+	>;
+
+	successDeleteMessage?: string;
+	successLoadMessage?: string;
 }
 
 export const CrudTableOptions = ({
 	children,
 	getEditData,
 	deleteData,
+	successLoadMessage,
+	successDeleteMessage,
 }: CrudTableOptionsProps) => {
 	const confirm = useConfirm();
 	const { setData, setOpen } = useCrudModalStore();
@@ -34,18 +42,20 @@ export const CrudTableOptions = ({
 			<DropdownMenuContent>
 				<DropdownMenuItem
 					onClick={async () => {
-						const loadingId = toast.loading('Loading...');
-
-						if (getEditData) {
-							const data = await getEditData();
-							setData(data?.data);
-							setOpen(true);
-
-							toast.success('Data loaded', { id: loadingId });
+						if (!getEditData) {
+							toast.error('Edit data not provided');
 							return;
 						}
 
-						toast.error('Edit data not provided', { id: loadingId });
+						await handleSafeActionResponse({
+							action: getEditData(),
+							successMessage: successLoadMessage || 'Data loaded successfully',
+							loadingMessage: 'Loading...',
+							onSuccess(data) {
+								setData(data);
+								setOpen(true);
+							},
+						});
 					}}
 				>
 					Edit
@@ -59,16 +69,17 @@ export const CrudTableOptions = ({
 
 						if (!confirmDelete) return;
 
-						const loadingId = toast.loading('Loading...');
-
-						if (deleteData) {
-							await deleteData();
-
-							toast.success('Data deleted', { id: loadingId });
+						if (!deleteData) {
+							toast.error('Delete data not provided');
 							return;
 						}
 
-						toast.error('Delete data not provided', { id: loadingId });
+						await handleSafeActionResponse({
+							action: deleteData(),
+							successMessage:
+								successDeleteMessage || 'Data deleted successfully',
+							loadingMessage: 'Deleting...',
+						});
 					}}
 				>
 					Delete

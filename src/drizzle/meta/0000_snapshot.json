@@ -129,7 +129,7 @@
       "checkConstraints": {
         "users_role_check": {
           "name": "users_role_check",
-          "value": "(role)::text = ANY ((ARRAY['superadmin'::character varying, 'admin'::character varying, 'editor'::character varying, 'user'::character varying])::text[])"
+          "value": "(role)::text = ANY ((ARRAY['owner'::character varying, 'admin'::character varying, 'editor'::character varying, 'user'::character varying])::text[])"
         }
       },
       "policies": {},

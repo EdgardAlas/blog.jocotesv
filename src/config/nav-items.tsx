@@ -23,7 +23,7 @@ export const navItems: NavItem[] = [
 		icon: BarChart,
 		label: 'Dashboard',
 		href: '/admin',
-		requiredRoles: ['editor', 'admin', 'superadmin'],
+		requiredRoles: ['editor', 'admin', 'owner'],
 	},
 	{
 		icon: FileText,

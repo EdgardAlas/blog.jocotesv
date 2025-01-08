@@ -33,6 +33,8 @@ export const authorsColumns: ColumnDef<AuthorsRow>[] = [
 				<CrudTableOptions
 					getEditData={() => getAuthorByIdAction(original.id)}
 					deleteData={() => deleteAuthorAction(original.id)}
+					successDeleteMessage='Author deleted successfully'
+					successLoadMessage='Author loaded successfully'
 				/>
 			);
 		},

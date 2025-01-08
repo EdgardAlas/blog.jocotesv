@@ -5,6 +5,7 @@ import {
 	SaveAuthorSchema,
 	SearchAuthorsByNameSchema,
 } from '@/app/admin/(dashboard)/authors/_lib/authors.schema';
+import { roles } from '@/lib/current-user';
 import { authActionClient } from '@/lib/safe-action';
 import {
 	deleteAuthorUseCase,
@@ -16,6 +17,7 @@ import {
 import { revalidatePath } from 'next/cache';
 
 export const saveAuthorAction = authActionClient
+	.metadata([roles.admin, roles.editor])
 	.schema(SaveAuthorSchema)
 	.action(async ({ parsedInput }) => {
 		if (parsedInput.id) {
@@ -28,6 +30,7 @@ export const saveAuthorAction = authActionClient
 	});
 
 export const getAuthorByIdAction = authActionClient
+	.metadata([roles.admin, roles.editor])
 	.schema(GetAuthorByIdSchema)
 	.action(async ({ parsedInput }) => {
 		const author = await findAuthorByIdUseCase(parsedInput);
@@ -35,6 +38,7 @@ export const getAuthorByIdAction = authActionClient
 	});
 
 export const deleteAuthorAction = authActionClient
+	.metadata([roles.admin, roles.editor])
 	.schema(GetAuthorByIdSchema)
 	.action(async ({ parsedInput }) => {
 		await deleteAuthorUseCase(parsedInput);
@@ -42,6 +46,7 @@ export const deleteAuthorAction = authActionClient
 	});
 
 export const autoCompleteAuthorsByNameAction = authActionClient
+	.metadata([roles.admin, roles.editor])
 	.schema(SearchAuthorsByNameSchema)
 	.action(async ({ parsedInput }) => {
 		const authors = await findAuthorsByNameUseCase(parsedInput);
