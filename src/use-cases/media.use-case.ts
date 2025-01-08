@@ -1,6 +1,6 @@
 import 'server-only';
 
-import { MediaItem } from '@/app/admin/media/_types/media.types';
+import { MediaItem } from '@/app/admin/(dashboard)/media/_types/media.types';
 import {
 	countMedia,
 	deleteMediaByPublicId,

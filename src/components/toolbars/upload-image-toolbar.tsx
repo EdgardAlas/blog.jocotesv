@@ -4,7 +4,7 @@
 import {
 	removePostContentImageAction,
 	uploadPostContentImageAction,
-} from '@/app/admin/post/_lib/post.actions';
+} from '@/app/admin/(dashboard)/post/_lib/post.actions';
 import { FormProvider } from '@/components/form-provider';
 import { useToolbar } from '@/components/toolbars/toolbar-provider';
 import { Button } from '@/components/ui/button';

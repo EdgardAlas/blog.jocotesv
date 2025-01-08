@@ -1,6 +1,6 @@
 import 'server-only';
 
-import { SavePostSchema } from '@/app/admin/post/_lib/post.schema';
+import { SavePostSchema } from '@/app/admin/(dashboard)/post/_lib/post.schema';
 import { JSDOM } from 'jsdom';
 import { nanoid } from 'nanoid';
 
@@ -26,7 +26,7 @@ import { db } from '@/lib/db';
 import { formatDate } from '@/lib/format-dates';
 import slugify from 'slugify';
 import { z } from 'zod';
-import { Post } from '@/app/admin/post/_types/posts';
+import { Post } from '@/app/admin/(dashboard)/post/_types/posts';
 import { calculateTotalPages } from '@/helpers/calculate-total-pages';
 
 export const insertPostUseCase = async (

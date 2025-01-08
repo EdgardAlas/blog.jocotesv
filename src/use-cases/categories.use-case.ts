@@ -1,6 +1,6 @@
 import 'server-only';
 
-import { SaveCategorySchema } from '@/app/admin/categories/_lib/categories.schema';
+import { SaveCategorySchema } from '@/app/admin/(dashboard)/categories/_lib/categories.schema';
 import {
 	countCategories,
 	deleteCategory,
@@ -13,7 +13,7 @@ import {
 } from '@/data-acces/categories.data-acces';
 import { CustomError } from '@/helpers/custom-error';
 import { formatDate } from '@/lib/format-dates';
-import { CategoryRow } from '@/app/admin/categories/_types/categories';
+import { CategoryRow } from '@/app/admin/(dashboard)/categories/_types/categories';
 import { z } from 'zod';
 import { calculateTotalPages } from '@/helpers/calculate-total-pages';
 

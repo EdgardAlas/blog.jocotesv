@@ -1,7 +1,7 @@
 import 'server-only';
 
-import { SaveAuthorSchema } from '@/app/admin/authors/_lib/authors.schema';
-import { AuthorsRow } from '@/app/admin/authors/_types/authors';
+import { SaveAuthorSchema } from '@/app/admin/(dashboard)/authors/_lib/authors.schema';
+import { AuthorsRow } from '@/app/admin/(dashboard)/authors/_types/authors';
 import {
 	countAuthors,
 	deleteAuthor,
