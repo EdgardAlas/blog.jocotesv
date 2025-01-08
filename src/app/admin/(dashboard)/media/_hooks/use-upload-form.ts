@@ -5,6 +5,7 @@ import {
 	UploadMediaSchema,
 	UploadMediaSchemaResolver,
 } from '@/app/admin/(dashboard)/media/_lib/media.schema';
+import { useCrudModalStore } from '@/context/crud-modal.context';
 import { handleSafeActionResponse } from '@/lib/handle-safe-action-response';
 import { useMemo, useTransition } from 'react';
 import { useForm } from 'react-hook-form';
@@ -24,6 +25,7 @@ export const useUploadImageForm = () => {
 		resolver: UploadMediaSchemaResolver,
 	});
 	const [uploading, startUploading] = useTransition();
+	const { setOpen } = useCrudModalStore();
 
 	const image = form.watch('image');
 	const localUrl = useMemo(() => {
@@ -42,6 +44,9 @@ export const useUploadImageForm = () => {
 				action: uploadMediaAction(e),
 				successMessage: 'Image uploaded successfully',
 				loadingMessage: 'Uploading image...',
+				onSuccess() {
+					setOpen(false);
+				},
 			});
 		});
 	};

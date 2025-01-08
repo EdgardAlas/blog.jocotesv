@@ -53,7 +53,7 @@ export const CrudModal = <T extends FieldValues>({
 
 	return (
 		<Dialog modal defaultOpen={open} open={open} onOpenChange={setOpen}>
-			<DialogContent className='text-left'>
+			<DialogContent className='max-h-[calc(100dvh-100px)] overflow-y-auto text-left'>
 				<DialogDescription />
 				<DialogHeader>
 					<DialogTitle className='text-left'>

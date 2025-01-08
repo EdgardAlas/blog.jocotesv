@@ -1,9 +1,9 @@
 import 'server-only';
 
-import cloudinary from '@/lib/cloudinary';
+import { deleteFromCloudinaryUseCase } from '@/use-cases/cloudinary.use-case';
 import { extractPublicIdFromUrl } from '@/use-cases/extract-public-id.use-case';
 
-export const removeFile = (url: string, folder: string) => {
+export const removeFileUseCase = (url: string, folder: string) => {
 	return new Promise((resolve, reject) => {
 		const publicId = extractPublicIdFromUrl(url, folder);
 
@@ -11,7 +11,7 @@ export const removeFile = (url: string, folder: string) => {
 			return reject('Public ID not found');
 		}
 
-		cloudinary.uploader.destroy(publicId, (error, result) => {
+		deleteFromCloudinaryUseCase(publicId, (error, result) => {
 			if (error) {
 				return reject(error);
 			}

@@ -16,7 +16,7 @@ import {
 	isSlugAvailableUseCase,
 	updatePostUseCase,
 } from '@/use-cases/post.use-case';
-import { removeFile } from '@/use-cases/remove-file.use-case';
+import { removeFileUseCase } from '@/use-cases/remove-file.use-case';
 import { revalidatePath } from 'next/cache';
 import slugify from 'slugify';
 
@@ -35,7 +35,7 @@ export const removePostSeoImageAction = authActionClient
 	.metadata([roles.admin, roles.editor])
 	.schema(removeFileSchema)
 	.action(async ({ parsedInput: { url } }) => {
-		await removeFile(url, POST_IMAGE_FOLDER);
+		await removeFileUseCase(url, POST_IMAGE_FOLDER);
 	});
 
 export const uploadPostContentImageAction = authActionClient
@@ -65,7 +65,7 @@ export const removePostContentImageAction = authActionClient
 	.metadata([roles.admin, roles.editor])
 	.schema(removeFileSchema)
 	.action(async ({ parsedInput: { url } }) => {
-		await removeFile(url, POST_CONTENT_IMAGE_FOLDER);
+		await removeFileUseCase(url, POST_CONTENT_IMAGE_FOLDER);
 	});
 
 export const savePostAction = authActionClient

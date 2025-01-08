@@ -15,6 +15,8 @@ import {
 	deleteFromCloudinaryUseCase,
 	uploadToCloudinaryUseCase,
 } from '@/use-cases/cloudinary.use-case';
+import { extractPublicIdFromUrlWithNoFolder } from '@/use-cases/extract-public-id.use-case';
+import { db } from '@/lib/db';
 
 export const insertMediaUseCase = async (url: string, publicId: string) => {
 	const findMedia = await findMediaByUrl(url);
@@ -71,7 +73,15 @@ export const findPaginatedMediaUseCase = async (
 };
 
 export const deleteMediaUseCase = async (id: string) => {
-	const url = await deleteMediaByPublicId(id);
+	await db.transaction(async (trx) => {
+		const url = await deleteMediaByPublicId(id, trx);
 
-	await deleteFromCloudinaryUseCase(url);
+		const publicId = extractPublicIdFromUrlWithNoFolder(url);
+
+		if (!publicId) {
+			throw new CustomError('Public ID not found');
+		}
+
+		await deleteFromCloudinaryUseCase(publicId);
+	});
 };

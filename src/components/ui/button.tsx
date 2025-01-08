@@ -1,8 +1,8 @@
-import * as React from 'react';
-import { Slot, Slottable } from '@radix-ui/react-slot';
-import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@/lib/utils';
+import { Slot } from '@radix-ui/react-slot';
+import { cva, type VariantProps } from 'class-variance-authority';
 import { Loader2, LucideIcon } from 'lucide-react';
+import * as React from 'react';
 
 const buttonVariants = cva(
 	'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 ring-offset-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0',
@@ -68,17 +68,17 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 				{loading ? (
 					<Loader2
 						className={cn('mr-2 h-4 w-4 animate-spin', {
-							'mr-0': !children,
+							'mr-0': !children || !Icon,
 						})}
 					/>
 				) : Icon ? (
 					<Icon
 						className={cn('mr-2 h-4 w-4', {
-							'mr-0': !children,
+							'mr-0': !children || !loading,
 						})}
 					/>
 				) : null}
-				<Slottable>{children}</Slottable>
+				{size === 'sm' && loading ? null : children}
 			</Comp>
 		);
 	}
