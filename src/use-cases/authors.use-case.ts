@@ -8,7 +8,7 @@ import {
 	findAuthorById,
 	findAuthorByName,
 	findAuthorsByName,
-	getPaginatedAuthors,
+	findPaginatedAuthors,
 	insertAuthor,
 	updateAuthor,
 } from '@/data-acces/authors.data-acces';
@@ -64,13 +64,13 @@ export const updateAuthorUseCase = async (
 	});
 };
 
-export const getPaginatedAuthorsUseCase = async (
+export const findPaginatedAuthorsUseCase = async (
 	page: number,
 	pageSize: number,
 	search: string
 ): Promise<WithPagination<AuthorsRow>> => {
 	const [authors, count] = await Promise.all([
-		getPaginatedAuthors(page, pageSize, search),
+		findPaginatedAuthors(page, pageSize, search),
 		countAuthors(search),
 	]);
 

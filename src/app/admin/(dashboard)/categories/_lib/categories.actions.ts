@@ -29,7 +29,7 @@ export const saveCategoryAction = authActionClient
 		revalidatePath('/admin/categories');
 	});
 
-export const getCategoryByIdAction = authActionClient
+export const findCategoryByIdAction = authActionClient
 	.metadata([roles.admin, roles.editor])
 	.schema(GetCategoryByIdSchema)
 	.action(async ({ parsedInput }) => {

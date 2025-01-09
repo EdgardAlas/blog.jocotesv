@@ -6,7 +6,7 @@ import {
 	deleteCategory,
 	findCategoryByName,
 	findCategoryById,
-	getPaginatedCategories,
+	findPaginatedCategories,
 	insertCategory,
 	updateCategory,
 	findCategoriesByName,
@@ -63,13 +63,13 @@ export const updateCategoryUseCase = async (
 	});
 };
 
-export const getPaginatedCategoriesUseCase = async (
+export const findPaginatedCategoriesUseCase = async (
 	page: number,
 	pageSize: number,
 	search: string
 ): Promise<WithPagination<CategoryRow>> => {
 	const [categories, count] = await Promise.all([
-		getPaginatedCategories(page, pageSize, search),
+		findPaginatedCategories(page, pageSize, search),
 		countCategories(search),
 	]);
 

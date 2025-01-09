@@ -7,7 +7,7 @@ import { SearchInputSuspense } from '@/components/search-input/search-input-susp
 import { AddItemCrudButton } from '@/components/ui/add-item-crud-button';
 import { AdminTitle } from '@/components/ui/admin-title';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { getPaginatedAuthorsUseCase } from '@/use-cases/authors.use-case';
+import { findPaginatedAuthorsUseCase } from '@/use-cases/authors.use-case';
 import { Suspense } from 'react';
 
 type AuthorsPageProps = NextPageWithPagination;
@@ -36,7 +36,7 @@ const AuthorsPage = async ({ searchParams }: AuthorsPageProps) => {
 						<TableLoader
 							columns={authorsColumns}
 							asyncData={() =>
-								getPaginatedAuthorsUseCase(
+								findPaginatedAuthorsUseCase(
 									Number(page) || 1,
 									Number(size) || 10,
 									search

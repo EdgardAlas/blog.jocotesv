@@ -20,7 +20,7 @@ export const findAuthorById = async (
 	return result?.[0] ?? null;
 };
 
-export const getPaginatedAuthors = async (
+export const findPaginatedAuthors = async (
 	page: number,
 	pageSize: number,
 	search: string,

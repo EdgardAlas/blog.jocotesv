@@ -23,7 +23,7 @@ export const findCategoryById = async (
 	return result?.[0] ?? null;
 };
 
-export const getPaginatedCategories = async (
+export const findPaginatedCategories = async (
 	page: number,
 	pageSize: number,
 	search: string,

@@ -32,7 +32,7 @@ export const findPostById = async (
 	});
 };
 
-export const getPaginatedPosts = async (
+export const findPaginatedPosts = async (
 	page: number,
 	pageSize: number,
 	{ search, status }: { search: string; status: string } = {

@@ -2,7 +2,7 @@
 
 import {
 	deleteCategoryAction,
-	getCategoryByIdAction,
+	findCategoryByIdAction,
 } from '@/app/admin/(dashboard)/categories/_lib/categories.actions';
 import { CrudTableOptions } from '@/components/ui/crud-table-options';
 import { CategoryRow } from '@/app/admin/(dashboard)/categories/_types/categories';
@@ -27,7 +27,7 @@ export const categoriesColumns: ColumnDef<CategoryRow>[] = [
 		cell({ row: { original } }) {
 			return (
 				<CrudTableOptions
-					getEditData={() => getCategoryByIdAction(original.id)}
+					getEditData={() => findCategoryByIdAction(original.id)}
 					deleteData={() => deleteCategoryAction(original.id)}
 					successDeleteMessage='Category deleted successfully'
 					successLoadMessage='Category loaded successfully'

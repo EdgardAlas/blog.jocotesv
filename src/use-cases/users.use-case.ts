@@ -32,7 +32,7 @@ export const findUserById = (id: string) => {
 	});
 };
 
-export const getUserRoleByEmail = async (email: string) => {
+export const findUserRoleByEmail = async (email: string) => {
 	const role = await db
 		.select({
 			role: users.role,
@@ -86,7 +86,7 @@ export const updateUserUseCase = async (
 	});
 };
 
-export const getPaginatedUsersUseCase = async (
+export const findPaginatedUsersUseCase = async (
 	page: number,
 	pageSize: number,
 	search: string

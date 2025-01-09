@@ -17,7 +17,7 @@ import {
 	deletePost,
 	existsSlug,
 	findPostBySlug,
-	getPaginatedPosts,
+	findPaginatedPosts,
 	insertPost,
 	updatePost,
 } from '@/data-acces/posts.data-acces';
@@ -203,7 +203,7 @@ export const findPaginatedPostsUseCase = async (
 	filters: { search: string; status: string }
 ): Promise<WithPagination<Post>> => {
 	const [posts, total] = await Promise.all([
-		getPaginatedPosts(page, limit, filters),
+		findPaginatedPosts(page, limit, filters),
 		countPosts(filters),
 	]);
 

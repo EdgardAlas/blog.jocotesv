@@ -7,7 +7,7 @@ import { SearchInputSuspense } from '@/components/search-input/search-input-susp
 import { AddItemCrudButton } from '@/components/ui/add-item-crud-button';
 import { AdminTitle } from '@/components/ui/admin-title';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { getPaginatedUsersUseCase } from '@/use-cases/users.use-case';
+import { findPaginatedUsersUseCase } from '@/use-cases/users.use-case';
 import { Suspense } from 'react';
 
 type UsersPageProps = NextPageWithPagination;
@@ -33,7 +33,7 @@ const UsersPage = async ({ searchParams }: UsersPageProps) => {
 						<TableLoader
 							columns={usersColumns}
 							asyncData={() =>
-								getPaginatedUsersUseCase(
+								findPaginatedUsersUseCase(
 									Number(page) || 1,
 									Number(size) || 10,
 									search

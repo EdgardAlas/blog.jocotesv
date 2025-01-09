@@ -2,7 +2,7 @@
 
 import {
 	deleteUserAction,
-	getUserByIdAction,
+	findUserByIdAction,
 } from '@/app/admin/(dashboard)/users/_lib/users.actions';
 import { UserRow } from '@/app/admin/(dashboard)/users/_types/users';
 import { Badge } from '@/components/ui/badge';
@@ -52,7 +52,7 @@ export const usersColumns: ColumnDef<UserRow>[] = [
 		cell({ row: { original } }) {
 			return (
 				<CrudTableOptions
-					getEditData={() => getUserByIdAction(original.id)}
+					getEditData={() => findUserByIdAction(original.id)}
 					deleteData={() => deleteUserAction(original.id)}
 					successDeleteMessage='User deleted successfully'
 					successLoadMessage='User loaded successfully'

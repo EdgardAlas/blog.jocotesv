@@ -40,7 +40,7 @@ export const deleteUserAction = authActionClient
 		revalidatePath('/admin/users');
 	});
 
-export const getUserByIdAction = authActionClient
+export const findUserByIdAction = authActionClient
 	.metadata([roles.admin])
 	.schema(GetUserByIdSchema)
 	.action(async ({ parsedInput }) => await findUserByIdUseCase(parsedInput));
