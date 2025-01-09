@@ -49,7 +49,7 @@ export const insertUserUseCase = async (
 	const findUser = await findUserByEmail(user.email);
 
 	if (findUser) {
-		throw new CustomError('User already exists');
+		throw new CustomError('Email already exists');
 	}
 
 	if (!user.password) {
