@@ -1,5 +1,5 @@
 import { cn } from '@/lib/utils';
-import { Slot } from '@radix-ui/react-slot';
+import { Slot, Slottable } from '@radix-ui/react-slot';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { Loader2, LucideIcon } from 'lucide-react';
 import * as React from 'react';
@@ -78,7 +78,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 						})}
 					/>
 				) : null}
-				{size === 'sm' && loading ? null : children}
+				<Slottable>{size === 'sm' && loading ? null : children}</Slottable>
 			</Comp>
 		);
 	}

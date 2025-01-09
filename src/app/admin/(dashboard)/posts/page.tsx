@@ -29,7 +29,7 @@ const PostsPage = async ({ searchParams }: PostsPageProps) => {
 				title='Posts'
 				description='Here you can manage all the posts that you have created.'
 			>
-				<AddItemCrudButton asChild>
+				<AddItemCrudButton asChild noOpenModal>
 					<Link href='/admin/post'>Add Post</Link>
 				</AddItemCrudButton>
 			</AdminTitle>
