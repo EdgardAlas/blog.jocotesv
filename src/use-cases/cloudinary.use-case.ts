@@ -1,15 +1,9 @@
 import 'server-only';
 import { v4 } from 'uuid';
 
-import { v2 as cloudinary, ResponseCallback } from 'cloudinary';
-import { env } from '@/lib/env';
 import { CustomError } from '@/helpers/custom-error';
-
-cloudinary.config({
-	cloud_name: env.CLOUDINARY_CLOUD_NAME,
-	api_key: env.CLOUDINARY_API_KEY,
-	api_secret: env.CLOUDINARY_API_SECRET,
-});
+import { v2 as cloudinary, ResponseCallback } from 'cloudinary';
+import { loadCloudinary } from '@/lib/cloudinary';
 
 export const uploadToCloudinaryUseCase = async (
 	file: File,
@@ -18,6 +12,8 @@ export const uploadToCloudinaryUseCase = async (
 	secureUrl: string | undefined;
 	publicId: string | undefined;
 }> => {
+	loadCloudinary();
+
 	try {
 		const arrayBuffer = await file.arrayBuffer();
 		const buffer = Buffer.from(arrayBuffer);
@@ -53,6 +49,8 @@ export const deleteFromCloudinaryUseCase = async (
 	publicId: string,
 	cb?: ResponseCallback
 ) => {
+	loadCloudinary();
+
 	if (!publicId) {
 		return;
 	}
