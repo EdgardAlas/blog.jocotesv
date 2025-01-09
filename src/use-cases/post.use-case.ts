@@ -120,13 +120,9 @@ export const extractImagesIdFromContent = (
 	const images = dom.window.document.querySelectorAll('img');
 
 	return [
-		...new Set(
-			Array.from(images)
-				.map((img) => img.dataset.id ?? '')
-				.filter(Boolean)
-		),
+		...new Set(Array.from(images).map((img) => img.dataset.id ?? '')),
 		...extraImages,
-	];
+	].filter(Boolean);
 };
 
 export const deletePostUseCase = (postId: string) => {

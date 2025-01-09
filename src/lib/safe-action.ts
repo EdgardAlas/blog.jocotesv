@@ -17,6 +17,9 @@ const handleServerError = (e: Error) => {
 		return 'The email or password you entered is incorrect.';
 	}
 
+	// eslint-disable-next-line no-console
+	console.log(e.message);
+
 	return DEFAULT_SERVER_ERROR_MESSAGE;
 };
 
