@@ -23,6 +23,8 @@ interface CrudTableOptionsProps {
 
 	successDeleteMessage?: string;
 	successLoadMessage?: string;
+	disableEdit?: boolean;
+	disableDelete?: boolean;
 }
 
 export const CrudTableOptions = ({
@@ -31,6 +33,8 @@ export const CrudTableOptions = ({
 	deleteData,
 	successLoadMessage,
 	successDeleteMessage,
+	disableEdit,
+	disableDelete,
 }: CrudTableOptionsProps) => {
 	const confirm = useConfirm();
 	const { setData, setOpen } = useCrudModalStore();
@@ -40,51 +44,55 @@ export const CrudTableOptions = ({
 				<EllipsisVertical />
 			</DropdownMenuTrigger>
 			<DropdownMenuContent>
-				<DropdownMenuItem
-					onClick={async () => {
-						if (!getEditData) {
-							toast.error('Edit data not provided');
-							return;
-						}
+				{disableEdit ? null : (
+					<DropdownMenuItem
+						onClick={async () => {
+							if (!getEditData) {
+								toast.error('Edit data not provided');
+								return;
+							}
 
-						await handleSafeActionResponse({
-							action: getEditData(),
-							successMessage: successLoadMessage || 'Data loaded successfully',
-							loadingMessage: 'Loading...',
-							onSuccess(data) {
-								setData(data);
-								setOpen(true);
-							},
-						});
-					}}
-				>
-					Edit
-				</DropdownMenuItem>
-				<DropdownMenuItem
-					onClick={async () => {
-						const confirmDelete = await confirm({
-							title: 'Delete',
-							description: 'Are you sure you want to delete this data?',
-						});
+							await handleSafeActionResponse({
+								action: getEditData(),
+								successMessage:
+									successLoadMessage || 'Data loaded successfully',
+								loadingMessage: 'Loading...',
+								onSuccess(data) {
+									setData(data);
+									setOpen(true);
+								},
+							});
+						}}
+					>
+						Edit
+					</DropdownMenuItem>
+				)}
+				{disableDelete ? null : (
+					<DropdownMenuItem
+						onClick={async () => {
+							const confirmDelete = await confirm({
+								title: 'Delete',
+								description: 'Are you sure you want to delete this data?',
+							});
 
-						if (!confirmDelete) return;
+							if (!confirmDelete) return;
 
-						if (!deleteData) {
-							toast.error('Delete data not provided');
-							return;
-						}
+							if (!deleteData) {
+								toast.error('Delete data not provided');
+								return;
+							}
 
-						await handleSafeActionResponse({
-							action: deleteData(),
-							successMessage:
-								successDeleteMessage || 'Data deleted successfully',
-							loadingMessage: 'Deleting...',
-						});
-					}}
-				>
-					Delete
-				</DropdownMenuItem>
-
+							await handleSafeActionResponse({
+								action: deleteData(),
+								successMessage:
+									successDeleteMessage || 'Data deleted successfully',
+								loadingMessage: 'Deleting...',
+							});
+						}}
+					>
+						Delete
+					</DropdownMenuItem>
+				)}
 				{children}
 			</DropdownMenuContent>
 		</DropdownMenu>

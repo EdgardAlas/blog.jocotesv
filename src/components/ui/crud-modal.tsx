@@ -35,7 +35,10 @@ export const CrudModal = <T extends FieldValues>({
 
 	useEffect(() => {
 		if (data) {
-			form.reset(data);
+			form.reset({
+				...resetValues,
+				...data,
+			});
 		} else {
 			form.reset(resetValues);
 		}

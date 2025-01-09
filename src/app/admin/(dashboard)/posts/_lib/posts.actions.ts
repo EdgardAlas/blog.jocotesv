@@ -1,7 +1,7 @@
 'use server';
 
 import { GetPostByIdSchema } from '@/app/admin/(dashboard)/posts/_lib/posts.schema';
-import { roles } from '@/lib/current-user';
+import { roles } from '@/config/roles';
 import { authActionClient } from '@/lib/safe-action';
 import { deletePostUseCase } from '@/use-cases/post.use-case';
 import { revalidatePath } from 'next/cache';

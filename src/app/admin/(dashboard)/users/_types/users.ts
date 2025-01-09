@@ -1,8 +1,9 @@
 export type UserRow = {
-	id: number;
+	id: string;
 	name: string;
 	email: string;
 	role: string;
+	canBeDeleted: boolean;
 	createdAt: string;
 	updatedAt: string;
 };

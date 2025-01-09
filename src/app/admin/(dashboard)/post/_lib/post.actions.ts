@@ -6,7 +6,7 @@ import {
 	SavePostSchema,
 	uploadFileSchema,
 } from '@/app/admin/(dashboard)/post/_lib/post.schema';
-import { roles } from '@/lib/current-user';
+import { roles } from '@/config/roles';
 import { authActionClient } from '@/lib/safe-action';
 import { uploadToCloudinaryUseCase } from '@/use-cases/cloudinary.use-case';
 import { insertMediaUseCase } from '@/use-cases/media.use-case';

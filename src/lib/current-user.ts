@@ -1,18 +1,8 @@
 import { auth } from '@/lib/auth';
+import { Role } from '@/config/roles';
 import { findUserById } from '@/use-cases/users.use-case';
 import { redirect } from 'next/navigation';
 import { cache } from 'react';
-
-type Role = 'owner' | 'admin' | 'editor' | 'user';
-
-export const rolesEnum = ['owner', 'admin', 'editor', 'user'] as const;
-
-export const roles: { [key in Role]: Role } = {
-	owner: 'owner',
-	admin: 'admin',
-	editor: 'editor',
-	user: 'user',
-};
 
 interface User {
 	id: string;

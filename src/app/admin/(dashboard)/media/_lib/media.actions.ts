@@ -4,7 +4,7 @@ import {
 	GetImageById,
 	UploadMediaSchema,
 } from '@/app/admin/(dashboard)/media/_lib/media.schema';
-import { roles } from '@/lib/current-user';
+import { roles } from '@/config/roles';
 import { authActionClient } from '@/lib/safe-action';
 import {
 	deleteMediaUseCase,

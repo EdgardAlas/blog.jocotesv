@@ -5,7 +5,7 @@ import {
 	SaveCategorySchema,
 	SearchCategoriesByNameSchema,
 } from '@/app/admin/(dashboard)/categories/_lib/categories.schema';
-import { roles } from '@/lib/current-user';
+import { roles } from '@/config/roles';
 import { authActionClient } from '@/lib/safe-action';
 import {
 	deleteCategoryUseCase,

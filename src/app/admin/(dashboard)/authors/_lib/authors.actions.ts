@@ -5,7 +5,7 @@ import {
 	SaveAuthorSchema,
 	SearchAuthorsByNameSchema,
 } from '@/app/admin/(dashboard)/authors/_lib/authors.schema';
-import { roles } from '@/lib/current-user';
+import { roles } from '@/config/roles';
 import { authActionClient } from '@/lib/safe-action';
 import {
 	deleteAuthorUseCase,

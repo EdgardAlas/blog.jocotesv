@@ -1,5 +1,3 @@
-export type Role = 'owner' | 'admin' | 'editor';
-
 export const hasPermission = (role: Role, requiredRoles: Role[]): boolean => {
 	if (role === 'owner') {
 		return true;
@@ -10,4 +8,17 @@ export const hasPermission = (role: Role, requiredRoles: Role[]): boolean => {
 	}
 
 	return requiredRoles.includes(role);
+};
+
+export type Role = 'owner' | 'admin' | 'editor' | 'user';
+
+export const rolesEnum = ['owner', 'admin', 'editor', 'user'] as const;
+
+export const roles: {
+	[key in Role]: Role;
+} = {
+	owner: 'owner',
+	admin: 'admin',
+	editor: 'editor',
+	user: 'user',
 };

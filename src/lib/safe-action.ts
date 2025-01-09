@@ -1,5 +1,6 @@
 import { CustomError } from '@/helpers/custom-error';
-import { currentUser, roles, rolesEnum } from '@/lib/current-user';
+import { currentUser } from '@/lib/current-user';
+import { roles, rolesEnum } from '@/config/roles';
 import { CredentialsSignin } from 'next-auth';
 import {
 	createSafeActionClient,
