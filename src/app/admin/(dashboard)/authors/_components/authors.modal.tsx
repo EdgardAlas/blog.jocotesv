@@ -22,6 +22,7 @@ export const AuthorsModal = () => {
 			form={form}
 			resetValues={RESET_VALUES}
 			onSubmit={onSubmit}
+			openModal={'author'}
 		>
 			<FormField
 				name='name'

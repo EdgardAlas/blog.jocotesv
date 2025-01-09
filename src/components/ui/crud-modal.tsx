@@ -6,7 +6,10 @@ import {
 	DialogHeader,
 	DialogTitle,
 } from '@/components/ui/dialog';
-import { useCrudModalStore } from '@/context/crud-modal.context';
+import {
+	CrudModalOptions,
+	useCrudModalStore,
+} from '@/context/crud-modal.context';
 import { cn } from '@/lib/utils';
 import { DialogDescription } from '@radix-ui/react-dialog';
 import React, { useEffect } from 'react';
@@ -17,6 +20,7 @@ interface CrudModalProps<T extends FieldValues> extends FormProviderProps<T> {
 	children?: React.ReactNode;
 	form: UseFormReturn<T>;
 	resetValues?: T;
+	openModal: CrudModalOptions;
 }
 
 const RESET_TIMEOUT = 200;
@@ -27,6 +31,7 @@ export const CrudModal = <T extends FieldValues>({
 	form,
 	resetValues,
 	className,
+	openModal,
 	...props
 }: CrudModalProps<T>) => {
 	const { open, data, setOpen, setData } = useCrudModalStore();
@@ -54,8 +59,17 @@ export const CrudModal = <T extends FieldValues>({
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [open]);
 
+	const isOpen = open === openModal;
+
 	return (
-		<Dialog modal defaultOpen={open} open={open} onOpenChange={setOpen}>
+		<Dialog
+			modal
+			defaultOpen={isOpen}
+			open={isOpen}
+			onOpenChange={(e) => {
+				setOpen(e ? openModal : null);
+			}}
+		>
 			<DialogContent className='max-h-[calc(100dvh-100px)] overflow-y-auto text-left'>
 				<DialogDescription />
 				<DialogHeader>

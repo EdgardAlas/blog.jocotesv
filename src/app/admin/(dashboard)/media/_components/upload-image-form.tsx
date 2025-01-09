@@ -25,7 +25,12 @@ export const UploadImageForm = () => {
 	const { form, uploading, localUrl, onSubmit, FOLDERS } = useUploadImageForm();
 
 	return (
-		<CrudModal form={form} onSubmit={onSubmit} title='Media'>
+		<CrudModal
+			form={form}
+			onSubmit={onSubmit}
+			title='Media'
+			openModal={'upload'}
+		>
 			<FormField
 				control={form.control}
 				name='folder'

@@ -5,7 +5,10 @@ import {
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { useCrudModalStore } from '@/context/crud-modal.context';
+import {
+	CrudModalOptions,
+	useCrudModalStore,
+} from '@/context/crud-modal.context';
 import { handleSafeActionResponse } from '@/lib/handle-safe-action-response';
 import { EllipsisVertical } from 'lucide-react';
 import { SafeActionResult } from 'next-safe-action';
@@ -25,6 +28,7 @@ interface CrudTableOptionsProps {
 	successLoadMessage?: string;
 	disableEdit?: boolean;
 	disableDelete?: boolean;
+	open?: CrudModalOptions;
 }
 
 export const CrudTableOptions = ({
@@ -35,6 +39,7 @@ export const CrudTableOptions = ({
 	successDeleteMessage,
 	disableEdit,
 	disableDelete,
+	open,
 }: CrudTableOptionsProps) => {
 	const confirm = useConfirm();
 	const { setData, setOpen } = useCrudModalStore();
@@ -59,7 +64,7 @@ export const CrudTableOptions = ({
 								loadingMessage: 'Loading...',
 								onSuccess(data) {
 									setData(data);
-									setOpen(true);
+									if (open) setOpen(open);
 								},
 							});
 						}}

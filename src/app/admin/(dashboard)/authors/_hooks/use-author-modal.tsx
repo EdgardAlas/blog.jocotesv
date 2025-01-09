@@ -32,7 +32,7 @@ export const useAuthorsModal = () => {
 				loadingMessage: 'Saving author...',
 				successMessage: 'Author saved',
 				onSuccess() {
-					setOpen(false);
+					setOpen(null);
 				},
 			});
 		});

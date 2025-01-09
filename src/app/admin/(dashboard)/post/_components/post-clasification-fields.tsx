@@ -2,6 +2,7 @@
 
 import { autoCompleteAuthorsByNameAction } from '@/app/admin/(dashboard)/authors/_lib/authors.actions';
 import { autoCompleteCategoriesByNameAction } from '@/app/admin/(dashboard)/categories/_lib/categories.actions';
+import { AddItemCrudButton } from '@/components/ui/add-item-crud-button';
 import {
 	FormControl,
 	FormField,
@@ -25,29 +26,40 @@ export const PostClasificationFields = () => {
 				render={({ field }) => (
 					<FormItem>
 						<FormLabel>Categories</FormLabel>
-						<FormControl>
-							<SelectBox
-								multiple
-								placeholder='Select Categories'
-								value={field.value}
-								onSearch={async (searchTerm) => {
-									const filteredOptions =
-										await autoCompleteCategoriesByNameAction(searchTerm);
+						<div className='flex items-center gap-2'>
+							<FormControl>
+								<SelectBox
+									multiple
+									className='w-full flex-1'
+									placeholder='Select Categories'
+									value={field.value}
+									onSearch={async (searchTerm) => {
+										const filteredOptions =
+											await autoCompleteCategoriesByNameAction(searchTerm);
 
-									if (filteredOptions?.serverError) {
-										toast.error("Couldn't fetch categories");
-										return [];
-									}
+										if (filteredOptions?.serverError) {
+											toast.error("Couldn't fetch categories");
+											return [];
+										}
 
-									if (!filteredOptions?.data) {
-										return [];
-									}
+										if (!filteredOptions?.data) {
+											return [];
+										}
 
-									return filteredOptions?.data;
-								}}
-								onChange={field.onChange}
-							/>
-						</FormControl>
+										return filteredOptions?.data;
+									}}
+									onChange={field.onChange}
+								/>
+							</FormControl>
+							<AddItemCrudButton
+								type='button'
+								size={'sm'}
+								openModal={'category'}
+							>
+								Add Category
+							</AddItemCrudButton>
+						</div>
+
 						<FormMessage />
 					</FormItem>
 				)}
@@ -59,28 +71,35 @@ export const PostClasificationFields = () => {
 				render={({ field }) => (
 					<FormItem>
 						<FormLabel>Author*</FormLabel>
-						<FormControl>
-							<SelectBox
-								placeholder='Select Author'
-								value={field.value}
-								onSearch={async (searchTerm) => {
-									const filteredOptions =
-										await autoCompleteAuthorsByNameAction(searchTerm);
+						<div className='flex items-center gap-2'>
+							<FormControl>
+								<SelectBox
+									className='w-full flex-1'
+									placeholder='Select Author'
+									value={field.value}
+									onSearch={async (searchTerm) => {
+										const filteredOptions =
+											await autoCompleteAuthorsByNameAction(searchTerm);
 
-									if (filteredOptions?.serverError) {
-										toast.error("Couldn't fetch authors");
-										return [];
-									}
+										if (filteredOptions?.serverError) {
+											toast.error("Couldn't fetch authors");
+											return [];
+										}
 
-									if (!filteredOptions?.data) {
-										return [];
-									}
+										if (!filteredOptions?.data) {
+											return [];
+										}
 
-									return filteredOptions?.data;
-								}}
-								onChange={field.onChange}
-							/>
-						</FormControl>
+										return filteredOptions?.data;
+									}}
+									onChange={field.onChange}
+								/>
+							</FormControl>
+							<AddItemCrudButton type='button' size={'sm'} openModal={'author'}>
+								Add Author
+							</AddItemCrudButton>
+						</div>
+
 						<FormMessage />
 					</FormItem>
 				)}

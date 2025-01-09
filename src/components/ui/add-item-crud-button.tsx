@@ -1,16 +1,21 @@
 'use client';
 
 import { Button, ButtonProps } from '@/components/ui/button';
-import { useCrudModalStore } from '@/context/crud-modal.context';
+import {
+	CrudModalOptions,
+	useCrudModalStore,
+} from '@/context/crud-modal.context';
 import { Plus } from 'lucide-react';
 
 type AddItemCrudButtonProps = ButtonProps & {
 	noOpenModal?: boolean;
+	openModal?: CrudModalOptions;
 };
 
 export const AddItemCrudButton = ({
 	asChild,
 	noOpenModal,
+	openModal,
 	...props
 }: AddItemCrudButtonProps) => {
 	const { setOpen } = useCrudModalStore();
@@ -19,8 +24,8 @@ export const AddItemCrudButton = ({
 		<Button
 			icon={Plus}
 			onClick={() => {
-				if (!noOpenModal) {
-					setOpen(true);
+				if (!noOpenModal && openModal) {
+					setOpen(openModal);
 				}
 			}}
 			asChild={asChild}

@@ -28,6 +28,7 @@ export const UserModal = () => {
 
 	return (
 		<CrudModal
+			openModal={'user'}
 			title='User'
 			form={form}
 			resetValues={RESET_VALUES}

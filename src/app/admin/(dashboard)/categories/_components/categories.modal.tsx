@@ -22,6 +22,7 @@ export const CategoryModal = () => {
 			form={form}
 			resetValues={RESET_VALUES}
 			onSubmit={onSubmit}
+			openModal={'category'}
 		>
 			<FormField
 				name='name'

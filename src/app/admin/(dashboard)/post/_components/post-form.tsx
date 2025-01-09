@@ -1,5 +1,7 @@
 'use client';
 
+import { AuthorsModal } from '@/app/admin/(dashboard)/authors/_components/authors.modal';
+import { CategoryModal } from '@/app/admin/(dashboard)/categories/_components/categories.modal';
 import { PostClasificationFields } from '@/app/admin/(dashboard)/post/_components/post-clasification-fields';
 import { PostGeneralFields } from '@/app/admin/(dashboard)/post/_components/post-general-fields';
 import { PostSeoFields } from '@/app/admin/(dashboard)/post/_components/post-seo-fields';
@@ -139,6 +141,9 @@ export const PostForm = ({ initialValues }: PostFormProps) => {
 					</Card>
 				</div>
 			</FormProvider>
+
+			<CategoryModal />
+			<AuthorsModal />
 		</>
 	);
 };

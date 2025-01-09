@@ -37,7 +37,7 @@ export const useUsersModal = () => {
 				loadingMessage: 'Saving author...',
 				successMessage: 'Author saved successfully',
 				onSuccess() {
-					setOpen(false);
+					setOpen(null);
 				},
 			});
 		});

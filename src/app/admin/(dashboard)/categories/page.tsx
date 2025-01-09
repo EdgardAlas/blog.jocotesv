@@ -21,7 +21,9 @@ const CategoriesPage = async ({ searchParams }: CategoriesPageProps) => {
 				title='Categories'
 				description='Here you can manage the categories of the blog.'
 			>
-				<AddItemCrudButton autoFocus>Add Category</AddItemCrudButton>
+				<AddItemCrudButton autoFocus openModal={'category'}>
+					Add Category
+				</AddItemCrudButton>
 			</AdminTitle>
 
 			<Card>

@@ -32,7 +32,7 @@ export const useCategoriesModal = () => {
 				loadingMessage: 'Saving category...',
 				successMessage: 'Category saved',
 				onSuccess() {
-					setOpen(false);
+					setOpen(null);
 				},
 			});
 		});

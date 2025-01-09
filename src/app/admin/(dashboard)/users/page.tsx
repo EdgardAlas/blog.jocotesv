@@ -18,7 +18,9 @@ const UsersPage = async ({ searchParams }: UsersPageProps) => {
 	return (
 		<>
 			<AdminTitle title='Users' description='Manage all users in the system'>
-				<AddItemCrudButton>Add User</AddItemCrudButton>
+				<AddItemCrudButton openModal={'user'} autoFocus>
+					Add User
+				</AddItemCrudButton>
 			</AdminTitle>
 
 			<Card>

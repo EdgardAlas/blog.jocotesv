@@ -45,7 +45,7 @@ export const useUploadImageForm = () => {
 				successMessage: 'Image uploaded successfully',
 				loadingMessage: 'Uploading image...',
 				onSuccess() {
-					setOpen(false);
+					setOpen(null);
 				},
 			});
 		});

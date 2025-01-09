@@ -21,7 +21,9 @@ const AuthorsPage = async ({ searchParams }: AuthorsPageProps) => {
 				title='Authors'
 				description='Here you can manage authors for every post.'
 			>
-				<AddItemCrudButton autoFocus>Add Author</AddItemCrudButton>
+				<AddItemCrudButton autoFocus openModal={'author'}>
+					Add Author
+				</AddItemCrudButton>
 			</AdminTitle>
 
 			<Card>
