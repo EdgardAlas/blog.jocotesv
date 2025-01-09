@@ -14,6 +14,7 @@ The url for the project is:
 - Public post search
 - Track post views and show them in the post detail page
 - Create a simple analytics dashboard for the admin
+- Get user session on client side
 
 ## Pending Improvements
 
