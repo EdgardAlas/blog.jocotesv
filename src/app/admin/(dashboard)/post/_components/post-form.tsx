@@ -13,6 +13,7 @@ import {
 import { FormProvider } from '@/components/form-provider';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { useConfirm } from '@/components/ui/confirm-dialog';
 import { Editor } from '@/components/ui/editor';
 import {
 	FormControl,
@@ -24,6 +25,7 @@ import {
 } from '@/components/ui/form';
 import { Switch } from '@/components/ui/switch';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { createConfettiExplosion } from '@/lib/confetti';
 import { handleSafeActionResponse } from '@/lib/handle-safe-action-response';
 import { Save } from 'lucide-react';
 import { useRouter } from 'next/navigation';
@@ -57,6 +59,8 @@ export const PostForm = ({ initialValues }: PostFormProps) => {
 
 	const router = useRouter();
 
+	const confirm = useConfirm();
+
 	return (
 		<>
 			<FormProvider
@@ -64,12 +68,20 @@ export const PostForm = ({ initialValues }: PostFormProps) => {
 				onSubmit={async (values) => {
 					if (loading) return;
 
+					const shouldSave = await confirm({
+						title: 'Are you sure?',
+						description: 'Are you sure you want to save the post?',
+					});
+
+					if (!shouldSave) return;
+
 					startTransition(async () => {
 						await handleSafeActionResponse({
 							action: savePostAction(values),
 							loadingMessage: 'Saving post...',
 							successMessage: 'Post saved',
 							onSuccess() {
+								createConfettiExplosion();
 								router.push(`/admin/posts`);
 							},
 						});
