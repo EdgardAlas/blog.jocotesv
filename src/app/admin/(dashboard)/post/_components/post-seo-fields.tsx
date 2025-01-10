@@ -63,18 +63,6 @@ export const PostSeoFields = () => {
 									loading={loading}
 									icon={X}
 									onClick={() => {
-										/* startLoading(async () => {
-											await handleSafeActionResponse({
-												action: removePostSeoImageAction({
-													url: field.value,
-												}),
-												successMessage: 'Image removed',
-												errorMessage: 'Error removing image',
-												onSuccess() {
-													
-												},
-											});
-										}); */
 										form.setValue('image', '');
 									}}
 								/>

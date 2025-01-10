@@ -12,13 +12,6 @@ import {
 	FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-} from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
 import { TabsContent } from '@/components/ui/tabs';
 import { handleSafeActionResponse } from '@/lib/handle-safe-action-response';
@@ -26,11 +19,6 @@ import { RefreshCw } from 'lucide-react';
 import { useTransition } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { toast } from 'sonner';
-
-const STATUS = [
-	{ label: 'Draft', value: 'draft' },
-	{ label: 'Published', value: 'published' },
-];
 
 export const PostGeneralFields = () => {
 	const form = useFormContext();
@@ -66,31 +54,6 @@ export const PostGeneralFields = () => {
 
 	return (
 		<TabsContent value='general' className='space-y-3'>
-			<FormField
-				control={form.control}
-				name='status'
-				render={({ field }) => (
-					<FormItem>
-						<FormLabel>Status</FormLabel>
-						<FormControl>
-							<Select value={field.value} onValueChange={field.onChange}>
-								<SelectTrigger>
-									<SelectValue placeholder='Select Status' />
-								</SelectTrigger>
-								<SelectContent>
-									{STATUS.map((status) => (
-										<SelectItem key={status.value} value={status.value}>
-											{status.label}
-										</SelectItem>
-									))}
-								</SelectContent>
-							</Select>
-						</FormControl>
-						<FormMessage />
-					</FormItem>
-				)}
-			/>
-
 			<FormField
 				control={form.control}
 				name='title'
@@ -133,7 +96,8 @@ export const PostGeneralFields = () => {
 						<FormMessage />
 						<FormDescription>
 							Slug is the URL-friendly version of the title. It is usually all
-							lowercase and contains only letters, numbers, and hyphens.
+							lowercase and contains only letters, numbers, and hyphens. <br />
+							Do not include starting or ending slashes (e.g., /slug/).
 						</FormDescription>
 					</FormItem>
 				)}

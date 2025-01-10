@@ -22,6 +22,7 @@ import {
 	FormLabel,
 	FormMessage,
 } from '@/components/ui/form';
+import { Switch } from '@/components/ui/switch';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { handleSafeActionResponse } from '@/lib/handle-safe-action-response';
 import { Save } from 'lucide-react';
@@ -125,6 +126,28 @@ export const PostForm = ({ initialValues }: PostFormProps) => {
 								<Button className='w-full' icon={Save} loading={loading}>
 									Save
 								</Button>
+								<FormField
+									control={form.control}
+									name='status'
+									render={({ field }) => (
+										<FormItem className='flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm'>
+											<div className='space-y-0.5'>
+												<FormLabel>Publish Post</FormLabel>
+												<FormDescription>
+													If is enabled, the post will be visible to the public.
+												</FormDescription>
+											</div>
+											<FormControl>
+												<Switch
+													checked={field.value === 'published'}
+													onCheckedChange={(checked) => {
+														field.onChange(checked ? 'published' : 'draft');
+													}}
+												/>
+											</FormControl>
+										</FormItem>
+									)}
+								/>
 								<Tabs
 									defaultValue='general'
 									className='h-full w-full'
