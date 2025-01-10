@@ -57,7 +57,7 @@ export const uploadPostContentImageAction = authActionClient
 
 		return {
 			id,
-			url: uploadedMedia,
+			url: uploadedMedia.secureUrl,
 		};
 	});
 

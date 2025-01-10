@@ -2,8 +2,16 @@ import 'server-only';
 import { v4 } from 'uuid';
 
 import { CustomError } from '@/helpers/custom-error';
+import { env } from '@/lib/env';
 import { v2 as cloudinary, ResponseCallback } from 'cloudinary';
-import { loadCloudinary } from '@/lib/cloudinary';
+
+export const loadCloudinary = () => {
+	cloudinary.config({
+		cloud_name: env.CLOUDINARY_CLOUD_NAME,
+		api_key: env.CLOUDINARY_API_KEY,
+		api_secret: env.CLOUDINARY_API_SECRET,
+	});
+};
 
 export const uploadToCloudinaryUseCase = async (
 	file: File,
