@@ -19,7 +19,10 @@ export const PostClasificationFields = () => {
 	const form = useFormContext();
 
 	return (
-		<TabsContent value='classification' className='space-y-3'>
+		<TabsContent
+			value='classification'
+			className='space-y-3 rounded-md border border-gray-200 p-4'
+		>
 			<FormField
 				control={form.control}
 				name='categories'

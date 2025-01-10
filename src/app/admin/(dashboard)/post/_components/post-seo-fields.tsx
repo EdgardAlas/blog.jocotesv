@@ -24,7 +24,10 @@ export const PostSeoFields = () => {
 	const [loading, startLoading] = useTransition();
 
 	return (
-		<TabsContent value='seo' className='space-y-3'>
+		<TabsContent
+			value='seo'
+			className='space-y-3 rounded-md border border-gray-200 p-4'
+		>
 			<FormField
 				control={form.control}
 				name='description'
