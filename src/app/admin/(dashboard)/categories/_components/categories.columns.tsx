@@ -31,6 +31,7 @@ export const categoriesColumns: ColumnDef<CategoryRow>[] = [
 					deleteData={() => deleteCategoryAction(original.id)}
 					successDeleteMessage='Category deleted successfully'
 					successLoadMessage='Category loaded successfully'
+					open={'category'}
 				/>
 			);
 		},

@@ -57,6 +57,7 @@ export const usersColumns: ColumnDef<UserRow>[] = [
 					successDeleteMessage='User deleted successfully'
 					successLoadMessage='User loaded successfully'
 					disableDelete={!original.canBeDeleted}
+					open={'user'}
 				/>
 			);
 		},

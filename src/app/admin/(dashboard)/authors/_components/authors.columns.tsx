@@ -35,6 +35,7 @@ export const authorsColumns: ColumnDef<AuthorsRow>[] = [
 					deleteData={() => deleteAuthorAction(original.id)}
 					successDeleteMessage='Author deleted successfully'
 					successLoadMessage='Author loaded successfully'
+					open={'author'}
 				/>
 			);
 		},
