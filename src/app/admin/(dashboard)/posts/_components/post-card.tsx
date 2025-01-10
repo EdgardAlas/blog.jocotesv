@@ -63,6 +63,9 @@ export const PostCard = ({
 							{description && (
 								<p className='text-xs text-gray-500'>{description}</p>
 							)}
+							{slug && (
+								<p className='text-xs font-bold text-gray-500'>{`/${slug}`}</p>
+							)}
 							{author && (
 								<div>
 									<p className='text-xs text-gray-600'>By {author}</p>
@@ -94,6 +97,7 @@ export const PostCardSkeleton = () => (
 
 			<div className='flex items-center justify-between gap-2'>
 				<div className='flex flex-1 flex-col gap-2'>
+					<Skeleton className='h-4 w-full' />
 					<Skeleton className='h-4 w-full' />
 					<Skeleton className='h-4 w-full' />
 					<Skeleton className='h-4 w-full' />
