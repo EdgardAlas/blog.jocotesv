@@ -4,6 +4,7 @@ import { SavePostSchema } from '@/app/admin/(dashboard)/post/_lib/post.schema';
 import { JSDOM } from 'jsdom';
 import { nanoid } from 'nanoid';
 
+import { Post } from '@/app/admin/(dashboard)/post/_types/posts';
 import {
 	deletePostCategories,
 	insertPostCategories,
@@ -16,18 +17,20 @@ import {
 	countPosts,
 	deletePost,
 	existsSlug,
-	findPostBySlug,
 	findPaginatedPosts,
+	findPostBySlug,
 	insertPost,
 	updatePost,
 } from '@/data-acces/posts.data-acces';
+import { calculateTotalPages } from '@/helpers/calculate-total-pages';
 import { CustomError } from '@/helpers/custom-error';
 import { db } from '@/lib/db';
 import { formatDate } from '@/lib/format-dates';
 import slugify from 'slugify';
 import { z } from 'zod';
-import { Post } from '@/app/admin/(dashboard)/post/_types/posts';
-import { calculateTotalPages } from '@/helpers/calculate-total-pages';
+import { insertMediaUseCase } from '@/use-cases/media.use-case';
+import { extractPublicIdFromUrl } from '@/use-cases/extract-public-id.use-case';
+import { POST_IMAGE_FOLDER } from '@/config/cloudinary';
 
 export const insertPostUseCase = async (
 	post: z.infer<typeof SavePostSchema>
@@ -61,8 +64,10 @@ export const insertPostUseCase = async (
 				tx
 			);
 		}
+		const publicId = extractPublicIdFromUrl(post.image, POST_IMAGE_FOLDER);
+		const insertSeoImage = await insertMediaUseCase(post.image, publicId ?? '');
 
-		const imagesId = extractImagesIdFromContent(post.content, post.image);
+		const imagesId = extractImagesIdFromContent(post.content, insertSeoImage);
 
 		if (imagesId.length) {
 			await insertPostMediaArray(imagesId, postId, tx);
@@ -104,7 +109,10 @@ export const updatePostUseCase = async (
 			);
 		}
 
-		const imagesId = extractImagesIdFromContent(post.content, post.image);
+		const publicId = extractPublicIdFromUrl(post.image, POST_IMAGE_FOLDER);
+		const insertSeoImage = await insertMediaUseCase(post.image, publicId ?? '');
+
+		const imagesId = extractImagesIdFromContent(post.content, insertSeoImage);
 
 		if (imagesId.length) {
 			await insertPostMediaArray(imagesId, id, tx);

@@ -1,10 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 'use client';
 
-import {
-	removePostSeoImageAction,
-	uploadPostSeoImageAction,
-} from '@/app/admin/(dashboard)/post/_lib/post.actions';
+import { uploadPostSeoImageAction } from '@/app/admin/(dashboard)/post/_lib/post.actions';
 import { Button } from '@/components/ui/button';
 import {
 	FormControl,
@@ -66,7 +63,7 @@ export const PostSeoFields = () => {
 									loading={loading}
 									icon={X}
 									onClick={() => {
-										startLoading(async () => {
+										/* startLoading(async () => {
 											await handleSafeActionResponse({
 												action: removePostSeoImageAction({
 													url: field.value,
@@ -74,10 +71,11 @@ export const PostSeoFields = () => {
 												successMessage: 'Image removed',
 												errorMessage: 'Error removing image',
 												onSuccess() {
-													form.setValue('image', '');
+													
 												},
 											});
-										});
+										}); */
+										form.setValue('image', '');
 									}}
 								/>
 							</div>

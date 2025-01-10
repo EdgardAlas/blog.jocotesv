@@ -65,6 +65,9 @@ export const deleteFromCloudinaryUseCase = async (
 
 	return cloudinary.uploader.destroy(
 		publicId,
+		{
+			invalidate: true,
+		},
 		cb ||
 			((e) => {
 				if (e) {

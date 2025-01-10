@@ -6,6 +6,10 @@ import {
 	SavePostSchema,
 	uploadFileSchema,
 } from '@/app/admin/(dashboard)/post/_lib/post.schema';
+import {
+	POST_CONTENT_IMAGE_FOLDER,
+	POST_IMAGE_FOLDER,
+} from '@/config/cloudinary';
 import { roles } from '@/config/roles';
 import { authActionClient } from '@/lib/safe-action';
 import { uploadToCloudinaryUseCase } from '@/use-cases/cloudinary.use-case';
@@ -19,9 +23,6 @@ import {
 import { removeFileUseCase } from '@/use-cases/remove-file.use-case';
 import { revalidatePath } from 'next/cache';
 import slugify from 'slugify';
-
-const POST_IMAGE_FOLDER = 'post-seo-images';
-const POST_CONTENT_IMAGE_FOLDER = 'post-content-images';
 
 export const uploadPostSeoImageAction = authActionClient
 	.metadata([roles.admin, roles.editor])

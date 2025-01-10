@@ -106,6 +106,11 @@ export const PostForm = ({ initialValues }: PostFormProps) => {
 												recommended width for optimal reading, matching how it
 												will appear on the website.
 											</FormDescription>
+											<FormDescription>
+												All post images and SEO images will not be deleted
+												here,they will be deleted in the media section because
+												you can use them in other posts.
+											</FormDescription>
 										</FormItem>
 									)}
 								/>
