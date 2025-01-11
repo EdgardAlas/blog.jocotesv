@@ -1,4 +1,5 @@
 import { DataTable } from '@/components/data-table/data-table';
+import { Pagination } from '@/components/pagination/pagination';
 import { ColumnDef } from '@tanstack/react-table';
 
 interface DataTableLoader<TData, TValue> {
@@ -14,6 +15,7 @@ export const TableLoader = async <TData, TValue>({
 	return (
 		<>
 			<DataTable columns={columns} data={data.data} />
+			<Pagination totalPages={data.totalPages} />
 		</>
 	);
 };

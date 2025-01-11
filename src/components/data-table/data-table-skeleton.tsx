@@ -1,6 +1,7 @@
 'use client';
 
 import { DataTable } from '@/components/data-table/data-table';
+import { Pagination } from '@/components/pagination/pagination';
 import { Skeleton } from '@/components/ui/skeleton';
 
 interface TableLoadingProps {
@@ -23,6 +24,7 @@ export const TableSekeleton = ({ size }: TableLoadingProps) => {
 					loading: '',
 				}))}
 			/>
+			<Pagination totalPages={1} disableButtons />
 		</>
 	);
 };

@@ -2,8 +2,7 @@ import { usersColumns } from '@/app/admin/(dashboard)/users/_components/users.co
 import { UserModal } from '@/app/admin/(dashboard)/users/_components/users.modal';
 import { TableLoader } from '@/components/data-table/data-table-loader';
 import { TableSekeleton } from '@/components/data-table/data-table-skeleton';
-import { PaginationSuspense } from '@/components/pagination/pagination-suspense';
-import { SearchInputSuspense } from '@/components/search-input/search-input-suspense';
+import { SearchInput } from '@/components/search-input/search-input';
 import { AddItemCrudButton } from '@/components/ui/add-item-crud-button';
 import { AdminTitle } from '@/components/ui/admin-title';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
@@ -26,7 +25,7 @@ const UsersPage = async ({ searchParams }: UsersPageProps) => {
 			<Card>
 				<CardHeader className='pb-0' />
 				<CardContent>
-					<SearchInputSuspense />
+					<SearchInput />
 
 					<Suspense
 						key={`${page}-${size}-${search}`}
@@ -43,8 +42,6 @@ const UsersPage = async ({ searchParams }: UsersPageProps) => {
 							}
 						/>
 					</Suspense>
-
-					<PaginationSuspense />
 				</CardContent>
 			</Card>
 

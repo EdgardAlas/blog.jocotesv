@@ -2,9 +2,8 @@ import {
 	PostCardLists,
 	PostCardListSkeleton,
 } from '@/app/admin/(dashboard)/posts/_components/post-card-lists';
-import { StatusFilterSuspense } from '@/app/admin/(dashboard)/posts/_components/status-filter-suspense';
-import { PaginationSuspense } from '@/components/pagination/pagination-suspense';
-import { SearchInputSuspense } from '@/components/search-input/search-input-suspense';
+import { StatusFilter } from '@/app/admin/(dashboard)/posts/_components/status-filter';
+import { SearchInput } from '@/components/search-input/search-input';
 import { AddItemCrudButton } from '@/components/ui/add-item-crud-button';
 import { AdminTitle } from '@/components/ui/admin-title';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
@@ -39,8 +38,8 @@ const PostsPage = async ({ searchParams }: PostsPageProps) => {
 
 				<CardContent>
 					<div className='mb-4 flex flex-col gap-x-2 min-[415px]:flex-row'>
-						<SearchInputSuspense />
-						<StatusFilterSuspense />
+						<SearchInput />
+						<StatusFilter />
 					</div>
 
 					<Suspense
@@ -49,11 +48,6 @@ const PostsPage = async ({ searchParams }: PostsPageProps) => {
 					>
 						<PostCardLists searchParams={searchParams} />
 					</Suspense>
-
-					<PaginationSuspense
-						defaultPageSize={8}
-						pageSizeOptions={[8, 16, 32, 64]}
-					/>
 				</CardContent>
 			</Card>
 		</>

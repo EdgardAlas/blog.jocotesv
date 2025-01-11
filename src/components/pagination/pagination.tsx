@@ -17,11 +17,15 @@ import { useTransition } from 'react';
 export interface PaginationProps {
 	pageSizeOptions?: number[];
 	defaultPageSize?: number;
+	totalPages?: number;
+	disableButtons?: boolean;
 }
 
 export function Pagination({
 	pageSizeOptions = [10, 20, 50, 100],
 	defaultPageSize = 10,
+	totalPages = 1,
+	disableButtons,
 }: PaginationProps) {
 	const [isLoading, startTransition] = useTransition();
 
@@ -47,7 +51,7 @@ export function Pagination({
 					<p className='whitespace-nowrap text-sm font-medium'>Rows per page</p>
 					<Select
 						value={size.toString()}
-						disabled={isLoading}
+						disabled={isLoading || disableButtons}
 						onValueChange={(value) => {
 							setSize(parseInt(value, 10));
 						}}
@@ -74,7 +78,7 @@ export function Pagination({
 						onClick={() => {
 							setPage(page - 1);
 						}}
-						disabled={page === 1 || isLoading}
+						disabled={page === 1 || isLoading || disableButtons}
 					>
 						<ChevronLeft className='size-4' aria-hidden='true' />
 					</Button>
@@ -83,6 +87,7 @@ export function Pagination({
 						variant='outline'
 						size='icon'
 						className='size-8'
+						disabled={page === totalPages || isLoading || disableButtons}
 						onClick={() => {
 							setPage(page + 1);
 						}}

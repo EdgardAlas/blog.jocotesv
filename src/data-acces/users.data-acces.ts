@@ -46,7 +46,7 @@ export const countUsers = async (
 			count: sql`count(*)`.mapWith(Number),
 		})
 		.from(users)
-		.where(ilike(users.name, `%${search}%`));
+		.where(search ? ilike(users.name, `%${search}%`) : undefined);
 
 	return result[0].count;
 };

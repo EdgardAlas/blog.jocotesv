@@ -2,8 +2,7 @@ import { categoriesColumns } from '@/app/admin/(dashboard)/categories/_component
 import { CategoryModal } from '@/app/admin/(dashboard)/categories/_components/categories.modal';
 import { TableLoader } from '@/components/data-table/data-table-loader';
 import { TableSekeleton } from '@/components/data-table/data-table-skeleton';
-import { PaginationSuspense } from '@/components/pagination/pagination-suspense';
-import { SearchInputSuspense } from '@/components/search-input/search-input-suspense';
+import { SearchInput } from '@/components/search-input/search-input';
 import { AddItemCrudButton } from '@/components/ui/add-item-crud-button';
 import { AdminTitle } from '@/components/ui/admin-title';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
@@ -29,7 +28,7 @@ const CategoriesPage = async ({ searchParams }: CategoriesPageProps) => {
 			<Card>
 				<CardHeader />
 				<CardContent>
-					<SearchInputSuspense />
+					<SearchInput />
 
 					<Suspense
 						key={`${page}-${size}-${search}`}
@@ -46,8 +45,6 @@ const CategoriesPage = async ({ searchParams }: CategoriesPageProps) => {
 							}
 						/>
 					</Suspense>
-
-					<PaginationSuspense />
 				</CardContent>
 			</Card>
 
