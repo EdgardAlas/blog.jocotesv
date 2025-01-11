@@ -18,7 +18,7 @@ export const PublicHeader = () => {
 				'shadow-md': hasShadow,
 			})}
 		>
-			<div className='mx-auto max-w-7xl'>
+			<div className='container mx-auto'>
 				<div className='flex items-center justify-between'>
 					{/* Logo */}
 					<div className='flex flex-shrink-0 items-center'>
@@ -64,7 +64,7 @@ export const PublicHeader = () => {
 					<div className='space-y-2 px-2 pb-3 pt-2 sm:px-3'>
 						<Link
 							href='/'
-							className='block px-3 text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900'
+							className='block text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900'
 						>
 							Home
 						</Link>

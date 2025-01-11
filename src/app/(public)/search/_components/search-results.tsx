@@ -23,7 +23,7 @@ export const SearchResults = async ({ searchParams }: PostListProps) => {
 					title={search ? `Search results for "${search}"` : 'Latest posts'}
 				/>
 			) : (
-				<h2 className='mb-4 text-center text-2xl font-bold'>No posts found</h2>
+				<h2 className='text-center text-2xl font-bold'>No posts found</h2>
 			)}
 
 			<Pagination totalPages={data.totalPages} />
