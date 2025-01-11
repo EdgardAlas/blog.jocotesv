@@ -1,4 +1,7 @@
-import { insertPostView } from '@/data-acces/page-views.data-access';
+import {
+	deletePageViewsByPostId,
+	insertPostView,
+} from '@/data-acces/page-views.data-access';
 import { headers } from 'next/headers';
 
 export const insertPageViewUseCase = async (postId: string) => {
@@ -13,4 +16,8 @@ export const insertPageViewUseCase = async (postId: string) => {
 		postId,
 		userAgent: requestHeaders.get('user-agent'),
 	});
+};
+
+export const deletePageViewsByPostIdUseCase = async (postId: string) => {
+	await deletePageViewsByPostId(postId);
 };

@@ -18,7 +18,7 @@ import {
 	findPaginatedPosts,
 	findPostBySlug,
 	insertPost,
-	updatePost
+	updatePost,
 } from '@/data-acces/posts.data-acces';
 import { calculateTotalPages } from '@/helpers/calculate-total-pages';
 import { CustomError } from '@/helpers/custom-error';
@@ -30,6 +30,7 @@ import { JSDOM } from 'jsdom';
 import { nanoid } from 'nanoid';
 import slugify from 'slugify';
 import { z } from 'zod';
+import { deletePageViewsByPostId } from '@/data-acces/page-views.data-access';
 
 export const insertPostUseCase = async (
 	post: z.infer<typeof SavePostSchema>
@@ -137,6 +138,7 @@ export const deletePostUseCase = (postId: string) => {
 		await Promise.all([
 			await deletePostCategories(postId, tx),
 			await deletePostMedia(postId, tx),
+			await deletePageViewsByPostId(postId, tx),
 		]);
 		await deletePost(postId, tx);
 	});
