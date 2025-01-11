@@ -14,11 +14,11 @@ export const PublicHeader = () => {
 
 	return (
 		<header
-			className={cn('sticky top-0 z-10 bg-accent px-4 py-4 shadow-sm', {
+			className={cn('sticky top-0 z-10 bg-accent py-4 shadow-sm', {
 				'shadow-md': hasShadow,
 			})}
 		>
-			<div className='container mx-auto'>
+			<div className='container mx-auto px-4'>
 				<div className='flex items-center justify-between'>
 					{/* Logo */}
 					<div className='flex flex-shrink-0 items-center'>
