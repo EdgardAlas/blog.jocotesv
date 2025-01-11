@@ -87,7 +87,12 @@ export function Pagination({
 						variant='outline'
 						size='icon'
 						className='size-8'
-						disabled={page === totalPages || isLoading || disableButtons}
+						disabled={
+							totalPages === 0 ||
+							page === totalPages ||
+							isLoading ||
+							disableButtons
+						}
 						onClick={() => {
 							setPage(page + 1);
 						}}

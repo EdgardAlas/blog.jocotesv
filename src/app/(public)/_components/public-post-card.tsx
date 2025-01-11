@@ -1,10 +1,11 @@
 import { PostCardType } from '@/app/(public)/_types/post-card';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { Skeleton } from '@/components/ui/skeleton';
 import Image from 'next/image';
 import Link from 'next/link';
 
-export function PostCard({ post }: { post: PostCardType }) {
+export function PublicPostCard({ post }: { post: PostCardType }) {
 	return (
 		<Link
 			href={post.url ?? '#'}
@@ -37,3 +38,18 @@ export function PostCard({ post }: { post: PostCardType }) {
 		</Link>
 	);
 }
+
+export const PublicPostCardSkeleton = () => (
+	<Card className='overflow-hidden'>
+		<CardHeader className='p-0'>
+			<Skeleton className='h-48 w-full' />
+		</CardHeader>
+		<CardContent className='p-4'>
+			<Skeleton className='mb-2 h-6 w-3/4' />
+			<div className='flex flex-wrap gap-2'>
+				<Skeleton className='h-4 w-16' />
+			</div>
+			<Skeleton className='mt-2 h-4 w-20' />
+		</CardContent>
+	</Card>
+);

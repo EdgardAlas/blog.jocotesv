@@ -2,7 +2,6 @@ import {
 	PostCard,
 	PostCardSkeleton,
 } from '@/app/admin/(dashboard)/posts/_components/post-card';
-import { Pagination } from '@/components/pagination/pagination';
 import { findPaginatedPostsUseCase } from '@/use-cases/post.use-case';
 
 interface PostCardListsProps {
@@ -32,32 +31,18 @@ export const PostCardLists = async ({ searchParams }: PostCardListsProps) => {
 	}
 
 	return (
-		<div>
-			<div className='grid gap-4 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4'>
-				{posts.data.map((post) => (
-					<PostCard {...post} key={post.id} />
-				))}
-			</div>
-			<Pagination
-				defaultPageSize={8}
-				pageSizeOptions={[8, 16, 32, 64]}
-				totalPages={posts.totalPages}
-			/>
+		<div className='grid gap-4 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4'>
+			{posts.data.map((post) => (
+				<PostCard {...post} key={post.id} />
+			))}
 		</div>
 	);
 };
 
 export const PostCardListSkeleton = () => (
-	<>
-		<div className='grid gap-4 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4'>
-			{Array.from({ length: 4 }).map((_, index) => (
-				<PostCardSkeleton key={index} />
-			))}
-		</div>
-		<Pagination
-			defaultPageSize={8}
-			pageSizeOptions={[8, 16, 32, 64]}
-			disableButtons
-		/>
-	</>
+	<div className='grid gap-4 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4'>
+		{Array.from({ length: 4 }).map((_, index) => (
+			<PostCardSkeleton key={index} />
+		))}
+	</div>
 );

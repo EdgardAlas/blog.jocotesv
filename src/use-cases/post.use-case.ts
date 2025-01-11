@@ -1,10 +1,8 @@
 import 'server-only';
 
 import { SavePostSchema } from '@/app/admin/(dashboard)/post/_lib/post.schema';
-import { JSDOM } from 'jsdom';
-import { nanoid } from 'nanoid';
-
 import { Post } from '@/app/admin/(dashboard)/post/_types/posts';
+import { POST_IMAGE_FOLDER } from '@/config/cloudinary';
 import {
 	deletePostCategories,
 	insertPostCategories,
@@ -20,17 +18,18 @@ import {
 	findPaginatedPosts,
 	findPostBySlug,
 	insertPost,
-	updatePost,
+	updatePost
 } from '@/data-acces/posts.data-acces';
 import { calculateTotalPages } from '@/helpers/calculate-total-pages';
 import { CustomError } from '@/helpers/custom-error';
 import { db } from '@/lib/db';
 import { formatDate } from '@/lib/format-dates';
+import { extractPublicIdFromUrl } from '@/use-cases/extract-public-id.use-case';
+import { insertMediaUseCase } from '@/use-cases/media.use-case';
+import { JSDOM } from 'jsdom';
+import { nanoid } from 'nanoid';
 import slugify from 'slugify';
 import { z } from 'zod';
-import { insertMediaUseCase } from '@/use-cases/media.use-case';
-import { extractPublicIdFromUrl } from '@/use-cases/extract-public-id.use-case';
-import { POST_IMAGE_FOLDER } from '@/config/cloudinary';
 
 export const insertPostUseCase = async (
 	post: z.infer<typeof SavePostSchema>
@@ -211,22 +210,25 @@ export const findPaginatedPostsUseCase = async (
 		countPosts(filters),
 	]);
 
-	const mappedPosts: Post[] = posts.map((post) => ({
-		id: post.id,
-		title: post.title,
-		slug: post.slug ?? '',
-		image: post.image ?? '',
-		categories: post.postCategories.map((c) => c.category.name),
-		author: post?.author?.name ?? '',
-		status: post.status,
-		publicationDate: formatDate(post.publicationDate).format('MMMM DD, YYYY'),
-		description: post.shortDescription ?? '',
-		featured: post.featured ?? false,
-		updatedAt: formatDate(post.updatedAt).format('LLLL'),
-	}));
-
+	const mappedPosts: Post[] = posts.map(postMapper);
 	return {
 		data: mappedPosts,
 		totalPages: calculateTotalPages(total, limit),
 	};
 };
+
+const postMapper = (
+	post: Awaited<ReturnType<typeof findPaginatedPosts>>[0]
+): Post => ({
+	id: post.id,
+	title: post.title,
+	slug: post.slug ?? '',
+	image: post.image ?? '',
+	categories: post.postCategories.map((c) => c.category.name),
+	author: post?.author?.name ?? '',
+	status: post.status,
+	publicationDate: formatDate(post.publicationDate).format('MMMM DD, YYYY'),
+	description: post.shortDescription ?? '',
+	featured: post.featured ?? false,
+	updatedAt: formatDate(post.updatedAt).format('LLLL'),
+});

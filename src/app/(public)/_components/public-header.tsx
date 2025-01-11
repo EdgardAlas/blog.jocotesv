@@ -6,6 +6,7 @@ import { cn } from '@/lib/utils';
 import { Menu, X } from 'lucide-react';
 import Link from 'next/link';
 import { useState } from 'react';
+import Form from 'next/form';
 
 export const PublicHeader = () => {
 	const hasShadow = useHeaderShadow();
@@ -31,12 +32,11 @@ export const PublicHeader = () => {
 						<Link href='/' className='text-gray-700 hover:text-gray-900'>
 							Home
 						</Link>
-						<Link href='/posts' className='text-gray-700 hover:text-gray-900'>
-							All Posts
-						</Link>
 
 						<div>
-							<Input placeholder='Search...' />
+							<Form action={'/search'} prefetch={false}>
+								<Input placeholder='Search...' name='search' />
+							</Form>
 						</div>
 					</nav>
 
@@ -68,12 +68,7 @@ export const PublicHeader = () => {
 						>
 							Home
 						</Link>
-						<Link
-							href='/posts'
-							className='block px-3 text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900'
-						>
-							All Posts
-						</Link>
+
 						<Input placeholder='Search...' />
 					</div>
 				</div>

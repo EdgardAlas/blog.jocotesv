@@ -1,5 +1,5 @@
 import { Hero } from '@/app/(public)/(home)/_components/hero';
-import { PostList } from '@/app/(public)/(home)/_components/post-list';
+import { PublicPostList } from '@/app/(public)/(home)/_components/public-post-list';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { findHomePagePostsUseCase } from '@/use-cases/posts.use-case';
@@ -13,18 +13,18 @@ export const revalidate = 86400;
 export default async function HomePage() {
 	const data = await findHomePagePostsUseCase();
 	return (
-		<div className='container mx-auto px-4 py-8'>
+		<>
 			<Hero />
 
 			<Card>
 				<CardHeader />
 				<CardContent className='space-y-8 px-6 md:px-8'>
 					{data.featuredPosts.length > 0 && (
-						<PostList posts={data.featuredPosts} title='Featured Posts' />
+						<PublicPostList posts={data.featuredPosts} title='Featured Posts' />
 					)}
 
 					{data.recentPosts.length > 0 ? (
-						<PostList posts={data.recentPosts} title='Recent Posts' />
+						<PublicPostList posts={data.recentPosts} title='Recent Posts' />
 					) : (
 						<h2 className='text-center text-2xl font-bold'>
 							No recent posts available
@@ -38,6 +38,6 @@ export default async function HomePage() {
 					</div>
 				</CardContent>
 			</Card>
-		</div>
+		</>
 	);
 }

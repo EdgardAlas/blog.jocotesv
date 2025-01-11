@@ -81,6 +81,52 @@ export const findPaginatedPosts = async (
 	});
 };
 
+export const findPaginatedPublicatedPosts = async (
+	page: number,
+	pageSize: number,
+	search: string,
+	tx: Transaction | typeof db = db
+) => {
+	return tx.query.posts.findMany({
+		limit: pageSize,
+		offset: (page - 1) * pageSize,
+		columns: {
+			id: true,
+			title: true,
+			slug: true,
+			status: true,
+			image: true,
+			publicationDate: true,
+			featured: true,
+			updatedAt: true,
+		},
+		extras(fields, { sql }) {
+			return {
+				shortDescription: sql<string>`
+							CASE 
+								WHEN LENGTH(${fields.description}) > 30 
+								THEN CONCAT(SUBSTRING(${fields.description} FROM 1 FOR 30), '...')
+								ELSE ${fields.description}
+							END
+				`.as('shortDescription'),
+			};
+		},
+		where: and(
+			search ? ilike(posts.title, `%${search}%`) : undefined,
+			eq(posts.status, 'published')
+		),
+		orderBy: desc(posts.updatedAt),
+		with: {
+			author: true,
+			postCategories: {
+				with: {
+					category: true,
+				},
+			},
+		},
+	});
+};
+
 export const updatePost = async (
 	id: string,
 	post: Partial<NewPost>,
@@ -128,6 +174,25 @@ export const countPosts = async (
 	return result[0].count;
 };
 
+export const countPublicatedPosts = async (
+	search: string,
+	tx: Transaction | typeof db = db
+): Promise<number> => {
+	const result = await tx
+		.select({
+			count: sql`count(*)`.mapWith(Number),
+		})
+		.from(posts)
+		.where(
+			and(
+				eq(posts.status, 'published'),
+				search ? ilike(posts.title, `%${search}%`) : undefined
+			)
+		);
+
+	return result[0].count;
+};
+
 export const findPostBySlug = async (
 	slug: string,
 	tx: Transaction | typeof db = db
@@ -161,6 +226,16 @@ export const findRecentPosts = async (
 ) => {
 	return tx.query.posts.findMany({
 		limit: count,
+		columns: {
+			id: true,
+			title: true,
+			slug: true,
+			status: true,
+			image: true,
+			publicationDate: true,
+			featured: true,
+			updatedAt: true,
+		},
 		orderBy: desc(posts.publicationDate),
 		where: and(eq(posts.status, 'published')),
 		with: {
@@ -180,6 +255,16 @@ export const findFeaturedPosts = async (
 ) => {
 	return tx.query.posts.findMany({
 		limit: count,
+		columns: {
+			id: true,
+			title: true,
+			slug: true,
+			status: true,
+			image: true,
+			publicationDate: true,
+			featured: true,
+			updatedAt: true,
+		},
 		orderBy: desc(posts.publicationDate),
 		where: and(eq(posts.status, 'published'), eq(posts.featured, true)),
 		with: {

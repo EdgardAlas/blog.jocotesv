@@ -1,10 +1,13 @@
 import { Post } from '@/app/(public)/[slug]/_types/post';
 import { PostCardType } from '@/app/(public)/_types/post-card';
 import {
+	countPublicatedPosts,
 	findFeaturedPosts,
+	findPaginatedPublicatedPosts,
 	findPublishedPostBySlug,
 	findRecentPosts,
 } from '@/data-acces/posts.data-acces';
+import { calculateTotalPages } from '@/helpers/calculate-total-pages';
 import { cache } from 'react';
 
 export const findHomePagePostsUseCase = async (): Promise<{
@@ -71,3 +74,21 @@ const postCardMapper = (
 	url: `/${post.slug}`,
 	author: post?.author?.name ?? '',
 });
+
+export const findPaginatedPublicatedPostsUseCase = async (
+	page: number,
+	limit: number,
+	search: string
+): Promise<WithPagination<PostCardType>> => {
+	const [posts, total] = await Promise.all([
+		findPaginatedPublicatedPosts(page, limit, search),
+		countPublicatedPosts(search),
+	]);
+
+	const mappedPosts: PostCardType[] = posts.map(postCardMapper);
+
+	return {
+		data: mappedPosts,
+		totalPages: calculateTotalPages(total, limit),
+	};
+};
