@@ -6,7 +6,10 @@ import Link from 'next/link';
 
 export function PostCard({ post }: { post: PostCardType }) {
 	return (
-		<Link href={post.url ?? '#'} className='group block'>
+		<Link
+			href={post.url ?? '#'}
+			className='group block transition-transform duration-300 hover:scale-105'
+		>
 			<Card className='overflow-hidden transition-shadow hover:shadow-md'>
 				<CardHeader className='p-0'>
 					<Image

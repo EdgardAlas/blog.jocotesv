@@ -5,7 +5,7 @@ import React from 'react';
 export const Hero = () => {
 	return (
 		<section className='mb-12 rounded-lg bg-primary px-4 py-20 text-center'>
-			<h1 className='mb-4 text-4xl font-bold text-white md:text-6xl'>
+			<h1 className='mb-4 text-3xl font-bold text-white md:text-5xl'>
 				Welcome to JocoteSV blog
 			</h1>
 			<p className='mb-8 text-xl text-white'>
