@@ -23,11 +23,12 @@ export function PostCard({ post }: { post: PostCardType }) {
 					</h3>
 					<div className='flex flex-wrap gap-2'>
 						{post.categories.map((category) => (
-							<Badge key={category} variant='secondary'>
-								{category}
-							</Badge>
+							<Badge key={category}>{category}</Badge>
 						))}
 					</div>
+					<p className='mt-2 text-xs text-gray-600'>
+						Author: <span className='font-semibold'>{post.author}</span>
+					</p>
 				</CardContent>
 			</Card>
 		</Link>

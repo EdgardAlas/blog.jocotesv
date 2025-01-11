@@ -48,12 +48,19 @@ const PostPage = async ({ params }: PostPageProps) => {
 	return (
 		<div className='p-4'>
 			<article className='mx-auto max-w-[80ch] rounded-md bg-white p-4 shadow-md'>
-				<h1 className='mb-4 text-4xl font-bold'>{post.title}</h1>
+				<h1 className='mb-4 text-2xl font-bold md:text-3xl xl:text-4xl'>
+					{post.title}
+				</h1>
 				<div className='mb-3 flex items-center'>
 					<div>
-						<p className='text-sm font-medium'>{post.author}</p>
-						<p className='text-sm text-muted-foreground'>
-							{format(post.publicationDate, 'MMMM d, yyyy')}
+						<p className='text-sm'>
+							Created by <span className='font-bold'> {post.author}</span>
+						</p>
+						<p className='text-sm'>
+							Published on {''}
+							<span className='font-bold'>
+								{format(post.publicationDate, 'MMMM d, yyyy')}
+							</span>
 						</p>
 					</div>
 				</div>

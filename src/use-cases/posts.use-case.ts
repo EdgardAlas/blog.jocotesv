@@ -69,4 +69,5 @@ const postCardMapper = (
 	title: post.title,
 	slug: post.slug,
 	url: `/${post.slug}`,
+	author: post?.author?.name ?? '',
 });

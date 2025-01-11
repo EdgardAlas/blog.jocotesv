@@ -5,4 +5,5 @@ export type PostCardType = {
 	categories: string[];
 	url?: string;
 	slug: string;
+	author: string;
 };
