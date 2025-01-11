@@ -30,7 +30,7 @@ export const findHomePagePostsUseCase = async (): Promise<{
 	};
 };
 
-export const findInvalidPostsUseCase = cache(
+export const findPublishedPostUseCase = cache(
 	async (slug: string): Promise<Post | null> => {
 		const posts = await findPublishedPostBySlug(slug);
 

@@ -1,6 +1,6 @@
 import { RenderHTML } from '@/components/ui/render-html';
 import {
-	findInvalidPostsUseCase,
+	findPublishedPostUseCase,
 	getLastPostSlug,
 } from '@/use-cases/posts.use-case';
 import { format } from 'date-fns';
@@ -27,7 +27,7 @@ export async function generateMetadata({
 }: PostPageProps): Promise<Metadata> {
 	const id = (await params).slug;
 
-	const post = await findInvalidPostsUseCase(id);
+	const post = await findPublishedPostUseCase(id);
 
 	return {
 		title: post?.title,
@@ -39,7 +39,7 @@ export async function generateMetadata({
 const PostPage = async ({ params }: PostPageProps) => {
 	const { slug } = await params;
 
-	const post = await findInvalidPostsUseCase(slug);
+	const post = await findPublishedPostUseCase(slug);
 
 	if (!post) {
 		notFound();
