@@ -33,7 +33,7 @@ export default async function HomePage() {
 
 					<div className='mt-8 text-center'>
 						<Button asChild variant='outline'>
-							<Link href='/posts'>View All Posts</Link>
+							<Link href='/search'>View All Posts</Link>
 						</Button>
 					</div>
 				</CardContent>

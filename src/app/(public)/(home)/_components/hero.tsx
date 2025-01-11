@@ -12,7 +12,7 @@ export const Hero = () => {
 				Discover insightful articles on web development and design
 			</p>
 			<Button asChild variant={'secondary'}>
-				<Link href='/posts'>View All Posts</Link>
+				<Link href='/search'>View All Posts</Link>
 			</Button>
 		</section>
 	);
