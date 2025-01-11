@@ -5,9 +5,7 @@ export const insertPageViewUseCase = async (postId: string) => {
 	const requestHeaders = await headers();
 
 	const ip =
-		requestHeaders.get('x-real-ip') ||
-		requestHeaders.get('x-forwarded-for') ||
-		requestHeaders.get('x-client-ip');
+		requestHeaders.get('x-forwarded-for') || requestHeaders.get('x-client-ip');
 
 	await insertPostView({
 		ipAddress: ip,
