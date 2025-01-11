@@ -154,3 +154,58 @@ export const existsSlug = (slug: string, tx: Transaction | typeof db = db) => {
 		where: ilike(posts.slug, slug),
 	});
 };
+
+export const findRecentPosts = async (
+	count: number,
+	tx: Transaction | typeof db = db
+) => {
+	return tx.query.posts.findMany({
+		limit: count,
+		orderBy: desc(posts.publicationDate),
+		where: and(eq(posts.status, 'published')),
+		with: {
+			author: true,
+			postCategories: {
+				with: {
+					category: true,
+				},
+			},
+		},
+	});
+};
+
+export const findFeaturedPosts = async (
+	count: number,
+	tx: Transaction | typeof db = db
+) => {
+	return tx.query.posts.findMany({
+		limit: count,
+		orderBy: desc(posts.publicationDate),
+		where: and(eq(posts.status, 'published'), eq(posts.featured, true)),
+		with: {
+			author: true,
+			postCategories: {
+				with: {
+					category: true,
+				},
+			},
+		},
+	});
+};
+
+export const findPublishedPostBySlug = async (
+	slug: string,
+	tx: Transaction | typeof db = db
+) => {
+	return tx.query.posts.findFirst({
+		where: and(eq(posts.slug, slug), eq(posts.status, 'published')),
+		with: {
+			author: true,
+			postCategories: {
+				with: {
+					category: true,
+				},
+			},
+		},
+	});
+};

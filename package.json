@@ -61,6 +61,8 @@
 		"date-fns": "^4.1.0",
 		"dayjs": "^1.11.13",
 		"drizzle-orm": "^0.38.3",
+		"hast-util-to-html": "^9.0.4",
+		"html-react-parser": "^5.2.2",
 		"jsdom": "^25.0.1",
 		"lowlight": "^3.3.0",
 		"lucide-react": "^0.469.0",

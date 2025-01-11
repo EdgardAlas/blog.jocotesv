@@ -133,8 +133,10 @@ export const PostGeneralFields = () => {
 						</FormControl>
 						<FormMessage />
 						<FormDescription>
-							Select the date and time when the post should be published, also
-							this will be shown in the blog.
+							This date will be shown on the post and used to order posts.
+						</FormDescription>
+						<FormDescription className='font-semibold'>
+							This date is not used to schedule the post
 						</FormDescription>
 					</FormItem>
 				)}

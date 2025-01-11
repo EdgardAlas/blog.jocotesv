@@ -79,6 +79,8 @@ export const savePostAction = authActionClient
 			await insertPostUseCase(parsedInput);
 		}
 		revalidatePath('/admin/posts');
+		revalidatePath(`/${parsedInput.slug}`);
+		revalidatePath('/');
 	});
 
 export const generateSlugAction = authActionClient

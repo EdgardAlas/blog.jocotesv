@@ -7,7 +7,7 @@ import { handleSafeActionResponse } from '@/lib/handle-safe-action-response';
 import { Trash } from 'lucide-react';
 import { useTransition } from 'react';
 
-export const DeletePostButton = ({ id }: { id: string }) => {
+export const DeletePostButton = (props: { id: string; slug: string }) => {
 	const [loading, startTransition] = useTransition();
 	const confirm = useConfirm();
 	return (
@@ -33,7 +33,7 @@ export const DeletePostButton = ({ id }: { id: string }) => {
 
 				startTransition(async () => {
 					await handleSafeActionResponse({
-						action: deletePostAction(id),
+						action: deletePostAction(props),
 						loadingMessage: 'Deleting post...',
 						successMessage: 'Post deleted successfully',
 					});

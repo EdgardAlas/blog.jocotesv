@@ -76,7 +76,7 @@ export const PostCard = ({
 							)}
 						</div>
 						<div className='flex gap-2'>
-							<DeletePostButton id={id} />
+							<DeletePostButton id={id} slug={slug} />
 						</div>
 					</div>
 					<p className='text-xs text-gray-600'>
