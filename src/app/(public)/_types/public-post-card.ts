@@ -1,4 +1,4 @@
-export type PostCardType = {
+export type PublicPostCardType = {
 	id: string;
 	title: string;
 	imageUrl: string;

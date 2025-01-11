@@ -1,6 +1,6 @@
 'use client';
 
-import { pageViewAction } from '@/app/(public)/_lib/post.actions';
+import { pageViewAction } from '@/app/(public)/_lib/page-view.actions';
 import { useEffect } from 'react';
 
 export const PageView = ({ id }: { id: string }) => {

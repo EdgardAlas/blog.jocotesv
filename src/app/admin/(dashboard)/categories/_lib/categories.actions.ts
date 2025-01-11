@@ -11,9 +11,9 @@ import {
 	deleteCategoryUseCase,
 	findCategoriesByNameUseCase,
 	findCategoryByIdUseCase,
-	insertCategoryUseCase,
 	updateCategoryUseCase,
 } from '@/use-cases/categories.use-case';
+import { insertCategoryUseCase } from '@/use-cases/author-insert-category.use-case';
 import { revalidatePath } from 'next/cache';
 
 export const saveCategoryAction = authActionClient

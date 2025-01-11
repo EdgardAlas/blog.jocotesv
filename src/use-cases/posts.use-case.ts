@@ -1,5 +1,5 @@
 import { Post } from '@/app/(public)/[slug]/_types/post';
-import { PostCardType } from '@/app/(public)/_types/post-card';
+import { PublicPostCardType } from '@/app/(public)/_types/public-post-card';
 import {
 	countPublicatedPosts,
 	findFeaturedPosts,
@@ -11,19 +11,19 @@ import { calculateTotalPages } from '@/helpers/calculate-total-pages';
 import { cache } from 'react';
 
 export const findHomePagePostsUseCase = async (): Promise<{
-	featuredPosts: PostCardType[];
-	recentPosts: PostCardType[];
+	featuredPosts: PublicPostCardType[];
+	recentPosts: PublicPostCardType[];
 }> => {
 	const [featuredPosts, recentPosts] = await Promise.all([
 		findFeaturedPosts(4),
 		findRecentPosts(8),
 	]);
 
-	const mappedFeaturedPosts: PostCardType[] = featuredPosts.map((post) =>
+	const mappedFeaturedPosts: PublicPostCardType[] = featuredPosts.map((post) =>
 		postCardMapper(post)
 	);
 
-	const mappedRecentPosts: PostCardType[] = recentPosts.map((post) =>
+	const mappedRecentPosts: PublicPostCardType[] = recentPosts.map((post) =>
 		postCardMapper(post)
 	);
 
@@ -65,7 +65,7 @@ export const getLastPostSlug = async (): Promise<string[]> => {
 
 const postCardMapper = (
 	post: Awaited<ReturnType<typeof findFeaturedPosts>>[0]
-): PostCardType => ({
+): PublicPostCardType => ({
 	categories: post.postCategories.map((pc) => pc.category.name),
 	id: post.id,
 	imageUrl: post.image ?? '',
@@ -79,13 +79,13 @@ export const findPaginatedPublicatedPostsUseCase = async (
 	page: number,
 	limit: number,
 	search: string
-): Promise<WithPagination<PostCardType>> => {
+): Promise<WithPagination<PublicPostCardType>> => {
 	const [posts, total] = await Promise.all([
 		findPaginatedPublicatedPosts(page, limit, search),
 		countPublicatedPosts(search),
 	]);
 
-	const mappedPosts: PostCardType[] = posts.map(postCardMapper);
+	const mappedPosts: PublicPostCardType[] = posts.map(postCardMapper);
 
 	return {
 		data: mappedPosts,

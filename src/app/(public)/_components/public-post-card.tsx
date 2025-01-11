@@ -1,11 +1,11 @@
-import { PostCardType } from '@/app/(public)/_types/post-card';
+import { PublicPostCardType } from '@/app/(public)/_types/public-post-card';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import Image from 'next/image';
 import Link from 'next/link';
 
-export function PublicPostCard({ post }: { post: PostCardType }) {
+export function PublicPostCard({ post }: { post: PublicPostCardType }) {
 	return (
 		<Link
 			href={post.url ?? '#'}

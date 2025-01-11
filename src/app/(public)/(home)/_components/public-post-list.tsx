@@ -2,13 +2,13 @@ import {
 	PublicPostCard,
 	PublicPostCardSkeleton,
 } from '@/app/(public)/_components/public-post-card';
-import { PostCardType } from '@/app/(public)/_types/post-card';
+import { PublicPostCardType } from '@/app/(public)/_types/public-post-card';
 
 export const PublicPostList = ({
 	posts,
 	title,
 }: {
-	posts: PostCardType[];
+	posts: PublicPostCardType[];
 	title: string;
 }) => (
 	<section>
