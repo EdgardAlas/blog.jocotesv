@@ -122,9 +122,10 @@
 		@apply mt-0;
 	}
 
-	p:empty::after {
+	/* 	p:empty::after {
 		content: '\00A0';
 	}
+ */
 
 	p:last-child {
 		@apply mb-0;
@@ -152,6 +153,8 @@
 		background-color: var(--code-background);
 		border-radius: 0.5rem;
 		padding: 0.75rem 1rem !important;
+		max-width: 80in;
+		overflow-x: auto;
 	}
 
 	code {

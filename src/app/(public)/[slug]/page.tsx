@@ -47,7 +47,7 @@ const PostPage = async ({ params }: PostPageProps) => {
 	}
 
 	return (
-		<div className='p-4'>
+		<>
 			<PageView id={post.id} />
 			<article className='mx-auto max-w-[80ch] rounded-md bg-white p-5 shadow-md md:p-6'>
 				<h1 className='mb-4 text-2xl font-bold md:text-3xl xl:text-4xl'>
@@ -68,7 +68,7 @@ const PostPage = async ({ params }: PostPageProps) => {
 				</div>
 				<RenderHTML code={post.content} />
 			</article>
-		</div>
+		</>
 	);
 };
 

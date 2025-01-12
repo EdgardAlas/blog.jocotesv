@@ -37,7 +37,7 @@ export const CodeBlockComponent = ({
 }: NodeViewProps) => (
 	<NodeViewWrapper className='code-block'>
 		<select
-			className='h-8 rounded-md border border-input px-3 py-1 text-base shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring'
+			className='h-8 rounded-md border border-input px-3 py-1 text-xs shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring'
 			contentEditable={false}
 			defaultValue={defaultLanguage}
 			onChange={(event) => updateAttributes({ language: event.target.value })}
@@ -112,8 +112,7 @@ export const Editor = ({ onChange, value }: EditorProps) => {
 							default: null,
 						},
 						style: {
-							default:
-								'width: auto; height: auto; cursor: pointer; max-width: 100%;',
+							default: 'width: auto; height: auto; max-width: 100%;',
 						},
 						'data-id': {
 							default: null,

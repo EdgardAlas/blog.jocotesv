@@ -14,7 +14,7 @@ export function PublicPostCard({ post }: { post: PublicPostCardType }) {
 			<Card className='overflow-hidden transition-shadow hover:shadow-md'>
 				<CardHeader className='p-0'>
 					<Image
-						src={post.imageUrl}
+						src={post.imageUrl || '/placeholder.webp'}
 						alt={post.title}
 						width={300}
 						height={200}
