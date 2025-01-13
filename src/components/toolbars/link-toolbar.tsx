@@ -105,7 +105,9 @@ export function LinkToolbar() {
 					<TooltipTrigger asChild>
 						<PopoverTrigger asChild>
 							<button
-								aria-label='Create link'
+								aria-label={
+									editor.isActive('link') ? 'Update Link' : 'Create Link'
+								}
 								className={cn('toggle-button', {
 									'!bg-primary text-accent': editor.isActive('link'),
 								})}
@@ -172,7 +174,7 @@ export function LinkToolbar() {
 								)}
 							/>
 							<Button type='submit' className='w-full'>
-								Create Link
+								{editor.isActive('link') ? 'Update Link' : 'Create Link'}
 							</Button>
 							{editor.isActive('link') && (
 								<Button

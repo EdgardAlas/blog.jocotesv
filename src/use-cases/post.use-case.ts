@@ -30,7 +30,7 @@ import { JSDOM } from 'jsdom';
 import { nanoid } from 'nanoid';
 import slugify from 'slugify';
 import { z } from 'zod';
-import { deletePageViewsByPostId } from '@/data-acces/page-views.data-access';
+import { deletePostViewsByPostId } from '@/data-acces/page-views.data-access';
 
 export const insertPostUseCase = async (
 	post: z.infer<typeof SavePostSchema>
@@ -138,7 +138,7 @@ export const deletePostUseCase = (postId: string) => {
 		await Promise.all([
 			await deletePostCategories(postId, tx),
 			await deletePostMedia(postId, tx),
-			await deletePageViewsByPostId(postId, tx),
+			await deletePostViewsByPostId(postId, tx),
 		]);
 		await deletePost(postId, tx);
 	});

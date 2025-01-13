@@ -1,8 +1,6 @@
-'use client';
-
 import { cn } from '@/lib/utils';
 import type { Editor } from '@tiptap/react';
-import React from 'react';
+import React, { useEffect } from 'react';
 
 export interface ToolbarContextProps {
 	editor: Editor;
@@ -38,4 +36,24 @@ export const useToolbar = () => {
 	}
 
 	return context;
+};
+
+export const useEditorActive = (name: string) => {
+	const { editor } = useToolbar();
+
+	const [isActive, setIsActive] = React.useState(false);
+
+	useEffect(() => {
+		const handleSelectionChange = () => {
+			setIsActive(editor?.isActive(name) ?? false);
+		};
+
+		editor?.on('selectionUpdate', handleSelectionChange);
+
+		return () => {
+			editor?.off('selectionUpdate', handleSelectionChange);
+		};
+	}, [editor, name]);
+
+	return isActive;
 };

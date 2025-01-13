@@ -306,5 +306,5 @@ code syntax highlighting
 }
 
 .toggle-button {
-	@apply inline-flex h-9 min-w-9 items-center justify-center gap-2 rounded-md border border-input bg-transparent px-2 text-sm font-medium shadow-sm transition-colors hover:bg-primary/80 hover:text-accent focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 data-[state=on]:bg-primary data-[state=on]:text-accent [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0;
+	@apply inline-flex h-9 min-w-9 items-center justify-center gap-2 rounded-md border border-input bg-transparent px-2 text-sm font-medium shadow-sm transition-colors hover:bg-primary/80 hover:text-accent focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-[pressed=true]:bg-primary aria-[pressed=true]:text-accent data-[state=on]:bg-primary data-[state=on]:text-accent [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0;
 }

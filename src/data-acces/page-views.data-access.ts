@@ -1,18 +1,18 @@
-import { NewPageView, pageViews } from '@/drizzle/schema';
+import { NewPageView, postViews } from '@/drizzle/schema';
 import { db, Transaction } from '@/lib/db';
 import { eq } from 'drizzle-orm';
 
 export const insertPostView = async (view: NewPageView) => {
-	const response = await db.insert(pageViews).values(view).returning({
-		id: pageViews.id,
+	const response = await db.insert(postViews).values(view).returning({
+		id: postViews.id,
 	});
 
 	return response[0].id;
 };
 
-export const deletePageViewsByPostId = async (
+export const deletePostViewsByPostId = async (
 	postId: string,
 	tx: Transaction | typeof db = db
 ) => {
-	await tx.delete(pageViews).where(eq(pageViews.postId, postId));
+	await tx.delete(postViews).where(eq(postViews.postId, postId));
 };
