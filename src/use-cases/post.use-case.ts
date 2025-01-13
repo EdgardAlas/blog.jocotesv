@@ -12,6 +12,7 @@ import {
 	insertPostMediaArray,
 } from '@/data-acces/post-media.data-acces';
 import {
+	addPostView,
 	countPosts,
 	deletePost,
 	existsSlug,
@@ -30,7 +31,6 @@ import { JSDOM } from 'jsdom';
 import { nanoid } from 'nanoid';
 import slugify from 'slugify';
 import { z } from 'zod';
-import { deletePostViewsByPostId } from '@/data-acces/page-views.data-access';
 
 export const insertPostUseCase = async (
 	post: z.infer<typeof SavePostSchema>
@@ -138,7 +138,6 @@ export const deletePostUseCase = (postId: string) => {
 		await Promise.all([
 			await deletePostCategories(postId, tx),
 			await deletePostMedia(postId, tx),
-			await deletePostViewsByPostId(postId, tx),
 		]);
 		await deletePost(postId, tx);
 	});
@@ -234,3 +233,13 @@ const postMapper = (
 	featured: post.featured ?? false,
 	updatedAt: formatDate(post.updatedAt).format('LLLL'),
 });
+
+export const addPostViewUseCase = async (slug: string) => {
+	const post = await findPostBySlug(slug);
+
+	if (post) {
+		return addPostView(slug);
+	}
+
+	return null;
+};

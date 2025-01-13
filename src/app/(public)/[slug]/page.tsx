@@ -1,4 +1,4 @@
-import { PageView } from '@/app/(public)/_components/page-view';
+import { PostView } from '@/app/(public)/_components/post-view';
 import { RenderHTML } from '@/components/ui/render-html';
 import {
 	findPublishedPostUseCase,
@@ -48,7 +48,7 @@ const PostPage = async ({ params }: PostPageProps) => {
 
 	return (
 		<>
-			<PageView id={post.id} />
+			<PostView slug={slug} />
 			<article className='mx-auto max-w-[80ch] rounded-md bg-white p-5 shadow-md md:p-6'>
 				<h1 className='mb-4 text-2xl font-bold md:text-3xl xl:text-4xl'>
 					{post.title}

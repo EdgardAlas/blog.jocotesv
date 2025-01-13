@@ -1,22 +1,22 @@
 import {
-	pgTable,
-	unique,
-	check,
-	uuid,
-	varchar,
-	text,
-	timestamp,
-	foreignKey,
-	inet,
-	boolean,
-	primaryKey,
-} from 'drizzle-orm/pg-core';
-import {
 	InferInsertModel,
 	InferSelectModel,
 	relations,
 	sql,
 } from 'drizzle-orm';
+import {
+	boolean,
+	check,
+	foreignKey,
+	integer,
+	pgTable,
+	primaryKey,
+	text,
+	timestamp,
+	unique,
+	uuid,
+	varchar,
+} from 'drizzle-orm/pg-core';
 
 export const users = pgTable(
 	'users',
@@ -39,30 +39,6 @@ export const users = pgTable(
 			'users_role_check',
 			sql`(role)::text = ANY ((ARRAY['owner'::character varying, 'admin'::character varying, 'editor'::character varying, 'user'::character varying])::text[])`
 		),
-	]
-);
-
-export const postViews = pgTable(
-	'post_views',
-	{
-		id: uuid().defaultRandom().primaryKey().notNull(),
-		postId: uuid('post_id'),
-		viewedAt: timestamp('viewed_at', { mode: 'string' }).default(
-			sql`CURRENT_TIMESTAMP`
-		),
-		ipAddress: inet('ip_address'),
-		userAgent: text('user_agent'),
-		createdAt: timestamp('created_at', { mode: 'string' }).default(
-			sql`CURRENT_TIMESTAMP`
-		),
-		country: text(),
-	},
-	(table) => [
-		foreignKey({
-			columns: [table.postId],
-			foreignColumns: [posts.id],
-			name: 'page_views_post_id_fkey',
-		}).onDelete('cascade'),
 	]
 );
 
@@ -112,6 +88,7 @@ export const posts = pgTable(
 		updatedAt: timestamp('updated_at', { mode: 'string' }).default(
 			sql`CURRENT_TIMESTAMP`
 		),
+		views: integer().default(0),
 	},
 	(table) => [
 		foreignKey({
@@ -187,15 +164,7 @@ export const postMedia = pgTable(
 	]
 );
 
-export const postViewsRelations = relations(postViews, ({ one }) => ({
-	post: one(posts, {
-		fields: [postViews.postId],
-		references: [posts.id],
-	}),
-}));
-
 export const postsRelations = relations(posts, ({ one, many }) => ({
-	postViews: many(postViews),
 	author: one(authors, {
 		fields: [posts.authorId],
 		references: [authors.id],
@@ -243,7 +212,6 @@ export type NewCategory = InferInsertModel<typeof categories>;
 export type NewAuthor = InferInsertModel<typeof authors>;
 export type NewPost = InferInsertModel<typeof posts>;
 export type NewPostCategory = InferInsertModel<typeof postCategories>;
-export type NewPageView = InferInsertModel<typeof postViews>;
 export type NewMedia = InferInsertModel<typeof media>;
 export type NewPostMedia = InferInsertModel<typeof postMedia>;
 
@@ -252,6 +220,5 @@ export type SelectCategory = InferSelectModel<typeof categories>;
 export type SelectAuthor = InferSelectModel<typeof authors>;
 export type SelectPost = InferSelectModel<typeof posts>;
 export type SelectPostCategory = InferSelectModel<typeof postCategories>;
-export type SelectPageView = InferSelectModel<typeof postViews>;
 export type SelectPostMedia = InferSelectModel<typeof postMedia>;
 export type SelectMedia = InferSelectModel<typeof media>;

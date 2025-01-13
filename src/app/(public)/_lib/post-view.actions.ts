@@ -1,11 +1,11 @@
 'use server';
 
 import { actionClient } from '@/lib/safe-action';
-import { insertPageViewUseCase } from '@/use-cases/page-views.use-case';
+import { addPostViewUseCase } from '@/use-cases/post.use-case';
 import { z } from 'zod';
 
-export const pageViewAction = actionClient
+export const postView = actionClient
 	.schema(z.string())
 	.action(async ({ parsedInput }) => {
-		await insertPageViewUseCase(parsedInput);
+		await addPostViewUseCase(parsedInput);
 	});
