@@ -1,6 +1,9 @@
 'use client';
 
-import { useToolbar } from '@/components/toolbars/toolbar-provider';
+import {
+	useEditorActive,
+	useToolbar,
+} from '@/components/toolbars/toolbar-provider';
 import {
 	Popover,
 	PopoverContent,
@@ -13,6 +16,7 @@ import {
 	TooltipProvider,
 	TooltipTrigger,
 } from '@/components/ui/tooltip';
+import { cn } from '@/lib/utils';
 import {
 	ChevronDown,
 	Heading2,
@@ -21,6 +25,7 @@ import {
 	HeadingIcon,
 	LucideIcon,
 } from 'lucide-react';
+import { useMemo } from 'react';
 
 const HEADINGS = [
 	/* {
@@ -60,6 +65,7 @@ const HeadingButton = ({ tag: Tag, onClick }: ColorHighlightButtonProps) => (
 
 export const HeadingToolbar = () => {
 	const { editor } = useToolbar();
+	const isActive = useEditorActive('heading');
 
 	const handleSetHeading = (level: number) => {
 		// @ts-expect-error - fix later
@@ -70,9 +76,13 @@ export const HeadingToolbar = () => {
 		!editor?.can().chain().setHighlight().run() ||
 		!editor?.can().chain().setColor('').run();
 
-	const CurrentHeading = HEADINGS.find(({ id }) =>
-		editor?.isActive('heading', { level: id })
-	)?.tag;
+	const CurrentHeading = useMemo(
+		() =>
+			HEADINGS.find(
+				({ id }) => isActive && editor?.isActive('heading', { level: id })
+			)?.tag,
+		[editor, isActive]
+	);
 
 	return (
 		<Popover>
@@ -81,9 +91,18 @@ export const HeadingToolbar = () => {
 					<Tooltip>
 						<TooltipTrigger asChild>
 							<PopoverTrigger disabled={isDisabled} asChild>
-								<button className='toggle-button'>
-									{CurrentHeading ? <CurrentHeading /> : <HeadingIcon />}
-									<ChevronDown />
+								<button
+									className={cn('toggle-button', {
+										'!bg-primary text-white': isActive,
+									})}
+								>
+									{CurrentHeading ? <CurrentHeading /> : <HeadingIcon />}{' '}
+									<ChevronDown
+										className={cn({
+											'text-white': isActive,
+											'text-primary': !isActive,
+										})}
+									/>
 								</button>
 							</PopoverTrigger>
 						</TooltipTrigger>

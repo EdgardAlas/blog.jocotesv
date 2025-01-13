@@ -1,4 +1,7 @@
-import { useToolbar } from '@/components/toolbars/toolbar-provider';
+import {
+	useEditorActive,
+	useToolbar,
+} from '@/components/toolbars/toolbar-provider';
 import { Toggle } from '@/components/ui/toggle';
 import {
 	Tooltip,
@@ -10,6 +13,7 @@ import { ListOrdered } from 'lucide-react';
 
 export const OrderedListToolbar = () => {
 	const { editor } = useToolbar();
+	const isActive = useEditorActive('orderedList');
 
 	return (
 		<TooltipProvider>
@@ -17,7 +21,7 @@ export const OrderedListToolbar = () => {
 				<TooltipTrigger asChild>
 					<Toggle
 						variant={'outline'}
-						pressed={editor?.isActive('orderedList')}
+						pressed={isActive}
 						onPressedChange={() => {
 							editor?.chain().focus().toggleOrderedList().run();
 						}}

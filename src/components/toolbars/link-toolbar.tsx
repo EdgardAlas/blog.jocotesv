@@ -1,6 +1,9 @@
 'use client';
 
-import { useToolbar } from '@/components/toolbars/toolbar-provider';
+import {
+	useEditorActive,
+	useToolbar,
+} from '@/components/toolbars/toolbar-provider';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import {
@@ -44,6 +47,7 @@ export function LinkToolbar() {
 	const [open, setOpen] = React.useState(false);
 	const { editor } = useToolbar();
 	const formRef = React.useRef<HTMLFormElement>(null);
+	const isActive = useEditorActive('link');
 
 	const form = useForm<FormValues>({
 		resolver: zodResolver(formSchema),
@@ -109,7 +113,7 @@ export function LinkToolbar() {
 									editor.isActive('link') ? 'Update Link' : 'Create Link'
 								}
 								className={cn('toggle-button', {
-									'!bg-primary text-accent': editor.isActive('link'),
+									'!bg-primary text-accent': isActive,
 								})}
 							>
 								<LinkIcon className='h-4 w-4' />

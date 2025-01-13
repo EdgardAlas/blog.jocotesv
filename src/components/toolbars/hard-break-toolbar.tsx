@@ -1,4 +1,7 @@
-import { useToolbar } from '@/components/toolbars/toolbar-provider';
+import {
+	useEditorActive,
+	useToolbar,
+} from '@/components/toolbars/toolbar-provider';
 import { Toggle } from '@/components/ui/toggle';
 import {
 	Tooltip,
@@ -10,6 +13,7 @@ import { WrapText } from 'lucide-react';
 
 export const HardBreakToolbar = () => {
 	const { editor } = useToolbar();
+	const isActive = useEditorActive('hardBreak');
 
 	return (
 		<TooltipProvider>
@@ -17,7 +21,7 @@ export const HardBreakToolbar = () => {
 				<TooltipTrigger asChild>
 					<Toggle
 						variant={'outline'}
-						pressed={editor?.isActive('hardBreak')}
+						pressed={isActive}
 						onPressedChange={() => {
 							editor?.chain().focus().setHardBreak().run();
 						}}

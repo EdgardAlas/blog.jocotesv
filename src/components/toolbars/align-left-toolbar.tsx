@@ -1,4 +1,7 @@
-import { useToolbar } from '@/components/toolbars/toolbar-provider';
+import {
+	useEditorActive,
+	useToolbar,
+} from '@/components/toolbars/toolbar-provider';
 import { Toggle } from '@/components/ui/toggle';
 import {
 	Tooltip,
@@ -10,6 +13,7 @@ import { AlignLeft } from 'lucide-react';
 
 export const AlignLeftToolbar = () => {
 	const { editor } = useToolbar();
+	const isActive = useEditorActive({ textAlign: 'left' });
 
 	return (
 		<TooltipProvider>
@@ -17,9 +21,9 @@ export const AlignLeftToolbar = () => {
 				<TooltipTrigger asChild>
 					<Toggle
 						variant={'outline'}
-						pressed={editor?.isActive({ textAlign: 'right' })}
+						pressed={isActive}
 						onPressedChange={() => {
-							editor?.chain().focus().setTextAlign('right').run();
+							editor?.chain().focus().setTextAlign('left').run();
 						}}
 					>
 						<AlignLeft />

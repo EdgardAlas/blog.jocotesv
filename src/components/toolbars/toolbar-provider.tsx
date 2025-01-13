@@ -38,7 +38,7 @@ export const useToolbar = () => {
 	return context;
 };
 
-export const useEditorActive = (name: string) => {
+export const useEditorActive = (name: string | Record<string, unknown>) => {
 	const { editor } = useToolbar();
 
 	const [isActive, setIsActive] = React.useState(false);
@@ -49,11 +49,35 @@ export const useEditorActive = (name: string) => {
 		};
 
 		editor?.on('selectionUpdate', handleSelectionChange);
+		editor.on('transaction', handleSelectionChange);
 
 		return () => {
 			editor?.off('selectionUpdate', handleSelectionChange);
+			editor.off('transaction', handleSelectionChange);
 		};
 	}, [editor, name]);
 
 	return isActive;
+};
+
+export const useEditorActiveAttributes = (name: string) => {
+	const { editor } = useToolbar();
+
+	const [attributes, setAttributes] = React.useState<Record<string, TODO>>({});
+
+	useEffect(() => {
+		const handleSelectionChange = () => {
+			setAttributes(editor?.getAttributes(name) ?? {});
+		};
+
+		editor?.on('selectionUpdate', handleSelectionChange);
+		editor.on('transaction', handleSelectionChange);
+
+		return () => {
+			editor?.off('selectionUpdate', handleSelectionChange);
+			editor.off('transaction', handleSelectionChange);
+		};
+	}, [editor, name]);
+
+	return attributes;
 };

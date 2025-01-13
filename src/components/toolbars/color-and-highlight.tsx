@@ -1,6 +1,9 @@
 'use client';
 
-import { useToolbar } from '@/components/toolbars/toolbar-provider';
+import {
+	useEditorActiveAttributes,
+	useToolbar,
+} from '@/components/toolbars/toolbar-provider';
 import {
 	Popover,
 	PopoverContent,
@@ -77,14 +80,14 @@ const ColorHighlightButton = ({
 
 export const ColorHighlightToolbar = () => {
 	const { editor } = useToolbar();
-	const currentColor = editor?.getAttributes('textStyle').color;
-	const currentHighlight = editor?.getAttributes('highlight').color;
+	const currentColor = useEditorActiveAttributes('textStyle');
+	const currentHighlight = useEditorActiveAttributes('highlight');
 
 	const handleSetColor = (color: string) => {
 		editor
 			?.chain()
 			.focus()
-			.setColor(color === currentColor ? '' : color)
+			.setColor(color === currentColor.color ? '' : color)
 			.run();
 	};
 
@@ -92,7 +95,9 @@ export const ColorHighlightToolbar = () => {
 		editor
 			?.chain()
 			.focus()
-			.setHighlight(color === currentHighlight ? { color: '' } : { color })
+			.setHighlight(
+				color === currentHighlight.color ? { color: '' } : { color }
+			)
 			.run();
 	};
 
@@ -108,9 +113,9 @@ export const ColorHighlightToolbar = () => {
 						<TooltipTrigger asChild>
 							<PopoverTrigger disabled={isDisabled} asChild>
 								<button
-									className='toggle-button'
+									className={'toggle-button'}
 									style={{
-										color: currentColor,
+										color: currentColor.color,
 									}}
 								>
 									<span className='text-md'>A</span>
@@ -129,7 +134,7 @@ export const ColorHighlightToolbar = () => {
 								key={name}
 								name={name}
 								color={color}
-								isActive={currentColor === color}
+								isActive={currentColor.color === color}
 								onClick={() => handleSetColor(color)}
 							/>
 						))}
@@ -144,7 +149,7 @@ export const ColorHighlightToolbar = () => {
 								key={name}
 								name={name}
 								color={color}
-								isActive={currentHighlight === color}
+								isActive={currentHighlight.color === color}
 								onClick={() => handleSetHighlight(color)}
 								isHighlight
 							/>

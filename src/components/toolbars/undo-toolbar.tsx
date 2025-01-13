@@ -1,4 +1,7 @@
-import { useToolbar } from '@/components/toolbars/toolbar-provider';
+import {
+	useEditorActive,
+	useToolbar,
+} from '@/components/toolbars/toolbar-provider';
 import { Toggle } from '@/components/ui/toggle';
 import {
 	Tooltip,
@@ -10,6 +13,7 @@ import { Undo } from 'lucide-react';
 
 export const UndoToolbar = () => {
 	const { editor } = useToolbar();
+	const isActive = useEditorActive('undo');
 
 	return (
 		<TooltipProvider>
@@ -17,7 +21,7 @@ export const UndoToolbar = () => {
 				<TooltipTrigger asChild>
 					<Toggle
 						variant={'outline'}
-						pressed={editor?.isActive('undo')}
+						pressed={isActive}
 						disabled={!editor?.can().undo()}
 						onPressedChange={() => {
 							editor?.chain().focus().undo().run();

@@ -1,4 +1,7 @@
-import { useToolbar } from '@/components/toolbars/toolbar-provider';
+import {
+	useEditorActive,
+	useToolbar,
+} from '@/components/toolbars/toolbar-provider';
 import { Toggle } from '@/components/ui/toggle';
 import {
 	Tooltip,
@@ -10,6 +13,7 @@ import { Quote } from 'lucide-react';
 
 export const BlockquoteToolbar = () => {
 	const { editor } = useToolbar();
+	const isActive = useEditorActive('blockquote');
 
 	return (
 		<TooltipProvider>
@@ -17,7 +21,7 @@ export const BlockquoteToolbar = () => {
 				<TooltipTrigger asChild>
 					<Toggle
 						variant={'outline'}
-						pressed={editor?.isActive('blockquote')}
+						pressed={isActive}
 						onPressedChange={() => {
 							editor?.chain().focus().toggleBlockquote().run();
 						}}

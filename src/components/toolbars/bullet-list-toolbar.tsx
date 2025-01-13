@@ -1,4 +1,7 @@
-import { useToolbar } from '@/components/toolbars/toolbar-provider';
+import {
+	useEditorActive,
+	useToolbar,
+} from '@/components/toolbars/toolbar-provider';
 import { Toggle } from '@/components/ui/toggle';
 import {
 	Tooltip,
@@ -10,6 +13,7 @@ import { List } from 'lucide-react';
 
 export const BulletListToolbar = () => {
 	const { editor } = useToolbar();
+	const isActive = useEditorActive('bulletList');
 
 	return (
 		<TooltipProvider>
@@ -17,7 +21,7 @@ export const BulletListToolbar = () => {
 				<TooltipTrigger asChild>
 					<Toggle
 						variant={'outline'}
-						pressed={editor?.isActive('bulletList')}
+						pressed={isActive}
 						onPressedChange={() => {
 							editor?.chain().focus().toggleBulletList().run();
 						}}

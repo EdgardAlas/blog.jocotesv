@@ -1,4 +1,7 @@
-import { useToolbar } from '@/components/toolbars/toolbar-provider';
+import {
+	useEditorActive,
+	useToolbar,
+} from '@/components/toolbars/toolbar-provider';
 import { Toggle } from '@/components/ui/toggle';
 import {
 	Tooltip,
@@ -10,6 +13,7 @@ import { Redo } from 'lucide-react';
 
 export const RedoToolbar = () => {
 	const { editor } = useToolbar();
+	const isActive = useEditorActive('redo');
 
 	return (
 		<TooltipProvider>
@@ -17,7 +21,7 @@ export const RedoToolbar = () => {
 				<TooltipTrigger asChild>
 					<Toggle
 						variant={'outline'}
-						pressed={editor?.isActive('redo')}
+						pressed={isActive}
 						disabled={!editor?.can().redo()}
 						onPressedChange={() => {
 							editor?.chain().focus().redo().run();

@@ -1,4 +1,7 @@
-import { useToolbar } from '@/components/toolbars/toolbar-provider';
+import {
+	useEditorActive,
+	useToolbar,
+} from '@/components/toolbars/toolbar-provider';
 import { Toggle } from '@/components/ui/toggle';
 import {
 	Tooltip,
@@ -10,6 +13,7 @@ import { SeparatorHorizontal } from 'lucide-react';
 
 export const HorizontalRuleToolbar = () => {
 	const { editor } = useToolbar();
+	const isActive = useEditorActive('horizontal_rule');
 
 	return (
 		<TooltipProvider>
@@ -17,7 +21,7 @@ export const HorizontalRuleToolbar = () => {
 				<TooltipTrigger asChild>
 					<Toggle
 						variant={'outline'}
-						pressed={editor?.isActive('horizontal_rule')}
+						pressed={isActive}
 						onPressedChange={() => {
 							editor?.chain().focus().setHorizontalRule().run();
 						}}

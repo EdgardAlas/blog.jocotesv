@@ -1,4 +1,7 @@
-import { useToolbar } from '@/components/toolbars/toolbar-provider';
+import {
+	useEditorActive,
+	useToolbar,
+} from '@/components/toolbars/toolbar-provider';
 import { Toggle } from '@/components/ui/toggle';
 import {
 	Tooltip,
@@ -10,6 +13,7 @@ import { UnderlineIcon } from 'lucide-react';
 
 export const UnderlineToolbar = () => {
 	const { editor } = useToolbar();
+	const isActive = useEditorActive('underline');
 
 	return (
 		<TooltipProvider>
@@ -17,7 +21,7 @@ export const UnderlineToolbar = () => {
 				<TooltipTrigger asChild>
 					<Toggle
 						variant={'outline'}
-						pressed={editor?.isActive('underline')}
+						pressed={isActive}
 						onPressedChange={() => {
 							editor?.chain().focus().toggleUnderline().run();
 						}}

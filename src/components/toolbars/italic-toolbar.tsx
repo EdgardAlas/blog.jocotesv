@@ -1,4 +1,7 @@
-import { useToolbar } from '@/components/toolbars/toolbar-provider';
+import {
+	useEditorActive,
+	useToolbar,
+} from '@/components/toolbars/toolbar-provider';
 import { Toggle } from '@/components/ui/toggle';
 import {
 	Tooltip,
@@ -10,6 +13,7 @@ import { Italic } from 'lucide-react';
 
 export const ItalicToolbar = () => {
 	const { editor } = useToolbar();
+	const isActive = useEditorActive('italic');
 
 	return (
 		<TooltipProvider>
@@ -17,7 +21,7 @@ export const ItalicToolbar = () => {
 				<TooltipTrigger asChild>
 					<Toggle
 						variant={'outline'}
-						pressed={editor?.isActive('italic')}
+						pressed={isActive}
 						onPressedChange={() => {
 							editor?.chain().focus().toggleItalic().run();
 						}}
