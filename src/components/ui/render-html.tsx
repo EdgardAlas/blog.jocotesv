@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { CodeBlock } from '@/components/ui/copy-code';
 import { toHtml } from 'hast-util-to-html';
-import htmlToReact from 'html-react-parser';
+import htmlToReact, { attributesToProps } from 'html-react-parser';
 import { all, createLowlight } from 'lowlight';
 import Zoom from 'react-medium-image-zoom';
 import 'react-medium-image-zoom/dist/styles.css';
@@ -31,13 +31,12 @@ export const RenderHTML = ({ code }: { code: string }) => {
 					}
 
 					if (domNode.type === 'tag' && domNode.name === 'img') {
+						const props = attributesToProps(domNode.attribs);
+						delete props['data-id'];
+
 						return (
 							<Zoom>
-								<img
-									className='h-auto w-auto max-w-full'
-									src={domNode.attribs.src}
-									alt={domNode.attribs.alt}
-								/>
+								<img {...props} alt={domNode.attribs.alt} />
 							</Zoom>
 						);
 					}

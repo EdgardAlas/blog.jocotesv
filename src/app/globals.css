@@ -166,6 +166,10 @@
 	a {
 		@apply text-blue-500 underline;
 	}
+
+	img {
+		@apply rounded-md;
+	}
 }
 
 .resize-cursor {
