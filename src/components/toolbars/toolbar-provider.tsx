@@ -38,14 +38,25 @@ export const useToolbar = () => {
 	return context;
 };
 
-export const useEditorActive = (name: string | Record<string, unknown>) => {
+export const useEditorActive = (
+	name: string | Record<string, unknown>,
+	attributes?: Record<string, unknown>
+) => {
 	const { editor } = useToolbar();
 
 	const [isActive, setIsActive] = React.useState(false);
 
 	useEffect(() => {
 		const handleSelectionChange = () => {
-			setIsActive(editor?.isActive(name) ?? false);
+			/* setIsActive(editor?.isActive(name) ?? false); */
+
+			if (typeof name === 'string' && attributes) {
+				setIsActive(editor?.isActive(name, attributes) ?? false);
+			} else if (typeof name === 'string' && !attributes) {
+				setIsActive(editor?.isActive(name) ?? false);
+			} else {
+				setIsActive(editor?.isActive(name) ?? false);
+			}
 		};
 
 		editor?.on('selectionUpdate', handleSelectionChange);
@@ -55,7 +66,7 @@ export const useEditorActive = (name: string | Record<string, unknown>) => {
 			editor?.off('selectionUpdate', handleSelectionChange);
 			editor.off('transaction', handleSelectionChange);
 		};
-	}, [editor, name]);
+	}, [editor, name, attributes]);
 
 	return isActive;
 };

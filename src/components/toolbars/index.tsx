@@ -8,7 +8,10 @@ import { BulletListToolbar } from '@/components/toolbars/bullet-list-toolbar';
 import { CodeToolbar } from '@/components/toolbars/code-toolbar';
 import { ColorHighlightToolbar } from '@/components/toolbars/color-and-highlight';
 import { HardBreakToolbar } from '@/components/toolbars/hard-break-toolbar';
-import { HeadingToolbar } from '@/components/toolbars/heading-toolbar';
+import {
+	HeadingToolbar,
+	IndividualHeadingToolbar,
+} from '@/components/toolbars/heading-toolbar';
 import { HorizontalRuleToolbar } from '@/components/toolbars/horizontal-rule-toolbar';
 import { ItalicToolbar } from '@/components/toolbars/italic-toolbar';
 import { LinkToolbar } from '@/components/toolbars/link-toolbar';
@@ -40,6 +43,40 @@ export const ToolbarsGroup = () => {
 			<HorizontalRuleToolbar />
 			<LinkToolbar />
 			<UploadImageToolbar />
+			<BulletListToolbar />
+			<OrderedListToolbar />
+			<HardBreakToolbar />
+			<CodeToolbar />
+		</>
+	);
+};
+
+export const BubbleToolbar = () => {
+	return (
+		<>
+			<IndividualHeadingToolbar level={2} />
+			<IndividualHeadingToolbar level={3} />
+			<BlockquoteToolbar />
+			<BoldToolbar />
+			<ColorHighlightToolbar />
+			<StrikeToolbar />
+			<ItalicToolbar />
+			<UnderlineToolbar />
+			<AlignLeftToolbar />
+			<AlignCenterToolbar />
+			<AlignRightToolbar />
+			<AlignJustifyToolbar />
+		</>
+	);
+};
+
+export const FloatingToolbar = () => {
+	return (
+		<>
+			<IndividualHeadingToolbar level={2} />
+			<IndividualHeadingToolbar level={3} />
+			<BlockquoteToolbar />
+			<HorizontalRuleToolbar />
 			<BulletListToolbar />
 			<OrderedListToolbar />
 			<HardBreakToolbar />

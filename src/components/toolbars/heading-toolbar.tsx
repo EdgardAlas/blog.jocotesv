@@ -10,6 +10,7 @@ import {
 	PopoverTrigger,
 } from '@/components/ui/popover';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { Toggle } from '@/components/ui/toggle';
 import {
 	Tooltip,
 	TooltipContent,
@@ -128,5 +129,38 @@ export const HeadingToolbar = () => {
 				</PopoverContent>
 			</div>
 		</Popover>
+	);
+};
+
+export const IndividualHeadingToolbar = ({
+	level,
+}: {
+	level: 1 | 2 | 3 | 4 | 5 | 6;
+}) => {
+	const { editor } = useToolbar();
+	const isActive = useEditorActive('heading', { level });
+
+	const ActiveHeading = useMemo(
+		() => HEADINGS.find(({ id }) => id === level)?.tag,
+		[level]
+	);
+
+	return (
+		<TooltipProvider>
+			<Tooltip>
+				<TooltipTrigger asChild>
+					<Toggle
+						variant={'outline'}
+						pressed={isActive}
+						onPressedChange={() => {
+							editor?.chain().focus().toggleHeading({ level }).run();
+						}}
+					>
+						{ActiveHeading ? <ActiveHeading /> : <Heading2 />}
+					</Toggle>
+				</TooltipTrigger>
+				<TooltipContent>Align Right</TooltipContent>
+			</Tooltip>
+		</TooltipProvider>
 	);
 };

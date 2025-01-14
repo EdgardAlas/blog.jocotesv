@@ -12,7 +12,9 @@ import TextAlign from '@tiptap/extension-text-align';
 import TextStyle from '@tiptap/extension-text-style';
 import Underline from '@tiptap/extension-underline';
 import {
+	BubbleMenu,
 	EditorContent,
+	FloatingMenu,
 	NodeViewProps,
 	ReactNodeViewRenderer,
 	useEditor,
@@ -23,7 +25,11 @@ import ImageResize from 'tiptap-extension-resize-image';
 
 const lowlight = createLowlight(all);
 
-import { ToolbarsGroup } from '@/components/toolbars';
+import {
+	BubbleToolbar,
+	FloatingToolbar,
+	ToolbarsGroup,
+} from '@/components/toolbars';
 import { Skeleton } from '@/components/ui/skeleton';
 import { NodeViewContent, NodeViewWrapper } from '@tiptap/react';
 import { useRef } from 'react';
@@ -204,6 +210,24 @@ export const Editor = ({ onChange, value }: EditorProps) => {
 					editor?.chain().focus().run();
 				}}
 			>
+				<BubbleMenu editor={editor} tippyOptions={{ duration: 100 }}>
+					<ToolbarProvider
+						editor={editor}
+						className='rounded-sm border bg-white p-2 shadow-sm'
+					>
+						<BubbleToolbar />
+					</ToolbarProvider>
+				</BubbleMenu>
+
+				<FloatingMenu editor={editor} tippyOptions={{ duration: 100 }}>
+					<ToolbarProvider
+						editor={editor}
+						className='rounded-sm border bg-white p-2 shadow-sm'
+					>
+						<FloatingToolbar />
+					</ToolbarProvider>
+				</FloatingMenu>
+
 				<EditorContent editor={editor} className='post mx-auto mt-4' />
 			</div>
 		</div>
