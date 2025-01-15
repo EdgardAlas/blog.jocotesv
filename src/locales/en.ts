@@ -10,7 +10,7 @@ export default {
 			title: 'Welcome to JocoteSV blog',
 			subtitle: 'Discover insightful articles on web development and design',
 		},
-		viewAll: 'View all',
+		viewAll: 'View all posts',
 		noRecentPosts: 'No recent posts available',
 	},
 	post: {

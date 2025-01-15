@@ -10,7 +10,7 @@ export default {
 			title: 'Bienvenido al blog JocoteSV',
 			subtitle: 'Descubre artículos interesantes sobre desarrollo web y diseño',
 		},
-		viewAll: 'Ver todas',
+		viewAll: 'Ver todos los artículos',
 		noRecentPosts: 'No hay publicaciones recientes disponibles',
 	},
 	post: {
