@@ -1,34 +1,37 @@
-import { PostView } from '@/app/(public)/_components/post-view';
+import { PostView } from '@/app/[locale]/(public)/_components/post-view';
 import { RenderHTML } from '@/components/ui/render-html';
+import { getScopedI18n } from '@/locales/server';
 import {
 	findPublishedPostUseCase,
 	getLastPostSlug,
 } from '@/use-cases/posts.use-case';
 import { format } from 'date-fns';
 import { Metadata } from 'next';
-import { notFound } from 'next/navigation';
+import { setStaticParamsLocale } from 'next-international/server';
+import { notFound, redirect } from 'next/navigation';
 
 // Revalidate every 24 hours (86400 seconds)
 export const revalidate = 86400;
 
 export async function generateStaticParams() {
-	const posts = await getLastPostSlug();
+	const posts = await getLastPostSlug('en');
 
 	return posts.map((post) => ({
-		slug: post,
+		slug: post.slug,
+		locale: post.locale,
 	}));
 }
 
 interface PostPageProps {
-	params: Promise<{ slug: string }>;
+	params: Promise<{ slug: string; locale: string }>;
 }
 
 export async function generateMetadata({
 	params,
 }: PostPageProps): Promise<Metadata> {
-	const id = (await params).slug;
+	const { slug } = await params;
 
-	const post = await findPublishedPostUseCase(id);
+	const post = await findPublishedPostUseCase(slug);
 
 	return {
 		title: post?.title,
@@ -38,12 +41,24 @@ export async function generateMetadata({
 }
 
 const PostPage = async ({ params }: PostPageProps) => {
-	const { slug } = await params;
+	const { slug, locale } = await params;
+	setStaticParamsLocale(locale);
 
 	const post = await findPublishedPostUseCase(slug);
+	const t = await getScopedI18n('post');
 
 	if (!post) {
 		notFound();
+	}
+
+	if (post.lang !== locale) {
+		const findLocalePost = post.related.find((post) => post.lang === locale);
+
+		if (findLocalePost) {
+			redirect(`/${locale}/${findLocalePost.slug}`);
+		} else {
+			notFound();
+		}
 	}
 
 	return (
@@ -56,10 +71,10 @@ const PostPage = async ({ params }: PostPageProps) => {
 				<div className='mb-3 flex items-center'>
 					<div>
 						<p className='text-sm'>
-							Created by <span className='font-bold'> {post.author}</span>
+							{t('createdBy')} <span className='font-bold'> {post.author}</span>
 						</p>
 						<p className='text-sm'>
-							Published on {''}
+							{t('publishedOn')}{' '}
 							<span className='font-bold'>
 								{format(post.publicationDate, 'MMMM d, yyyy')}
 							</span>

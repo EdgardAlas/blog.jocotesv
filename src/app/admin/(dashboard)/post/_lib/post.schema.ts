@@ -38,6 +38,10 @@ export const SavePostSchema = z.object({
 			label: z.string(),
 		})
 	),
+	lang: z.enum(['en', 'es'], {
+		message: 'Invalid language',
+	}),
+	parentId: z.string().nullable(),
 });
 
 export const GenerateSlugSchema = z.object({

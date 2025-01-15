@@ -28,7 +28,7 @@ const AuthorsPage = async ({ searchParams }: AuthorsPageProps) => {
 			<Card>
 				<CardHeader />
 				<CardContent>
-					<SearchInput />
+					<SearchInput placeholder={'Search...'} />
 
 					<Suspense
 						key={`${page}-${size}-${search}`}

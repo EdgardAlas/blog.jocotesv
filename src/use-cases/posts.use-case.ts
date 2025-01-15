@@ -1,5 +1,5 @@
-import { Post } from '@/app/(public)/[slug]/_types/post';
-import { PublicPostCardType } from '@/app/(public)/_types/public-post-card';
+import { Post } from '@/app/[locale]/(public)/[slug]/_types/post';
+import { PublicPostCardType } from '@/app/[locale]/(public)/_types/public-post-card';
 import {
 	countPublicatedPosts,
 	findFeaturedPosts,
@@ -10,13 +10,15 @@ import {
 import { calculateTotalPages } from '@/helpers/calculate-total-pages';
 import { cache } from 'react';
 
-export const findHomePagePostsUseCase = async (): Promise<{
+export const findHomePagePostsUseCase = async (
+	locale: string
+): Promise<{
 	featuredPosts: PublicPostCardType[];
 	recentPosts: PublicPostCardType[];
 }> => {
 	const [featuredPosts, recentPosts] = await Promise.all([
-		findFeaturedPosts(4),
-		findRecentPosts(8),
+		findFeaturedPosts(4, locale),
+		findRecentPosts(8, locale),
 	]);
 
 	const mappedFeaturedPosts: PublicPostCardType[] = featuredPosts.map((post) =>
@@ -43,24 +45,36 @@ export const findPublishedPostUseCase = cache(
 
 		return {
 			author: posts.author?.name ?? '',
-			content: posts.content,
-			id: posts.id,
-			title: posts.title,
+			content: posts.content ?? '',
+			id: posts.id ?? '',
+			title: posts.title ?? '',
 			publicationDate: posts.publicationDate ?? '',
 			description: posts.description ?? '',
 			image: posts.image ?? '',
+			lang: posts.lang ?? '',
+			related: posts.relatedPosts,
 		};
 	}
 );
 
-export const getLastPostSlug = async (): Promise<string[]> => {
-	const posts = await findRecentPosts(1);
+export const getLastPostSlug = async (
+	locale: string
+): Promise<
+	{
+		slug: string;
+		locale: string;
+	}[]
+> => {
+	const posts = await findRecentPosts(1, locale);
 
 	if (posts.length === 0) {
 		return [];
 	}
 
-	return posts.map((post) => post.slug);
+	return posts.map((post) => ({
+		slug: post.slug,
+		locale: post.lang,
+	}));
 };
 
 const postCardMapper = (
@@ -71,17 +85,18 @@ const postCardMapper = (
 	imageUrl: post.image ?? '',
 	title: post.title,
 	slug: post.slug,
-	url: `/${post.slug}`,
+	url: `/${post.lang}/${post.slug}`,
 	author: post?.author?.name ?? '',
 });
 
 export const findPaginatedPublicatedPostsUseCase = async (
 	page: number,
 	limit: number,
-	search: string
+	search: string,
+	locale: string
 ): Promise<WithPagination<PublicPostCardType>> => {
 	const [posts, total] = await Promise.all([
-		findPaginatedPublicatedPosts(page, limit, search),
+		findPaginatedPublicatedPosts(page, limit, search, locale),
 		countPublicatedPosts(search),
 	]);
 

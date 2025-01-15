@@ -28,7 +28,7 @@ const CategoriesPage = async ({ searchParams }: CategoriesPageProps) => {
 			<Card>
 				<CardHeader />
 				<CardContent>
-					<SearchInput />
+					<SearchInput placeholder={'Search...'} />
 
 					<Suspense
 						key={`${page}-${size}-${search}`}

@@ -16,7 +16,8 @@ import {
 	countPosts,
 	deletePost,
 	existsSlug,
-	findPaginatedPosts,
+	findLangPostBySlug,
+	findAdminPaginatedPosts,
 	findPostBySlug,
 	insertPost,
 	updatePost,
@@ -53,6 +54,8 @@ export const insertPostUseCase = async (
 				status: post.status,
 				publicationDate: post.publicationDate.toISOString(),
 				description: post.description,
+				parentId: post.parentId,
+				lang: post.lang,
 			},
 			tx
 		);
@@ -97,6 +100,8 @@ export const updatePostUseCase = async (
 				status: post.status,
 				publicationDate: post.publicationDate.toISOString(),
 				description: post.description,
+				parentId: post.parentId,
+				lang: post.lang,
 			},
 			tx
 		);
@@ -159,9 +164,10 @@ export const generateSlugUseCase = async (slug: string) => {
 };
 
 export const getInitialValuesUseCase = async (
-	id: string = ''
+	slug: string = '',
+	lang: string = 'en'
 ): Promise<z.infer<typeof SavePostSchema> | null> => {
-	if (!id) {
+	if (!slug) {
 		return {
 			id: '',
 			title: '',
@@ -174,12 +180,56 @@ export const getInitialValuesUseCase = async (
 			image: '',
 			status: 'draft',
 			publicationDate: new Date(),
+			lang: 'en',
+			parentId: null,
 		};
 	}
 
-	const post = await findPostBySlug(id);
+	if (lang && lang !== 'en') {
+		const data = await findLangPostBySlug(slug, lang);
+
+		if (!data) {
+			return null;
+		}
+
+		const { post, langPost } = data;
+
+		return {
+			id: langPost?.id || '',
+			title: langPost?.title || post.title,
+			slug:
+				langPost?.slug ||
+				slugify(`${post.slug}-${lang}-${nanoid(4)}`, { lower: true }),
+			description: langPost?.description || post.description || '',
+			content: langPost?.content || post.content || '',
+			author: {
+				label: langPost?.author?.name || post.author?.name || '',
+				value: langPost?.author?.id || post.author?.id || '',
+			},
+			categories:
+				langPost?.postCategories.map((c) => ({
+					label: c.category.name,
+					value: c.category.id,
+				})) || [],
+			featured: langPost?.featured || langPost?.featured || false,
+			image: langPost?.image || post.image || '',
+			status: langPost?.status || post.status || 'draft',
+			publicationDate: formatDate(
+				langPost?.publicationDate || post.publicationDate
+			).toDate(),
+			parentId: langPost?.parentId || post.id,
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
+			lang: (langPost?.lang as any) ?? lang,
+		} satisfies z.infer<typeof SavePostSchema>;
+	}
+
+	const post = await findPostBySlug(slug);
 
 	if (!post) {
+		return null;
+	}
+
+	if (post.parentId) {
 		return null;
 	}
 
@@ -198,16 +248,19 @@ export const getInitialValuesUseCase = async (
 		image: post.image ?? '',
 		status: post.status,
 		publicationDate: formatDate(post.publicationDate).toDate(),
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		lang: (post.lang as any) ?? 'en',
+		parentId: post.parentId,
 	} satisfies z.infer<typeof SavePostSchema>;
 };
 
-export const findPaginatedPostsUseCase = async (
+export const findAdminPaginationPostsUseCase = async (
 	page: number,
 	limit: number,
 	filters: { search: string; status: string }
 ): Promise<WithPagination<Post>> => {
 	const [posts, total] = await Promise.all([
-		findPaginatedPosts(page, limit, filters),
+		findAdminPaginatedPosts(page, limit, filters),
 		countPosts(filters),
 	]);
 
@@ -219,7 +272,7 @@ export const findPaginatedPostsUseCase = async (
 };
 
 const postMapper = (
-	post: Awaited<ReturnType<typeof findPaginatedPosts>>[0]
+	post: Awaited<ReturnType<typeof findAdminPaginatedPosts>>[0]
 ): Post => ({
 	id: post.id,
 	title: post.title,

@@ -35,7 +35,9 @@ export const PostCard = ({
 				<div
 					className='relative flex h-60 w-full items-center space-x-4 bg-cover bg-center bg-no-repeat'
 					style={{
-						backgroundImage: image ? `url(${image})` : 'url(/placeholder.webp)',
+						backgroundImage: image
+							? `url(${image})`
+							: 'url(/images/placeholder.webp)',
 					}}
 				>
 					<Badge

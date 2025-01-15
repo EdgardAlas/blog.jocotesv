@@ -6,4 +6,11 @@ export type Post = {
 	publicationDate: string;
 	description: string;
 	image: string;
+	lang: string;
+	related: {
+		slug: string;
+		id: string;
+		parentId: string | null;
+		lang: string;
+	}[];
 };

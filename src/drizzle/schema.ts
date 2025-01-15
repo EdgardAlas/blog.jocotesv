@@ -1,22 +1,22 @@
 import {
+	pgTable,
+	unique,
+	check,
+	uuid,
+	varchar,
+	text,
+	timestamp,
+	foreignKey,
+	boolean,
+	integer,
+	primaryKey,
+} from 'drizzle-orm/pg-core';
+import {
 	InferInsertModel,
 	InferSelectModel,
 	relations,
 	sql,
 } from 'drizzle-orm';
-import {
-	boolean,
-	check,
-	foreignKey,
-	integer,
-	pgTable,
-	primaryKey,
-	text,
-	timestamp,
-	unique,
-	uuid,
-	varchar,
-} from 'drizzle-orm/pg-core';
 
 export const users = pgTable(
 	'users',
@@ -89,12 +89,19 @@ export const posts = pgTable(
 			sql`CURRENT_TIMESTAMP`
 		),
 		views: integer().default(0),
+		parentId: uuid('parent_id'),
+		lang: varchar({ length: 10 }).default('en').notNull(),
 	},
 	(table) => [
 		foreignKey({
 			columns: [table.authorId],
 			foreignColumns: [authors.id],
 			name: 'posts_author_id_fkey',
+		}).onDelete('set null'),
+		foreignKey({
+			columns: [table.parentId],
+			foreignColumns: [table.id],
+			name: 'posts_parent_id_fkey',
 		}).onDelete('set null'),
 		unique('posts_slug_key').on(table.slug),
 		check(
@@ -168,6 +175,14 @@ export const postsRelations = relations(posts, ({ one, many }) => ({
 	author: one(authors, {
 		fields: [posts.authorId],
 		references: [authors.id],
+	}),
+	post: one(posts, {
+		fields: [posts.parentId],
+		references: [posts.id],
+		relationName: 'posts_parentId_posts_id',
+	}),
+	posts: many(posts, {
+		relationName: 'posts_parentId_posts_id',
 	}),
 	postCategories: many(postCategories),
 	postMedias: many(postMedia),

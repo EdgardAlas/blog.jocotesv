@@ -2,7 +2,7 @@ import 'server-only';
 
 import { NewPost, posts } from '@/drizzle/schema';
 import { db, Transaction } from '@/lib/db';
-import { and, desc, eq, ilike, sql } from 'drizzle-orm';
+import { and, desc, eq, ilike, isNull, or, sql } from 'drizzle-orm';
 
 export const insertPost = async (
 	post: NewPost,
@@ -32,7 +32,7 @@ export const findPostById = async (
 	});
 };
 
-export const findPaginatedPosts = async (
+export const findAdminPaginatedPosts = async (
 	page: number,
 	pageSize: number,
 	{ search, status }: { search: string; status: string } = {
@@ -67,7 +67,8 @@ export const findPaginatedPosts = async (
 		},
 		where: and(
 			search ? ilike(posts.title, `%${search}%`) : undefined,
-			status ? eq(posts.status, status) : undefined
+			status ? eq(posts.status, status) : undefined,
+			isNull(posts.parentId)
 		),
 		orderBy: desc(posts.updatedAt),
 		with: {
@@ -85,6 +86,7 @@ export const findPaginatedPublicatedPosts = async (
 	page: number,
 	pageSize: number,
 	search: string,
+	locale: string,
 	tx: Transaction | typeof db = db
 ) => {
 	return tx.query.posts.findMany({
@@ -99,6 +101,7 @@ export const findPaginatedPublicatedPosts = async (
 			publicationDate: true,
 			featured: true,
 			updatedAt: true,
+			lang: true,
 		},
 		extras(fields, { sql }) {
 			return {
@@ -113,7 +116,8 @@ export const findPaginatedPublicatedPosts = async (
 		},
 		where: and(
 			search ? ilike(posts.title, `%${search}%`) : undefined,
-			eq(posts.status, 'published')
+			eq(posts.status, 'published'),
+			eq(posts.lang, locale)
 		),
 		orderBy: desc(posts.updatedAt),
 		with: {
@@ -210,6 +214,35 @@ export const findPostBySlug = async (
 	});
 };
 
+export const findLangPostBySlug = async (
+	slug: string,
+	lang: string,
+	tx: Transaction | typeof db = db
+) => {
+	const post = await findPostBySlug(slug);
+
+	if (!post) {
+		return null;
+	}
+
+	const langPost = await tx.query.posts.findFirst({
+		where: and(eq(posts.parentId, post.id), eq(posts.lang, lang)),
+		with: {
+			author: true,
+			postCategories: {
+				with: {
+					category: true,
+				},
+			},
+		},
+	});
+
+	return {
+		post,
+		langPost,
+	};
+};
+
 export const existsSlug = (slug: string, tx: Transaction | typeof db = db) => {
 	return tx.query.posts.findFirst({
 		columns: {
@@ -222,6 +255,7 @@ export const existsSlug = (slug: string, tx: Transaction | typeof db = db) => {
 
 export const findRecentPosts = async (
 	count: number,
+	locale: string,
 	tx: Transaction | typeof db = db
 ) => {
 	return tx.query.posts.findMany({
@@ -235,9 +269,10 @@ export const findRecentPosts = async (
 			publicationDate: true,
 			featured: true,
 			updatedAt: true,
+			lang: true,
 		},
 		orderBy: desc(posts.publicationDate),
-		where: and(eq(posts.status, 'published')),
+		where: and(eq(posts.status, 'published'), eq(posts.lang, locale)),
 		with: {
 			author: true,
 			postCategories: {
@@ -251,6 +286,7 @@ export const findRecentPosts = async (
 
 export const findFeaturedPosts = async (
 	count: number,
+	locale: string,
 	tx: Transaction | typeof db = db
 ) => {
 	return tx.query.posts.findMany({
@@ -264,9 +300,14 @@ export const findFeaturedPosts = async (
 			publicationDate: true,
 			featured: true,
 			updatedAt: true,
+			lang: true,
 		},
 		orderBy: desc(posts.publicationDate),
-		where: and(eq(posts.status, 'published'), eq(posts.featured, true)),
+		where: and(
+			eq(posts.status, 'published'),
+			eq(posts.featured, true),
+			eq(posts.lang, locale)
+		),
 		with: {
 			author: true,
 			postCategories: {
@@ -282,7 +323,7 @@ export const findPublishedPostBySlug = async (
 	slug: string,
 	tx: Transaction | typeof db = db
 ) => {
-	return tx.query.posts.findFirst({
+	const foundPost = await tx.query.posts.findFirst({
 		where: and(eq(posts.slug, slug), eq(posts.status, 'published')),
 		with: {
 			author: true,
@@ -293,6 +334,33 @@ export const findPublishedPostBySlug = async (
 			},
 		},
 	});
+
+	if (!foundPost) {
+		return null;
+	}
+
+	const parentId = foundPost?.parentId || foundPost?.id;
+
+	const relatedPosts = await tx.query.posts.findMany({
+		where: and(
+			eq(posts.status, 'published'),
+			or(
+				eq(posts.id, parentId as string),
+				eq(posts.parentId, parentId as string)
+			)
+		),
+		columns: {
+			slug: true,
+			id: true,
+			parentId: true,
+			lang: true,
+		},
+	});
+
+	return {
+		...foundPost,
+		relatedPosts,
+	};
 };
 
 export const addPostView = async (

@@ -1,11 +1,18 @@
+import { locales } from '@/config/locales';
 import { authMiddleware } from '@/lib/auth-middleware';
 import NextAuth from 'next-auth';
+import { createI18nMiddleware } from 'next-international/middleware';
 import { NextResponse } from 'next/server';
 
 const { auth } = NextAuth(authMiddleware);
 
 const AUTHENTICATED_REDIRECT_PATH = '/admin';
 const UNAUTHENTICATED_REDIRECT_PATH = '/admin/login';
+
+const I18nMiddleware = createI18nMiddleware({
+	locales,
+	defaultLocale: 'en',
+});
 
 export const middleware = auth(async (request) => {
 	const { auth, method } = request;
@@ -39,6 +46,10 @@ export const middleware = auth(async (request) => {
 				headers: request.headers,
 			}
 		);
+	}
+
+	if (!pathname.startsWith('/admin') && !pathname.startsWith('/images')) {
+		return I18nMiddleware(request);
 	}
 });
 

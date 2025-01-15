@@ -28,7 +28,6 @@ export function SearchInput({
 
 	return (
 		<Input
-			placeholder='Search...'
 			defaultValue={searchTerm}
 			onChange={(e) => {
 				if (debounceRef.current) {

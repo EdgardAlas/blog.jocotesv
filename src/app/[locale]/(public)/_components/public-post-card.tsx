@@ -1,4 +1,4 @@
-import { PublicPostCardType } from '@/app/(public)/_types/public-post-card';
+import { PublicPostCardType } from '@/app/[locale]/(public)/_types/public-post-card';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -14,7 +14,7 @@ export function PublicPostCard({ post }: { post: PublicPostCardType }) {
 			<Card className='overflow-hidden transition-shadow hover:shadow-md'>
 				<CardHeader className='p-0'>
 					<Image
-						src={post.imageUrl || '/placeholder.webp'}
+						src={post.imageUrl || '/images/placeholder.webp'}
 						alt={post.title}
 						width={300}
 						height={200}

@@ -38,7 +38,7 @@ const PostsPage = async ({ searchParams }: PostsPageProps) => {
 
 				<CardContent>
 					<div className='mb-4 flex flex-col gap-x-2 min-[415px]:flex-row'>
-						<SearchInput />
+						<SearchInput placeholder={'Search...'} />
 						<StatusFilter />
 					</div>
 

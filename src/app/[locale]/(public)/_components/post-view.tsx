@@ -1,6 +1,6 @@
 'use client';
 
-import { postView } from '@/app/(public)/_lib/post-view.actions';
+import { postView } from '@/app/[locale]/(public)/_lib/post-view.actions';
 import { useEffect } from 'react';
 
 export const PostView = ({ slug }: { slug: string }) => {

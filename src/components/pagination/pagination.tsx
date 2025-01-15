@@ -19,6 +19,7 @@ export interface PaginationProps {
 	defaultPageSize?: number;
 	totalPages?: number;
 	disableButtons?: boolean;
+	rowsPerPageText?: string;
 }
 
 export function Pagination({
@@ -26,6 +27,7 @@ export function Pagination({
 	defaultPageSize = 10,
 	totalPages = 1,
 	disableButtons,
+	rowsPerPageText,
 }: PaginationProps) {
 	const [isLoading, startTransition] = useTransition();
 
@@ -48,7 +50,9 @@ export function Pagination({
 		<div className='mt-3 flex w-full flex-col-reverse items-center justify-end gap-4 overflow-auto p-1 sm:flex-row sm:gap-8 md:min-h-10'>
 			<div className='flex flex-col-reverse items-center gap-4 sm:flex-row sm:gap-6 lg:gap-8'>
 				<div className='flex items-center space-x-2'>
-					<p className='whitespace-nowrap text-sm font-medium'>Rows per page</p>
+					<p className='whitespace-nowrap text-sm font-medium'>
+						{rowsPerPageText || 'Rows per page'}
+					</p>
 					<Select
 						value={size.toString()}
 						disabled={isLoading || disableButtons}

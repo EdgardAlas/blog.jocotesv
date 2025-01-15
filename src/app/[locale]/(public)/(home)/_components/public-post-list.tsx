@@ -1,8 +1,8 @@
 import {
 	PublicPostCard,
 	PublicPostCardSkeleton,
-} from '@/app/(public)/_components/public-post-card';
-import { PublicPostCardType } from '@/app/(public)/_types/public-post-card';
+} from '@/app/[locale]/(public)/_components/public-post-card';
+import { PublicPostCardType } from '@/app/[locale]/(public)/_types/public-post-card';
 
 export const PublicPostList = ({
 	posts,

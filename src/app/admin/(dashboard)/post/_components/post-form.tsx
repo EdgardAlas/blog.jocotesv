@@ -11,6 +11,7 @@ import {
 	SavePostSchema,
 } from '@/app/admin/(dashboard)/post/_lib/post.schema';
 import { FormProvider } from '@/components/form-provider';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { useConfirm } from '@/components/ui/confirm-dialog';
@@ -27,7 +28,7 @@ import { Switch } from '@/components/ui/switch';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { createConfettiExplosion } from '@/lib/confetti';
 import { handleSafeActionResponse } from '@/lib/handle-safe-action-response';
-import { Save } from 'lucide-react';
+import { Save, Terminal } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState, useTransition } from 'react';
 import { useForm } from 'react-hook-form';
@@ -40,6 +41,7 @@ import { z } from 'zod';
 
 interface PostFormProps {
 	initialValues: z.infer<typeof SavePostSchema>;
+	mode: 'add' | 'edit';
 }
 
 const tabFields = {
@@ -48,7 +50,7 @@ const tabFields = {
 	classification: ['categories', 'author'],
 };
 
-export const PostForm = ({ initialValues }: PostFormProps) => {
+export const PostForm = ({ initialValues, mode }: PostFormProps) => {
 	const form = useForm({
 		defaultValues: initialValues,
 		resolver: PostFormSchemaResolver,
@@ -60,6 +62,9 @@ export const PostForm = ({ initialValues }: PostFormProps) => {
 	const router = useRouter();
 
 	const confirm = useConfirm();
+
+	const id = form.watch('id');
+	const lang = form.watch('lang');
 
 	return (
 		<>
@@ -82,7 +87,12 @@ export const PostForm = ({ initialValues }: PostFormProps) => {
 							successMessage: 'Post saved',
 							onSuccess() {
 								createConfettiExplosion();
-								router.push(`/admin/posts`);
+
+								if (mode === 'edit') {
+									return router.refresh();
+								}
+
+								router.push(`/admin/post/${values.slug}`);
 							},
 						});
 					});
@@ -102,7 +112,17 @@ export const PostForm = ({ initialValues }: PostFormProps) => {
 				<div className='flex flex-col gap-4 xl:flex-row xl:items-start'>
 					<Card className='order-2 flex-1 xl:order-1'>
 						<div className='overflow-auto xl:max-h-[calc(100vh-4rem-3.3125rem-3rem-0.875rem-0.25rem-0.125rem)]'>
-							<CardHeader className='pb-0' />
+							<CardHeader>
+								{lang !== 'en' && !id ? (
+									<Alert>
+										<Terminal className='h-4 w-4' />
+										<AlertTitle>Translation {lang.toUpperCase()}</AlertTitle>
+										<AlertDescription>
+											This translation is not saved yet
+										</AlertDescription>
+									</Alert>
+								) : null}
+							</CardHeader>
 							<CardContent>
 								<FormField
 									control={form.control}
