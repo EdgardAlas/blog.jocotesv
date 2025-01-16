@@ -10,9 +10,6 @@ import { Metadata } from 'next';
 import { setStaticParamsLocale } from 'next-international/server';
 import { notFound, redirect } from 'next/navigation';
 
-// Revalidate every 24 hours (86400 seconds)
-export const revalidate = 86400;
-
 export async function generateStaticParams() {
 	const posts = await getLastPostSlug('en');
 
@@ -44,8 +41,8 @@ const PostPage = async ({ params }: PostPageProps) => {
 	const { slug, locale } = await params;
 	setStaticParamsLocale(locale);
 
-	const post = await findPublishedPostUseCase(slug);
 	const t = await getScopedI18n('post');
+	const post = await findPublishedPostUseCase(slug);
 
 	if (!post) {
 		notFound();

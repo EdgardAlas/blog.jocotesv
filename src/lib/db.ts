@@ -16,7 +16,7 @@ if (process.env.NODE_ENV === 'production') {
 	if (!global.globalDB) {
 		global.globalDB = drizzle(postgres(env.DATABASE_URL), {
 			schema,
-			logger: true,
+			/* logger: true, */
 		});
 	}
 	db = global.globalDB;

@@ -42,6 +42,7 @@ export const SavePostSchema = z.object({
 		message: 'Invalid language',
 	}),
 	parentId: z.string().nullable(),
+	previousSlug: z.string(),
 });
 
 export const GenerateSlugSchema = z.object({

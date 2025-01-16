@@ -4,7 +4,17 @@ import { Button } from '@/components/ui/button';
 import { ArrowLeft, Home } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
-export const NotFound = ({ home }: { home: string }) => {
+interface NotFoundProps {
+	home: string;
+	translation?: {
+		title: string;
+		description: string;
+		goBack: string;
+		home: string;
+	};
+}
+
+export const NotFound = ({ home, translation }: NotFoundProps) => {
 	const router = useRouter();
 
 	return (
@@ -14,10 +24,11 @@ export const NotFound = ({ home }: { home: string }) => {
 					404
 				</h1>
 				<h2 className='text-3xl font-semibold text-gray-700 dark:text-gray-300'>
-					Page Not Found
+					{translation?.title || 'Page not found'}
 				</h2>
 				<p className='max-w-md text-xl text-gray-600 dark:text-gray-400'>
-					{"Oops! The page you're looking for doesn't exist or has been moved."}
+					{translation?.description ||
+						"Oops! The page you're looking for doesn't exist or has been moved."}
 				</p>
 				<div className='flex flex-col justify-center space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0'>
 					<Button
@@ -26,14 +37,14 @@ export const NotFound = ({ home }: { home: string }) => {
 						className='flex items-center space-x-2'
 					>
 						<ArrowLeft className='h-4 w-4' />
-						<span>Go Back</span>
+						<span>{translation?.goBack || 'Go back'}</span>
 					</Button>
 					<Button
 						onClick={() => router.push(home)}
 						className='flex items-center space-x-2'
 					>
 						<Home className='h-4 w-4' />
-						<span>Home</span>
+						<span>{translation?.home || 'Home'}</span>
 					</Button>
 				</div>
 			</div>

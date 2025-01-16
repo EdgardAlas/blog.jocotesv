@@ -1,10 +1,9 @@
 import { Button } from '@/components/ui/button';
 import { getScopedI18n } from '@/locales/server';
 import Link from 'next/link';
-import React from 'react';
 
 export const Hero = async () => {
-	const t = await getScopedI18n('Home');
+	const t = await getScopedI18n('home');
 
 	return (
 		<section className='mb-12 rounded-lg bg-primary px-4 py-20 text-center'>
@@ -13,7 +12,7 @@ export const Hero = async () => {
 			</h1>
 			<p className='mb-8 text-xl text-white'>{t('banner.subtitle')}</p>
 			<Button asChild variant={'secondary'}>
-				<Link href='/search'>{t('viewAll')}</Link>
+				<Link href='/en/search'>{t('viewAll')}</Link>
 			</Button>
 		</section>
 	);

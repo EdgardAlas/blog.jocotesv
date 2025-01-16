@@ -1,9 +1,9 @@
 export default {
 	navbar: {
-		home: 'Home',
+		home: 'home',
 		search: 'Search',
 	},
-	Home: {
+	home: {
 		featuredPosts: 'Featured Posts',
 		recentPosts: 'Recent Posts',
 		banner: {
@@ -25,5 +25,12 @@ export default {
 	},
 	pagination: {
 		rowsPerPage: 'Rows per page',
+	},
+	notFound: {
+		title: 'Page not found',
+		description:
+			"Oops! The page you're looking for doesn't exist or has been moved.",
+		goBack: 'Go back',
+		home: 'Home',
 	},
 } as const;

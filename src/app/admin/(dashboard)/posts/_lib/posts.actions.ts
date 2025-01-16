@@ -12,8 +12,7 @@ export const deletePostAction = authActionClient
 	.action(async ({ parsedInput }) => {
 		await deletePostUseCase(parsedInput.id);
 		revalidatePath('/admin/posts');
-		revalidatePath(`/en`);
-		revalidatePath(`/es`);
-		revalidatePath(`/en/${parsedInput.slug}`);
-		revalidatePath(`/es/${parsedInput.slug}`);
+		revalidatePath('/en');
+		revalidatePath('/es');
+		revalidatePath('/[locale]/(public)/[slug]', 'page');
 	});

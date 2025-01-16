@@ -3,7 +3,7 @@ export default {
 		home: 'Inicio',
 		search: 'Buscar',
 	},
-	Home: {
+	home: {
 		featuredPosts: 'Publicaciones Destacadas',
 		recentPosts: 'Publicaciones Recientes',
 		banner: {
@@ -25,5 +25,11 @@ export default {
 	},
 	pagination: {
 		rowsPerPage: 'Filas por página',
+	},
+	notFound: {
+		title: 'Página no encontrada',
+		description: '¡Ups! La página que buscas no existe o ha sido movida.',
+		goBack: 'Regresar',
+		home: 'Inicio',
 	},
 } as const;

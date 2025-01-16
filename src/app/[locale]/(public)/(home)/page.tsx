@@ -7,9 +7,6 @@ import { findHomePagePostsUseCase } from '@/use-cases/posts.use-case';
 import { setStaticParamsLocale } from 'next-international/server';
 import Link from 'next/link';
 
-// Revalidate every 24 hours (86400 seconds)
-export const revalidate = 86400;
-
 export function generateStaticParams() {
 	return getStaticParams();
 }
@@ -24,7 +21,7 @@ export default async function HomePage({
 
 	const data = await findHomePagePostsUseCase(locale);
 
-	const t = await getScopedI18n('Home');
+	const t = await getScopedI18n('home');
 
 	return (
 		<>
@@ -50,7 +47,7 @@ export default async function HomePage({
 
 					<div className='mt-8 text-center'>
 						<Button asChild variant='outline'>
-							<Link href='/search'>{t('viewAll')}</Link>
+							<Link href={`/${locale}}/search`}>{t('viewAll')}</Link>
 						</Button>
 					</div>
 				</CardContent>

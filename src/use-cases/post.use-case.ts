@@ -182,6 +182,7 @@ export const getInitialValuesUseCase = async (
 			publicationDate: new Date(),
 			lang: 'en',
 			parentId: null,
+			previousSlug: '',
 		};
 	}
 
@@ -220,6 +221,7 @@ export const getInitialValuesUseCase = async (
 			parentId: langPost?.parentId || post.id,
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			lang: (langPost?.lang as any) ?? lang,
+			previousSlug: langPost?.slug || post.slug,
 		} satisfies z.infer<typeof SavePostSchema>;
 	}
 
@@ -251,6 +253,7 @@ export const getInitialValuesUseCase = async (
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		lang: (post.lang as any) ?? 'en',
 		parentId: post.parentId,
+		previousSlug: post.slug,
 	} satisfies z.infer<typeof SavePostSchema>;
 };
 

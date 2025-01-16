@@ -78,10 +78,10 @@ export const savePostAction = authActionClient
 		} else {
 			await insertPostUseCase(parsedInput);
 		}
-		revalidatePath('/admin/posts');
-		revalidatePath(`/${parsedInput.lang}/${parsedInput.slug}`);
+
 		revalidatePath('/en');
 		revalidatePath('/es');
+		revalidatePath('/[locale]/(public)/[slug]', 'page');
 	});
 
 export const generateSlugAction = authActionClient
