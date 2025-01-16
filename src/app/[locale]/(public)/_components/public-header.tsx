@@ -25,6 +25,7 @@ export const PublicHeader = () => {
 	const hasShadow = useHeaderShadow();
 	const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 	const t = useScopedI18n('navbar');
+	const locale = useCurrentLocale();
 
 	return (
 		<header
@@ -36,7 +37,10 @@ export const PublicHeader = () => {
 				<div className='flex items-center justify-between'>
 					{/* Logo */}
 					<div className='flex flex-shrink-0 items-center'>
-						<Link href='/' className='text-2xl font-bold text-gray-900'>
+						<Link
+							href={`/${locale}`}
+							className='text-2xl font-bold text-gray-900'
+						>
 							JocoteSV
 						</Link>
 					</div>
