@@ -1,6 +1,6 @@
 import { NewUser, users } from '@/drizzle/schema';
 import { db, Transaction } from '@/lib/db';
-import { eq, ilike, sql } from 'drizzle-orm';
+import { asc, eq, ilike, sql } from 'drizzle-orm';
 
 export const insertUser = async (
 	user: NewUser,
@@ -71,6 +71,7 @@ export const findPaginatedUsers = async (
 ): Promise<NewUser[]> => {
 	return tx.query.users.findMany({
 		limit: pageSize,
+		orderBy: asc(users.updatedAt),
 		offset: (page - 1) * pageSize,
 		where: search ? ilike(users.name, `%${search}%`) : undefined,
 	});

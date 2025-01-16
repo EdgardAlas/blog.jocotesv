@@ -70,12 +70,18 @@ export const updateUserUseCase = async (
 ) => {
 	const user = await findUserByEmail(data.email);
 
+	const authUser = await currentUser();
+
 	if (user && user.id !== id) {
 		throw new CustomError('User already exists');
 	}
 
-	if (user?.role === roles.owner) {
-		throw new CustomError('You cannot update the owner');
+	if (user?.role === roles.owner && data.role !== roles.owner) {
+		throw new CustomError('You cannot update the owner role');
+	}
+
+	if (user?.role === roles.owner && authUser?.role !== roles.owner) {
+		throw new CustomError('You cannot update the owner role');
 	}
 
 	return updateUser(id, {
