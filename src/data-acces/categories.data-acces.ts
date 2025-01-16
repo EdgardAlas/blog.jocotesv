@@ -2,7 +2,7 @@ import 'server-only';
 
 import { categories, NewCategory, SelectCategory } from '@/drizzle/schema';
 import { db, Transaction } from '@/lib/db';
-import { eq, ilike, sql } from 'drizzle-orm';
+import { desc, eq, ilike, sql } from 'drizzle-orm';
 
 export const insertCategory = async (
 	category: NewCategory,
@@ -33,6 +33,7 @@ export const findPaginatedCategories = async (
 		limit: pageSize,
 		offset: (page - 1) * pageSize,
 		where: search ? ilike(categories.name, `%${search}%`) : undefined,
+		orderBy: desc(categories.updatedAt),
 	});
 };
 

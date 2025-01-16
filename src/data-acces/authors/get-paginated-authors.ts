@@ -1,6 +1,6 @@
 import { authors, SelectAuthor } from '@/drizzle/schema';
 import { db, Transaction } from '@/lib/db';
-import { ilike } from 'drizzle-orm';
+import { desc, ilike } from 'drizzle-orm';
 
 export const getPaginatedAuthors = async (
 	page: number,
@@ -12,5 +12,6 @@ export const getPaginatedAuthors = async (
 		limit: pageSize,
 		offset: (page - 1) * pageSize,
 		where: search ? ilike(authors.name, `%${search}%`) : undefined,
+		orderBy: desc(authors.updatedAt),
 	});
 };

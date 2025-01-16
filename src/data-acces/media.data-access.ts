@@ -3,7 +3,7 @@ import 'server-only';
 import { media, postMedia } from '@/drizzle/schema';
 import { CustomError } from '@/helpers/custom-error';
 import { db, Transaction } from '@/lib/db';
-import { asc, eq, sql } from 'drizzle-orm';
+import { desc, eq, sql } from 'drizzle-orm';
 
 export const insertMedia = async (
 	data: {
@@ -67,7 +67,7 @@ export const findPaginatedMedia = (
 		})
 		.from(media)
 		.leftJoin(postMedia, eq(media.id, postMedia.mediaId))
-		.orderBy(asc(media.id))
+		.orderBy(desc(media.id))
 		.groupBy((t) => [t.id, t.url])
 		.offset(pageSize * (page - 1))
 		.limit(pageSize);
