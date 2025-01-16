@@ -7,13 +7,11 @@ import {
 } from '@/app/admin/(dashboard)/authors/_lib/authors.schema';
 import { roles } from '@/config/roles';
 import { authActionClient } from '@/lib/safe-action';
-import {
-	deleteAuthorUseCase,
-	findAuthorByIdUseCase,
-	findAuthorsByNameUseCase,
-	insertAuthorUseCase,
-	updateAuthorUseCase,
-} from '@/use-cases/authors.use-case';
+import { findAuthorsByNameUseCase } from '@/use-cases/authors/find-author-by-name';
+import { deleteAuthorUseCase } from '@/use-cases/authors/delete-author';
+import { updateAuthorUseCase } from '@/use-cases/authors/update-author';
+import { findAuthorByIdUseCase } from '@/use-cases/authors/find-author-by-id';
+import { insertAuthorUseCase } from '@/use-cases/authors/insert-author';
 import { revalidatePath } from 'next/cache';
 
 export const saveAuthorAction = authActionClient
