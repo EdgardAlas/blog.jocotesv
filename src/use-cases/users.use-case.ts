@@ -127,7 +127,7 @@ export const findUserByIdUseCase = async (id: string): Promise<UserRow> => {
 		id: user.id as string,
 		name: user.name,
 		role: user.role,
-		canBeDeleted: auth?.id !== user.id && auth?.role !== roles.owner,
+		canBeDeleted: auth?.id !== user.id && user?.role !== roles.owner,
 		updatedAt: formatDate(user.updatedAt).format('LLL'),
 	};
 };
