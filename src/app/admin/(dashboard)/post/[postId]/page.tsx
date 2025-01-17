@@ -1,7 +1,7 @@
 import { NewLangSwitch } from '@/app/admin/(dashboard)/post/_components/new-lang-switch';
 import { PostForm } from '@/app/admin/(dashboard)/post/_components/post-form';
 import { AdminTitle } from '@/components/ui/admin-title';
-import { getInitialValuesUseCase } from '@/use-cases/post.use-case';
+import { getInitialValuesUseCase } from '@/use-cases/posts';
 import { notFound } from 'next/navigation';
 
 interface EditPostPageProps {

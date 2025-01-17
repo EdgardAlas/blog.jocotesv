@@ -2,7 +2,7 @@ import {
 	PostCard,
 	PostCardSkeleton,
 } from '@/app/admin/(dashboard)/posts/_components/post-card';
-import { findAdminPaginationPostsUseCase } from '@/use-cases/post.use-case';
+import { findAdminPaginationPostsUseCase } from '@/use-cases/posts';
 
 interface PostCardListsProps {
 	searchParams: Promise<{

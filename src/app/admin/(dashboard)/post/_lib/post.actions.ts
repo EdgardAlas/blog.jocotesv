@@ -19,7 +19,7 @@ import {
 	insertPostUseCase,
 	isSlugAvailableUseCase,
 	updatePostUseCase,
-} from '@/use-cases/post.use-case';
+} from '@/use-cases/posts';
 import { removeFileUseCase } from '@/use-cases/media/remove-file';
 import { revalidatePath } from 'next/cache';
 import slugify from 'slugify';

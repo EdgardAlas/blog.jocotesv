@@ -3,7 +3,7 @@ import { PublicPostList } from '@/app/[locale]/(public)/(home)/_components/publi
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { getScopedI18n, getStaticParams } from '@/locales/server';
-import { findHomePagePostsUseCase } from '@/use-cases/posts.use-case';
+import { findHomePagePostsUseCase } from '@/use-cases/posts';
 import { setStaticParamsLocale } from 'next-international/server';
 import Link from 'next/link';
 

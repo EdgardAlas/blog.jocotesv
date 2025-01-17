@@ -4,7 +4,7 @@ import {
 } from '@/app/[locale]/(public)/(home)/_components/public-post-list';
 import { Pagination } from '@/components/pagination/pagination';
 import { getScopedI18n } from '@/locales/server';
-import { findPaginatedPublicatedPostsUseCase } from '@/use-cases/posts.use-case';
+import { findPaginatedPublicatedPostsUseCase } from '@/use-cases/posts';
 
 type PostListProps = NextPageWithPagination & { locale: string };
 

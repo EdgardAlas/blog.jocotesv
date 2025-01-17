@@ -1,10 +1,7 @@
 import { PostView } from '@/app/[locale]/(public)/_components/post-view';
 import { RenderHTML } from '@/components/ui/render-html';
 import { getScopedI18n } from '@/locales/server';
-import {
-	findPublishedPostUseCase,
-	getLastPostSlug,
-} from '@/use-cases/posts.use-case';
+import { findPublishedPostUseCase, getLastPostSlug } from '@/use-cases/posts';
 import { format } from 'date-fns';
 import { Metadata } from 'next';
 import { setStaticParamsLocale } from 'next-international/server';
