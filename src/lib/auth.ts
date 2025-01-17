@@ -1,7 +1,7 @@
 import { loginSchema } from '@/app/admin/(auth)/login/_lib/login.schema';
+import { findUserByEmail } from '@/data-acces/users/find-user-by-email';
 import { authMiddleware } from '@/lib/auth-middleware';
 import { comparePassword } from '@/lib/hashing';
-import { findUserByEmail } from '@/use-cases/users.use-case';
 
 import NextAuth from 'next-auth';
 import credentials from 'next-auth/providers/credentials';

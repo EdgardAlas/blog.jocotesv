@@ -1,8 +1,8 @@
 import { auth } from '@/lib/auth';
 import { Role } from '@/config/roles';
-import { findUserById } from '@/use-cases/users.use-case';
 import { redirect } from 'next/navigation';
 import { cache } from 'react';
+import { findUserById } from '@/data-acces/users/find-user-by-id';
 
 interface User {
 	id: string;

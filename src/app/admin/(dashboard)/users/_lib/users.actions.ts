@@ -12,7 +12,7 @@ import {
 	findUserByIdUseCase,
 	insertUserUseCase,
 	updateUserUseCase,
-} from '@/use-cases/users.use-case';
+} from '@/use-cases/users';
 import { revalidatePath } from 'next/cache';
 
 export const saveUserAction = authActionClient

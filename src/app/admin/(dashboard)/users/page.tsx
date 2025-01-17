@@ -6,7 +6,7 @@ import { SearchInput } from '@/components/search-input/search-input';
 import { AddItemCrudButton } from '@/components/ui/add-item-crud-button';
 import { AdminTitle } from '@/components/ui/admin-title';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { findPaginatedUsersUseCase } from '@/use-cases/users.use-case';
+import { findPaginatedUsersUseCase } from '@/use-cases/users';
 import { Suspense } from 'react';
 
 type UsersPageProps = NextPageWithPagination;
