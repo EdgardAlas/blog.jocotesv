@@ -7,10 +7,7 @@ import {
 	deletePostCategories,
 	insertPostCategories,
 } from '@/data-acces/post-categories.data-access';
-import {
-	deletePostMedia,
-	insertPostMediaArray,
-} from '@/data-acces/post-media.data-acces';
+import { deletePostMedia, insertPostMediaArray } from '@/data-acces/post-media';
 import {
 	addPostView,
 	countPosts,

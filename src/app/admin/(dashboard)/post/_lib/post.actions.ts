@@ -12,7 +12,7 @@ import {
 } from '@/config/cloudinary';
 import { roles } from '@/config/roles';
 import { authActionClient } from '@/lib/safe-action';
-import { uploadToCloudinaryUseCase } from '@/use-cases/cloudinary.use-case';
+import { uploadToCloudinaryUseCase } from '@/use-cases/cloudinary/cloudinary.use-case';
 import { insertMediaUseCase } from '@/use-cases/media/insert-media';
 import {
 	generateSlugUseCase,

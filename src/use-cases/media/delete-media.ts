@@ -1,7 +1,7 @@
 import { deleteMediaByPublicId } from '@/data-acces/media';
 import { CustomError } from '@/helpers/custom-error';
 import { db } from '@/lib/db';
-import { deleteFromCloudinaryUseCase } from '@/use-cases/cloudinary.use-case';
+import { deleteFromCloudinaryUseCase } from '@/use-cases/cloudinary/cloudinary.use-case';
 
 export const deleteMediaUseCase = async (id: string) => {
 	await db.transaction(async (trx) => {

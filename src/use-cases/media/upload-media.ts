@@ -1,5 +1,5 @@
 import { CustomError } from '@/helpers/custom-error';
-import { uploadToCloudinaryUseCase } from '@/use-cases/cloudinary.use-case';
+import { uploadToCloudinaryUseCase } from '@/use-cases/cloudinary/cloudinary.use-case';
 import { insertMediaUseCase } from '@/use-cases/media/insert-media';
 
 export const uploadMediaUseCase = async (file: File, folder: string) => {

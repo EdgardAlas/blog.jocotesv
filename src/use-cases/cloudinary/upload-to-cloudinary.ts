@@ -1,11 +1,9 @@
-import 'server-only';
 import { v4 } from 'uuid';
 
-import { CustomError } from '@/helpers/custom-error';
 import { env } from '@/lib/env';
-import { v2 as cloudinary, ResponseCallback } from 'cloudinary';
+import { v2 as cloudinary } from 'cloudinary';
 
-export const loadCloudinary = () => {
+const loadCloudinary = () => {
 	cloudinary.config({
 		cloud_name: env.CLOUDINARY_CLOUD_NAME,
 		api_key: env.CLOUDINARY_API_KEY,
@@ -51,28 +49,4 @@ export const uploadToCloudinaryUseCase = async (
 	} catch (error) {
 		return Promise.reject(error);
 	}
-};
-
-export const deleteFromCloudinaryUseCase = async (
-	publicId: string,
-	cb?: ResponseCallback
-) => {
-	loadCloudinary();
-
-	if (!publicId) {
-		return;
-	}
-
-	return cloudinary.uploader.destroy(
-		publicId,
-		{
-			invalidate: true,
-		},
-		cb ||
-			((e) => {
-				if (e) {
-					throw new CustomError("Couldn't delete file");
-				}
-			})
-	);
 };
