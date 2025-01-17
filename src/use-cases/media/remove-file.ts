@@ -1,7 +1,7 @@
 import 'server-only';
 
 import { deleteFromCloudinaryUseCase } from '@/use-cases/cloudinary/cloudinary.use-case';
-import { extractPublicIdFromUrl } from '@/use-cases/extract-public-id.use-case';
+import { extractPublicIdFromUrl } from '@/use-cases/cloudinary/extract-public-id.use-case';
 
 export const removeFileUseCase = (url: string, folder: string) => {
 	return new Promise((resolve, reject) => {

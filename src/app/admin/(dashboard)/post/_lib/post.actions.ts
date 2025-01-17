@@ -20,7 +20,7 @@ import {
 	isSlugAvailableUseCase,
 	updatePostUseCase,
 } from '@/use-cases/post.use-case';
-import { removeFileUseCase } from '@/use-cases/remove-file.use-case';
+import { removeFileUseCase } from '@/use-cases/media/remove-file';
 import { revalidatePath } from 'next/cache';
 import slugify from 'slugify';
 
@@ -79,8 +79,7 @@ export const savePostAction = authActionClient
 			await insertPostUseCase(parsedInput);
 		}
 
-		revalidatePath('/en');
-		revalidatePath('/es');
+		revalidatePath('/[locale]', 'page');
 		revalidatePath('/[locale]/(public)/[slug]', 'page');
 	});
 

@@ -6,7 +6,7 @@ import { POST_IMAGE_FOLDER } from '@/config/cloudinary';
 import {
 	deletePostCategories,
 	insertPostCategories,
-} from '@/data-acces/post-categories.data-access';
+} from '@/data-acces/post-categories';
 import { deletePostMedia, insertPostMediaArray } from '@/data-acces/post-media';
 import {
 	addPostView,
@@ -23,7 +23,7 @@ import { calculateTotalPages } from '@/helpers/calculate-total-pages';
 import { CustomError } from '@/helpers/custom-error';
 import { db } from '@/lib/db';
 import { formatDate } from '@/lib/format-dates';
-import { extractPublicIdFromUrl } from '@/use-cases/extract-public-id.use-case';
+import { extractPublicIdFromUrl } from '@/use-cases/cloudinary/extract-public-id.use-case';
 import { insertMediaUseCase } from './media/insert-media';
 import { JSDOM } from 'jsdom';
 import { nanoid } from 'nanoid';
