@@ -7,13 +7,11 @@ import {
 } from '@/app/admin/(dashboard)/categories/_lib/categories.schema';
 import { roles } from '@/config/roles';
 import { authActionClient } from '@/lib/safe-action';
-import {
-	deleteCategoryUseCase,
-	findCategoriesByNameUseCase,
-	findCategoryByIdUseCase,
-	insertCategoryUseCase,
-	updateCategoryUseCase,
-} from '@/use-cases/categories.use-case';
+import { findCategoriesByNameUseCase } from '@/use-cases/categories/find-category-by-name';
+import { deleteCategoryUseCase } from '@/use-cases/categories/delete-category';
+import { updateCategoryUseCase } from '@/use-cases/categories/update-category';
+import { findCategoryByIdUseCase } from '@/use-cases/categories/find-category-by-id';
+import { insertCategoryUseCase } from '@/use-cases/categories/insert-category';
 import { revalidatePath } from 'next/cache';
 
 export const saveCategoryAction = authActionClient

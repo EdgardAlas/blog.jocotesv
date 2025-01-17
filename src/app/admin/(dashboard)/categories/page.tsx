@@ -6,7 +6,7 @@ import { SearchInput } from '@/components/search-input/search-input';
 import { AddItemCrudButton } from '@/components/ui/add-item-crud-button';
 import { AdminTitle } from '@/components/ui/admin-title';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { findPaginatedCategoriesUseCase } from '@/use-cases/categories.use-case';
+import { getPaginatedCategoriesUseCase } from '@/use-cases/categories/get-paginated-categories';
 import { Suspense } from 'react';
 
 type CategoriesPageProps = NextPageWithPagination;
@@ -37,7 +37,7 @@ const CategoriesPage = async ({ searchParams }: CategoriesPageProps) => {
 						<TableLoader
 							columns={categoriesColumns}
 							asyncData={() =>
-								findPaginatedCategoriesUseCase(
+								getPaginatedCategoriesUseCase(
 									Number(page) || 1,
 									Number(size) || 10,
 									search
