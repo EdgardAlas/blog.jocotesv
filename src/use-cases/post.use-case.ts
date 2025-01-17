@@ -27,7 +27,7 @@ import { CustomError } from '@/helpers/custom-error';
 import { db } from '@/lib/db';
 import { formatDate } from '@/lib/format-dates';
 import { extractPublicIdFromUrl } from '@/use-cases/extract-public-id.use-case';
-import { insertMediaUseCase } from '@/use-cases/media.use-case';
+import { insertMediaUseCase } from './media/insert-media';
 import { JSDOM } from 'jsdom';
 import { nanoid } from 'nanoid';
 import slugify from 'slugify';

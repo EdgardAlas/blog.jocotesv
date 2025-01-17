@@ -6,10 +6,8 @@ import {
 } from '@/app/admin/(dashboard)/media/_lib/media.schema';
 import { roles } from '@/config/roles';
 import { authActionClient } from '@/lib/safe-action';
-import {
-	deleteMediaUseCase,
-	uploadMediaUseCase,
-} from '@/use-cases/media.use-case';
+import { deleteMediaUseCase } from '@/use-cases/media';
+import { uploadMediaUseCase } from '@/use-cases/media/upload-media';
 import { revalidatePath } from 'next/cache';
 
 export const deleteMediaAction = authActionClient

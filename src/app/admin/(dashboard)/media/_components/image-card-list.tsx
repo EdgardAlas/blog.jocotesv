@@ -3,7 +3,7 @@ import {
 	ImageCardSkeleton,
 } from '@/app/admin/(dashboard)/media/_components/image-card';
 import { Pagination } from '@/components/pagination/pagination';
-import { findPaginatedMediaUseCase } from '@/use-cases/media.use-case';
+import { findPaginatedMediaUseCase } from '@/use-cases/media/get-paginated-media';
 
 export const ImageCardList = async ({
 	size = 8,
