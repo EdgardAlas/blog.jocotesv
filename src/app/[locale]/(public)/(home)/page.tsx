@@ -47,7 +47,7 @@ export default async function HomePage({
 
 					<div className='mt-8 text-center'>
 						<Button asChild variant='outline'>
-							<Link href={`/${locale}}/search`}>{t('viewAll')}</Link>
+							<Link href={`/${locale}/search`}>{t('viewAll')}</Link>
 						</Button>
 					</div>
 				</CardContent>
