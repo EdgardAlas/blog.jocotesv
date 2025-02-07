@@ -79,7 +79,7 @@
 	/* headings */
 
 	h1 {
-		@apply text-4xl font-bold;
+		@apply my-4 text-4xl font-bold;
 	}
 
 	h2 {
@@ -100,6 +100,33 @@
 
 	h6 {
 		@apply text-sm font-bold;
+	}
+
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+		@apply my-4;
+	}
+
+	h1:first-child,
+	h2:first-child,
+	h3:first-child,
+	h4:first-child,
+	h5:first-child,
+	h6:first-child {
+		@apply mt-0;
+	}
+
+	h1:last-child,
+	h2:last-child,
+	h3:last-child,
+	h4:last-child,
+	h5:last-child,
+	h6:last-child {
+		@apply mb-0;
 	}
 
 	/* blockquote */

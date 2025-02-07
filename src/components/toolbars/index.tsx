@@ -58,7 +58,6 @@ export const BubbleToolbar = () => {
 			<IndividualHeadingToolbar level={3} />
 			<BlockquoteToolbar />
 			<BoldToolbar />
-			<ColorHighlightToolbar />
 			<StrikeToolbar />
 			<ItalicToolbar />
 			<UnderlineToolbar />
