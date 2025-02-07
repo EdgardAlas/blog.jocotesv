@@ -79,7 +79,8 @@ export const savePostAction = authActionClient
 			await insertPostUseCase(parsedInput);
 		}
 
-		revalidatePath('/[locale]', 'page');
+		revalidatePath('en', 'page');
+		revalidatePath('es', 'page');
 		revalidatePath('/[locale]/(public)/[slug]', 'page');
 	});
 
