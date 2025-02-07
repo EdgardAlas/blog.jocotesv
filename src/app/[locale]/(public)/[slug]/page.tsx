@@ -1,4 +1,5 @@
 import { PostView } from '@/app/[locale]/(public)/_components/post-view';
+import { Badge } from '@/components/ui/badge';
 import { RenderHTML } from '@/components/ui/render-html';
 import { getScopedI18n } from '@/locales/server';
 import { findPublishedPostUseCase, getLastPostSlug } from '@/use-cases/posts';
@@ -77,6 +78,13 @@ const PostPage = async ({ params }: PostPageProps) => {
 					</div>
 				</div>
 				<RenderHTML code={post.content} />
+				{post.categories.length > 0 && (
+					<div className='mt-8 flex flex-wrap gap-2'>
+						{post.categories.map((category) => (
+							<Badge key={category}>{category}</Badge>
+						))}
+					</div>
+				)}
 			</article>
 		</>
 	);
