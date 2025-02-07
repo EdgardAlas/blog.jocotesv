@@ -114,6 +114,6 @@ export const getInitialValuesUseCase = async (
 		lang: (post.lang as any) ?? 'en',
 		parentId: post.parentId,
 		previousSlug: post.slug,
-		editPostUrl: `/admin/post/${post.slug}`,
+		editPostUrl: ``,
 	} satisfies z.infer<typeof SavePostSchema>;
 };
