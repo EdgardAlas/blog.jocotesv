@@ -43,6 +43,7 @@ export const SavePostSchema = z.object({
 	}),
 	parentId: z.string().nullable(),
 	previousSlug: z.string(),
+	editPostUrl: z.string(),
 });
 
 export const GenerateSlugSchema = z.object({

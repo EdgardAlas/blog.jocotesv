@@ -88,7 +88,10 @@ export const PostForm = ({ initialValues }: PostFormProps) => {
 							onSuccess() {
 								createConfettiExplosion();
 
-								router.push(`/admin/post/${values.slug}`);
+								if (!values.editPostUrl)
+									return router.push(`/admin/post/${values.slug}`);
+
+								router.push(values.editPostUrl);
 							},
 						});
 					});

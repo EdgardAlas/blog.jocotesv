@@ -25,6 +25,7 @@ export const getInitialValuesUseCase = async (
 			lang: 'en',
 			parentId: null,
 			previousSlug: '',
+			editPostUrl: '',
 		};
 	}
 
@@ -64,6 +65,7 @@ export const getInitialValuesUseCase = async (
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			lang: (langPost?.lang as any) ?? lang,
 			previousSlug: langPost?.slug || post.slug,
+			editPostUrl: `/admin/post/${post.slug}?lang=${lang}`,
 		} satisfies z.infer<typeof SavePostSchema>;
 	}
 
@@ -96,6 +98,6 @@ export const getInitialValuesUseCase = async (
 		lang: (post.lang as any) ?? 'en',
 		parentId: post.parentId,
 		previousSlug: post.slug,
+		editPostUrl: `/admin/post/${post.slug}`,
 	} satisfies z.infer<typeof SavePostSchema>;
 };
-
