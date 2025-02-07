@@ -1,6 +1,6 @@
 import { posts } from '@/drizzle/schema';
 import { db, Transaction } from '@/lib/db';
-import { and, eq, or } from 'drizzle-orm';
+import { and, eq, isNull, or } from 'drizzle-orm';
 
 export const findPublishedPostBySlug = async (
 	slug: string,
@@ -50,4 +50,27 @@ export const getRelatedPosts = async (
 	});
 
 	return relatedPosts;
+};
+
+export const getPostsWithRelated = async (tx: Transaction | typeof db = db) => {
+	return await tx.query.posts.findMany({
+		columns: {
+			slug: true,
+			id: true,
+			parentId: true,
+			lang: true,
+			updatedAt: true,
+		},
+		where: and(eq(posts.status, 'published'), isNull(posts.parentId)),
+		with: {
+			posts: {
+				columns: {
+					slug: true,
+					id: true,
+					parentId: true,
+					lang: true,
+				},
+			},
+		},
+	});
 };

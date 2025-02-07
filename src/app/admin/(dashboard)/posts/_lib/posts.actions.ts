@@ -15,4 +15,5 @@ export const deletePostAction = authActionClient
 		revalidatePath('/en');
 		revalidatePath('/es');
 		revalidatePath('/[locale]/(public)/[slug]', 'page');
+		revalidatePath('/sitemap.xml');
 	});

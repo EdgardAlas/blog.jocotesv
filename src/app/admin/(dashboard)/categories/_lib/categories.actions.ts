@@ -25,6 +25,9 @@ export const saveCategoryAction = authActionClient
 		}
 
 		revalidatePath('/admin/categories');
+		revalidatePath('/en');
+		revalidatePath('/es');
+		revalidatePath('/[locale]/(public)/[slug]', 'page');
 	});
 
 export const findCategoryByIdAction = authActionClient
@@ -41,6 +44,9 @@ export const deleteCategoryAction = authActionClient
 	.action(async ({ parsedInput }) => {
 		await deleteCategoryUseCase(parsedInput);
 		revalidatePath('/admin/categories');
+		revalidatePath('/en');
+		revalidatePath('/es');
+		revalidatePath('/[locale]/(public)/[slug]', 'page');
 	});
 
 export const autoCompleteCategoriesByNameAction = authActionClient

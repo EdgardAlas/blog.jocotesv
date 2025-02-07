@@ -25,6 +25,9 @@ export const saveAuthorAction = authActionClient
 		}
 
 		revalidatePath('/admin/authors');
+		revalidatePath('/en');
+		revalidatePath('/es');
+		revalidatePath('/[locale]/(public)/[slug]', 'page');
 	});
 
 export const getAuthorByIdAction = authActionClient
@@ -41,6 +44,9 @@ export const deleteAuthorAction = authActionClient
 	.action(async ({ parsedInput }) => {
 		await deleteAuthorUseCase(parsedInput);
 		revalidatePath('/admin/authors');
+		revalidatePath('/en');
+		revalidatePath('/es');
+		revalidatePath('/[locale]/(public)/[slug]', 'page');
 	});
 
 export const autoCompleteAuthorsByNameAction = authActionClient

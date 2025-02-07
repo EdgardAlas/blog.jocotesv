@@ -48,7 +48,12 @@ export const middleware = auth(async (request) => {
 		);
 	}
 
-	if (!pathname.startsWith('/admin') && !pathname.startsWith('/images')) {
+	if (
+		!pathname.startsWith('/admin') &&
+		!pathname.startsWith('/images') &&
+		!pathname.startsWith('/sitemap') &&
+		!pathname.startsWith('/robots.txt')
+	) {
 		return I18nMiddleware(request);
 	}
 });

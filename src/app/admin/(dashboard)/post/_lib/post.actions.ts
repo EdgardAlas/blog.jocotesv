@@ -87,6 +87,7 @@ export const savePostAction = authActionClient
 		revalidatePath('/en');
 		revalidatePath('/es');
 		revalidatePath('/[locale]/(public)/[slug]', 'page');
+		revalidatePath('/sitemap.xml');
 	});
 
 export const generateSlugAction = authActionClient
