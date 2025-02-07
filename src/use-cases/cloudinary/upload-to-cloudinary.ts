@@ -1,10 +1,10 @@
 import { v4 } from 'uuid';
 
 import { env } from '@/lib/env';
-import { v2 as cloudinary } from 'cloudinary';
+import * as cloudinary from 'cloudinary';
 
 const loadCloudinary = () => {
-	cloudinary.config({
+	cloudinary.v2.config({
 		cloud_name: env.CLOUDINARY_CLOUD_NAME,
 		api_key: env.CLOUDINARY_API_KEY,
 		api_secret: env.CLOUDINARY_API_SECRET,
@@ -27,7 +27,7 @@ export const uploadToCloudinaryUseCase = async (
 		const uniqueFileName = v4();
 
 		return new Promise((resolve, reject) => {
-			const uploadStream = cloudinary.uploader.upload_stream(
+			const uploadStream = cloudinary.v2.uploader.upload_stream(
 				{
 					folder,
 					public_id: uniqueFileName,

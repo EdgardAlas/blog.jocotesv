@@ -1,9 +1,9 @@
 import { CustomError } from '@/helpers/custom-error';
 import { env } from '@/lib/env';
-import { v2 as cloudinary, ResponseCallback } from 'cloudinary';
+import * as cloudinary from 'cloudinary';
 
 const loadCloudinary = () => {
-	cloudinary.config({
+	cloudinary.v2.config({
 		cloud_name: env.CLOUDINARY_CLOUD_NAME,
 		api_key: env.CLOUDINARY_API_KEY,
 		api_secret: env.CLOUDINARY_API_SECRET,
@@ -12,7 +12,7 @@ const loadCloudinary = () => {
 
 export const deleteFromCloudinaryUseCase = async (
 	publicId: string,
-	cb?: ResponseCallback
+	cb?: cloudinary.ResponseCallback
 ) => {
 	loadCloudinary();
 
@@ -20,7 +20,7 @@ export const deleteFromCloudinaryUseCase = async (
 		return;
 	}
 
-	return cloudinary.uploader.destroy(
+	return cloudinary.v2.uploader.destroy(
 		publicId,
 		{
 			invalidate: true,

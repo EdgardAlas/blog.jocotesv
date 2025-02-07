@@ -40,31 +40,47 @@ export const getInitialValuesUseCase = async (
 
 		return {
 			id: langPost?.id || '',
-			title: langPost?.title || post.title,
-			slug:
-				langPost?.slug ||
-				slugify(`${post.slug}-${lang}-${nanoid(4)}`, { lower: true }),
-			description: langPost?.description || post.description || '',
-			content: langPost?.content || post.content || '',
+			title: langPost?.id ? (langPost.title as string) : post.title || '',
+			slug: langPost?.id
+				? (langPost.slug as string)
+				: slugify(`${post.slug}-${lang}-${nanoid(4)}`, { lower: true }) || '',
+
+			description: langPost?.id
+				? (langPost.description as string)
+				: post.description || '',
+
+			content: langPost?.id ? (langPost.content as string) : post.content || '',
+
 			author: {
-				label: langPost?.author?.name || post.author?.name || '',
-				value: langPost?.author?.id || post.author?.id || '',
+				label: langPost?.id
+					? (langPost.author?.name as string)
+					: post.author?.name || '',
+				value: langPost?.id
+					? (langPost.author?.id as string)
+					: post.author?.id || '',
 			},
 			categories:
 				langPost?.postCategories.map((c) => ({
 					label: c.category.name,
 					value: c.category.id,
 				})) || [],
-			featured: langPost?.featured || langPost?.featured || false,
-			image: langPost?.image || post.image || '',
-			status: langPost?.status || post.status || 'draft',
+			featured: langPost?.id
+				? (langPost.featured as boolean)
+				: post.featured || false,
+
+			image: langPost?.id ? (langPost.image as string) : post.image || '',
+			status: langPost?.id
+				? (langPost.status as string)
+				: post.status || 'draft',
 			publicationDate: formatDate(
-				langPost?.publicationDate || post.publicationDate
+				langPost?.id
+					? (langPost.publicationDate as string)
+					: post.publicationDate || ''
 			).toDate(),
-			parentId: langPost?.parentId || post.id,
+			parentId: langPost?.id ? (langPost.parentId as string) : post.id || null,
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			lang: (langPost?.lang as any) ?? lang,
-			previousSlug: langPost?.slug || post.slug,
+			previousSlug: langPost?.id ? (langPost.slug as string) : post.slug || '',
 			editPostUrl: `/admin/post/${post.slug}?lang=${lang}`,
 		} satisfies z.infer<typeof SavePostSchema>;
 	}
