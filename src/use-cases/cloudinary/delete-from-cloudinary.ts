@@ -1,20 +1,24 @@
 import { CustomError } from '@/helpers/custom-error';
 import { env } from '@/lib/env';
-import * as cloudinary from 'cloudinary';
+import { ResponseCallback } from 'cloudinary';
 
-const loadCloudinary = () => {
-	cloudinary.v2.config({
-		cloud_name: env.CLOUDINARY_CLOUD_NAME,
-		api_key: env.CLOUDINARY_API_KEY,
-		api_secret: env.CLOUDINARY_API_SECRET,
+const loadCloudinary = async () => {
+	return import('cloudinary').then((cloudinary) => {
+		cloudinary.default.v2.config({
+			cloud_name: env.CLOUDINARY_CLOUD_NAME,
+			api_key: env.CLOUDINARY_API_KEY,
+			api_secret: env.CLOUDINARY_API_SECRET,
+		});
+
+		return cloudinary.default;
 	});
 };
 
 export const deleteFromCloudinaryUseCase = async (
 	publicId: string,
-	cb?: cloudinary.ResponseCallback
+	cb?: ResponseCallback
 ) => {
-	loadCloudinary();
+	const cloudinary = await loadCloudinary();
 
 	if (!publicId) {
 		return;

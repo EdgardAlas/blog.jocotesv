@@ -1,13 +1,16 @@
 import { v4 } from 'uuid';
 
 import { env } from '@/lib/env';
-import * as cloudinary from 'cloudinary';
 
-const loadCloudinary = () => {
-	cloudinary.v2.config({
-		cloud_name: env.CLOUDINARY_CLOUD_NAME,
-		api_key: env.CLOUDINARY_API_KEY,
-		api_secret: env.CLOUDINARY_API_SECRET,
+const loadCloudinary = async () => {
+	return import('cloudinary').then((cloudinary) => {
+		cloudinary.default.v2.config({
+			cloud_name: env.CLOUDINARY_CLOUD_NAME,
+			api_key: env.CLOUDINARY_API_KEY,
+			api_secret: env.CLOUDINARY_API_SECRET,
+		});
+
+		return cloudinary.default;
 	});
 };
 
@@ -18,7 +21,7 @@ export const uploadToCloudinaryUseCase = async (
 	secureUrl: string | undefined;
 	publicId: string | undefined;
 }> => {
-	loadCloudinary();
+	const cloudinary = await loadCloudinary();
 
 	try {
 		const arrayBuffer = await file.arrayBuffer();
