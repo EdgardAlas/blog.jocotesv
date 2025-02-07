@@ -79,7 +79,7 @@
 	/* headings */
 
 	h1 {
-		@apply my-4 text-4xl font-bold;
+		@apply text-4xl font-bold;
 	}
 
 	h2 {
@@ -107,7 +107,12 @@
 	h3,
 	h4,
 	h5,
-	h6 {
+	h6,
+	p,
+	code,
+	ul,
+	ol,
+	blockquote {
 		@apply my-4;
 	}
 
@@ -116,7 +121,12 @@
 	h3:first-child,
 	h4:first-child,
 	h5:first-child,
-	h6:first-child {
+	h6:first-child,
+	p:first-child,
+	code:first-child,
+	ol:first-child,
+	ul:first-child,
+	blockquote:first-child {
 		@apply mt-0;
 	}
 
@@ -125,7 +135,12 @@
 	h3:last-child,
 	h4:last-child,
 	h5:last-child,
-	h6:last-child {
+	h6:last-child,
+	p:last-child,
+	code:last-child,
+	ol:last-child,
+	ul:last-child,
+	blockquote:last-child {
 		@apply mb-0;
 	}
 
@@ -139,24 +154,10 @@
 		@apply mt-2 text-sm text-gray-500;
 	}
 
-	/* paragraphs */
-
-	p {
-		@apply my-4;
-	}
-
-	p:first-child {
-		@apply mt-0;
-	}
-
 	/* 	p:empty::after {
 		content: '\00A0';
 	}
  */
-
-	p:last-child {
-		@apply mb-0;
-	}
 
 	/* horizontal rule */
 
