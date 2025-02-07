@@ -50,7 +50,7 @@ const tabFields = {
 	classification: ['categories', 'author'],
 };
 
-export const PostForm = ({ initialValues, mode }: PostFormProps) => {
+export const PostForm = ({ initialValues }: PostFormProps) => {
 	const form = useForm({
 		defaultValues: initialValues,
 		resolver: PostFormSchemaResolver,
@@ -87,10 +87,6 @@ export const PostForm = ({ initialValues, mode }: PostFormProps) => {
 							successMessage: 'Post saved',
 							onSuccess() {
 								createConfettiExplosion();
-
-								if (mode === 'edit') {
-									return router.refresh();
-								}
 
 								router.push(`/admin/post/${values.slug}`);
 							},

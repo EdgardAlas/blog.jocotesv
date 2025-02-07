@@ -20,6 +20,9 @@ export const findPublishedPostUseCase = cache(
 			image: posts.image ?? '',
 			lang: posts.lang ?? '',
 			related: posts.relatedPosts,
+			categories: posts.postCategories.map(
+				(category) => category.category.name
+			),
 		};
 	}
 );

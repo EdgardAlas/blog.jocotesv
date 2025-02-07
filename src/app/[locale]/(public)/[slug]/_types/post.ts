@@ -13,4 +13,5 @@ export type Post = {
 		parentId: string | null;
 		lang: string;
 	}[];
+	categories: string[];
 };
