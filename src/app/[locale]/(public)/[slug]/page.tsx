@@ -24,14 +24,34 @@ interface PostPageProps {
 export async function generateMetadata({
 	params,
 }: PostPageProps): Promise<Metadata> {
-	const { slug } = await params;
+	const { slug, locale } = await params;
 
 	const post = await findPublishedPostUseCase(slug);
 
 	return {
 		title: post?.title,
 		description: post?.description,
-		openGraph: post?.image ? { url: post.image } : {},
+		alternates: {
+			canonical:
+				'https://blog.jocotesv.com/en/' +
+				post?.related.find((post) => post.lang === 'en')?.slug,
+			languages: post?.related
+				.filter((post) => post.lang !== locale)
+				.reduce(
+					(acc, post) => ({
+						...acc,
+						[post.lang]: `https://blog.jocotesv.com/${post.lang}/${post.slug}`,
+					}),
+					{}
+				),
+		},
+		openGraph: post?.image
+			? {
+					images: post.image,
+					type: 'article',
+					url: `https://blog.jocotesv.com/${locale}/${slug}`,
+				}
+			: {},
 		keywords: post?.categories,
 	};
 }
